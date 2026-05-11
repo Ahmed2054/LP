@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "498212954230",
+    "project_id": "lessonplanner-746c8",
+    "storage_bucket": "lessonplanner-746c8.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:498212954230:android:0b99fc084754bfcf3c7f57",
+        "android_client_info": {
+          "package_name": "com.lp.lessonplanner"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCJvA4x75wOb-NyAkccV1CL0vJizaUlCLA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

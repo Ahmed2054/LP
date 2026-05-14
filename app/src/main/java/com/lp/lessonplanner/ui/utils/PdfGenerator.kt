@@ -78,7 +78,6 @@ class PdfGenerator(private val context: Context) {
             val contentWidth = pageWidth - (margin * 2)
 
             val sanitizedJson = jsonContent.sanitizeJson()
-            val jsonMap = try { gson.fromJson(sanitizedJson, Map::class.java) } catch (e: Exception) { null }
             val planType = sanitizedJson.detectPlanType()
 
             val lessonPlan = if (planType == "Lesson Plan") try { gson.fromJson(sanitizedJson, LessonPlan::class.java) } catch (e: Exception) { null } else null
@@ -221,9 +220,24 @@ class PdfGenerator(private val context: Context) {
                 y += 10f
                 val title = "TEACHING NOTE"
                 canvas.drawText(title, (pageWidth / 2f) - (titlePaint.measureText(title) / 2f), y, titlePaint)
-                y += 20f
 
                 val header = notePlan.header
+                val outputHeaderLines = listOfNotNull(
+                    header?.school?.takeIf { it.isNotBlank() }?.let { "SCHOOL: " to it },
+                    header?.facilitatorName?.takeIf { it.isNotBlank() }?.let { "FACILITATOR: " to it },
+                    header?.term?.takeIf { it.isNotBlank() }?.let { "TERM: " to it },
+                    header?.week?.takeIf { it.isNotBlank() }?.let { "WEEK: " to it }
+                )
+                outputHeaderLines.forEach { (label, value) ->
+                    y += 16f
+                    val labelWidth = outputHeaderLabelPaint.measureText(label)
+                    val valueWidth = outputHeaderPaint.measureText(value)
+                    val startX = (pageWidth / 2f) - ((labelWidth + valueWidth) / 2f)
+                    canvas.drawText(label, startX, y, outputHeaderLabelPaint)
+                    canvas.drawText(value, startX + labelWidth, y, outputHeaderPaint)
+                }
+                y += 20f
+
                 val headerRows = listOf(
                     listOf("DATE" to formatToDDMMYYYY(header?.date), "WEEK ENDING" to formatToDDMMYYYY(header?.weekEnding), "DURATION" to (header?.duration ?: "")),
                     listOf("SUBJECT" to (header?.subject ?: ""), "CLASS" to (header?.`class` ?: ""), "CLASS SIZE" to (header?.classSize ?: "")),
@@ -255,9 +269,24 @@ class PdfGenerator(private val context: Context) {
                 y += 10f
                 val title = "EXERCISE & ANSWERS"
                 canvas.drawText(title, (pageWidth / 2f) - (titlePaint.measureText(title) / 2f), y, titlePaint)
-                y += 20f
 
                 val header = questionsPlan.header
+                val outputHeaderLines = listOfNotNull(
+                    header?.school?.takeIf { it.isNotBlank() }?.let { "SCHOOL: " to it },
+                    header?.facilitatorName?.takeIf { it.isNotBlank() }?.let { "FACILITATOR: " to it },
+                    header?.term?.takeIf { it.isNotBlank() }?.let { "TERM: " to it },
+                    header?.week?.takeIf { it.isNotBlank() }?.let { "WEEK: " to it }
+                )
+                outputHeaderLines.forEach { (label, value) ->
+                    y += 16f
+                    val labelWidth = outputHeaderLabelPaint.measureText(label)
+                    val valueWidth = outputHeaderPaint.measureText(value)
+                    val startX = (pageWidth / 2f) - ((labelWidth + valueWidth) / 2f)
+                    canvas.drawText(label, startX, y, outputHeaderLabelPaint)
+                    canvas.drawText(value, startX + labelWidth, y, outputHeaderPaint)
+                }
+                y += 20f
+
                 val headerRows = listOf(
                     listOf("DATE" to formatToDDMMYYYY(header?.date), "WEEK ENDING" to formatToDDMMYYYY(header?.weekEnding), "DURATION" to (header?.duration ?: "")),
                     listOf("SUBJECT" to (header?.subject ?: ""), "CLASS" to (header?.`class` ?: ""), "CLASS SIZE" to (header?.classSize ?: "")),
@@ -289,7 +318,7 @@ class PdfGenerator(private val context: Context) {
                 y += questionsTitle.height + 10f
 
                 questionsPlan.questions?.forEachIndexed { index, item ->
-                    val qLayout = createHtmlStaticLayout("${index + 1}. ${item.q}", textPaint, contentWidth.toInt())
+                    val qLayout = createHtmlStaticLayout("${index + 1}. ${item.q?.replace("\n", "<br>")}", textPaint, contentWidth.toInt())
                     val (updatedPageQ, updatedYQ) = drawMultilineText(document, page, canvas, qLayout, y, margin, contentWidth, pageHeight, pageInfo)
                     page = updatedPageQ
                     canvas = page.canvas

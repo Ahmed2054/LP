@@ -58,11 +58,6 @@ class DocxGenerator(private val context: Context) {
 
         jsonContents.forEach { jsonContent ->
             val sanitizedJson = jsonContent.sanitizeJson()
-            val jsonMap = try {
-                gson.fromJson(sanitizedJson, Map::class.java)
-            } catch (_: Exception) {
-                null
-            }
             val planType = sanitizedJson.detectPlanType()
 
             val lessonPlan = if (planType == "Lesson Plan") {
@@ -207,9 +202,10 @@ class DocxGenerator(private val context: Context) {
     }
 
     private fun generateNotePlanDocx(document: XWPFDocument, plan: NotePlan) {
-        addCenteredTitle(document, "TEACHING NOTE")
+        addCenteredTitle(document, "TEACHING NOTE", spacingAfter = 100)
 
         val header = plan.header ?: return
+        addOutputHeaderDetails(document, header.school, header.facilitatorName, header.term, header.week)
         val table = document.createTable()
         applyHeaderTableStyle(table)
         table.removeRow(0)
@@ -226,9 +222,10 @@ class DocxGenerator(private val context: Context) {
     }
 
     private fun generateQuestionsPlanDocx(document: XWPFDocument, plan: QuestionsPlan) {
-        addCenteredTitle(document, "EXERCISE & ANSWERS")
+        addCenteredTitle(document, "EXERCISE & ANSWERS", spacingAfter = 100)
 
         val header = plan.header ?: return
+        addOutputHeaderDetails(document, header.school, header.facilitatorName, header.term, header.week)
         val table = document.createTable()
         applyHeaderTableStyle(table)
         table.removeRow(0)
@@ -253,7 +250,7 @@ class DocxGenerator(private val context: Context) {
         plan.questions?.forEachIndexed { index, item ->
             val paragraph = document.createParagraph()
             paragraph.spacingAfter = 200
-            appendHtmlContent(paragraph, "${index + 1}. ${item.q}")
+            appendHtmlContent(paragraph, "${index + 1}. ${item.q?.replace("\n", "<br>")}")
         }
 
         document.createParagraph().spacingBefore = 400

@@ -497,10 +497,28 @@ class LessonPlanViewModel(application: Application) : AndroidViewModel(applicati
 
 // ── Plan JSON helpers (package-internal) ──────────────────────────────────────
 
-internal fun String.detectPlanType(): String = when {
-    contains("\"plan_type\":\"Full Note\"") -> "Full Note"
-    contains("\"plan_type\":\"Questions\"") -> "Questions"
-    else -> "Lesson Plan"
+fun String.detectPlanType(): String {
+    val s = this.sanitizeJson()
+    
+    // 1. Try to find plan_type/planType field with Regex
+    val typeRegex = Regex("\"plan_?type\"\\s*:\\s*\"([^\"]+)\"", RegexOption.IGNORE_CASE)
+    val match = typeRegex.find(s)
+    if (match != null) {
+        val typeValue = match.groupValues[1].lowercase()
+        return when {
+            typeValue.contains("note") -> "Full Note"
+            typeValue.contains("question") || typeValue.contains("exercise") -> "Questions"
+            else -> "Lesson Plan"
+        }
+    }
+    
+    // 2. Fallback: check for defining keys in the JSON
+    return when {
+        s.contains("\"questions\"") -> "Questions"
+        s.contains("\"content\"") && !s.contains("\"phases\"") -> "Full Note"
+        s.contains("\"phases\"") -> "Lesson Plan"
+        else -> "Lesson Plan"
+    }
 }
 
 fun String.sanitizeJson(): String {

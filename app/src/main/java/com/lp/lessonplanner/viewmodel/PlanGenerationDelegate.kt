@@ -369,16 +369,32 @@ internal fun LessonPlanViewModel.buildPrompt(
 
     return when (state.generationType) {
         "Full Note" -> """
-            Generate a comprehensive teaching note for the following indicator:
+            TASK: Generate a professional, comprehensive, and well-organized teaching note based EXCLUSIVELY on the EXEMPLARS of the specified indicator.
+            
             Subject: $subjectName
             Grade: ${state.selectedGrade}
             Indicator: ${indicator?.indicatorCode} - ${indicator?.indicatorDescription}
             Exemplars: $exemplars
             
-            Requirements:
-            - MUST be strictly based on the provided Exemplars: $exemplars.
-            - BE EXTREMELY CONCISE: Use short bullet points and actionable steps. No unnecessary explanations.
-            - Use HTML tags (<b>, <ul>, etc.) for formatting the content field.
+            The note must be a complete teaching resource, thoroughly explaining each concept mentioned in the exemplars.
+            
+            Organization Structure:
+            1. <b>TOPIC:</b> [A clear, descriptive title for the lesson]
+            2. <b>LEARNING OBJECTIVES:</b> List 3-4 specific, measurable objectives derived from the indicator and exemplars.
+            3. <b>KEY TERMS & DEFINITIONS:</b> Define all technical terms or complex concepts found in the exemplars.
+            4. <b>DETAILED LESSON CONTENT:</b> 
+               - This is the main body. Thoroughly explain EACH exemplar: $exemplars.
+               - Use bold sub-headings for each: <b>[Exemplar Code]: [Descriptive Title]</b>.
+               - Provide in-depth explanations, examples, and step-by-step breakdowns for every concept.
+               - Ensure the content is sufficient for a full classroom lesson.
+            5. <b>SUMMARY & CONCLUSION:</b> A detailed wrap-up of the key takeaways.
+            6. <b>CHECK FOR UNDERSTANDING:</b> 3-4 questions or a brief activity to evaluate learner progress.
+
+            Formatting & Quality Rules:
+            - **STRICT BASIS**: All teaching content MUST be derived from the provided Exemplars.
+            - **CLEAR HIERARCHY**: Use <b> for headings and <ul><li> for lists.
+            - **SPACING**: Use <br><br> to separate the 6 main sections.
+            - **COMPLETENESS**: The note should be "ready-to-teach," meaning it needs depth and clarity.
             - $keywordsInstruction
             - Respond with valid JSON.
 
@@ -386,12 +402,13 @@ internal fun LessonPlanViewModel.buildPrompt(
             {
                 "plan_type": "Full Note",
                 $baseHeader,
-                "content": "Detailed HTML-formatted teaching notes here..."
+                "content": "<b>TOPIC:</b>...<br><br><b>LEARNING OBJECTIVES:</b>...<br><br><b>KEY TERMS:</b>..."
             }
         """.trimIndent()
 
         "Questions" -> """
-            Generate ${state.questionCount} ${state.questionType} assessment questions for:
+            TASK: Generate ${state.questionCount} ${state.questionType} assessment questions based EXCLUSIVELY on the EXEMPLARS of the specified indicator.
+            
             Subject: $subjectName
             Grade: ${state.selectedGrade}
             Indicator: ${indicator?.indicatorCode} - ${indicator?.indicatorDescription}
@@ -399,7 +416,12 @@ internal fun LessonPlanViewModel.buildPrompt(
             
             Requirements:
             - Questions MUST assess the provided Exemplars: $exemplars.
+            - Format: 
+                * For "Multiple Choice": Each question MUST include 4 options (A, B, C, D) immediately after the question text.
+                * For "True/False": Each question MUST include "True / False" options immediately after the question text.
+                * For "Fill in the blank" and "Essay": Just the question text.
             - BE EXTREMELY CONCISE: Short, clear questions. No unnecessary instructions.
+            - The "a" field (Answer) in the JSON MUST contain only the correct answer or the correct option letter (e.g., "B" or "True").
             - $keywordsInstruction
             - Respond with valid JSON.
 
@@ -408,7 +430,7 @@ internal fun LessonPlanViewModel.buildPrompt(
                 "plan_type": "Questions",
                 $baseHeader,
                 "questions": [
-                    {"q": "Question text?", "a": "Answer or options"}
+                    {"q": "Question text here?\nA) Option\nB) Option\nC) Option\nD) Option", "a": "Correct Option/Answer"}
                 ]
             }
         """.trimIndent()

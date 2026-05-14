@@ -128,8 +128,38 @@ fun LessonPlanPreview(
                 }
             }
             questionsPlan != null -> {
-                questionsPlan.questions?.forEachIndexed { index, item ->
-                    QuestionCard(index + 1, item.q ?: "", item.a ?: "")
+                questionsPlan.questions?.let { questions ->
+                    // Questions
+                    questions.forEachIndexed { index, item ->
+                        QuestionCard(index + 1, item.q ?: "", item.a ?: "", showAnswer = false)
+                        Spacer(Modifier.height(8.dp))
+                    }
+                    
+                    Spacer(Modifier.height(16.dp))
+                    
+                    // Answer Key
+                    Card(
+                        modifier = Modifier.fillMaxWidth(),
+                        shape = RoundedCornerShape(12.dp),
+                        colors = CardDefaults.cardColors(containerColor = Color(0xFFE8F5E9)),
+                        border = BorderStroke(1.dp, Color(0xFFC8E6C9))
+                    ) {
+                        Column(modifier = Modifier.padding(16.dp)) {
+                            Text(
+                                "CORRECT ANSWERS",
+                                fontWeight = FontWeight.ExtraBold,
+                                fontSize = 14.sp,
+                                color = Color(0xFF2E7D32),
+                                modifier = Modifier.padding(bottom = 8.dp)
+                            )
+                            questions.forEachIndexed { index, item ->
+                                Row(modifier = Modifier.padding(vertical = 2.dp)) {
+                                    Text("${index + 1}. ", fontWeight = FontWeight.Bold, fontSize = 13.sp)
+                                    Text(item.a ?: "", fontSize = 13.sp)
+                                }
+                            }
+                        }
+                    }
                 }
             }
             else -> {
@@ -445,7 +475,7 @@ fun NoteCard(title: String, content: String, color: Color, icon: ImageVector) {
 }
 
 @Composable
-fun QuestionCard(number: Int, question: String, answer: String) {
+fun QuestionCard(number: Int, question: String, answer: String, showAnswer: Boolean = true) {
     Card(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(12.dp),
@@ -465,31 +495,33 @@ fun QuestionCard(number: Int, question: String, answer: String) {
                         }
                     },
                     update = { view ->
-                        view.text = HtmlCompat.fromHtml(question, HtmlCompat.FROM_HTML_MODE_COMPACT)
+                        view.text = HtmlCompat.fromHtml(question.replace("\n", "<br>"), HtmlCompat.FROM_HTML_MODE_COMPACT)
                     }
                 )
             }
-            Spacer(modifier = Modifier.height(8.dp))
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .background(Color(0xFFF1F8E9), RoundedCornerShape(8.dp))
-                    .padding(8.dp)
-            ) {
-                Row {
-                    Text("Ans: ", fontWeight = FontWeight.Bold, color = Color(0xFF388E3C), fontSize = 12.sp)
-                    AndroidView(
-                        factory = { context ->
-                            TextView(context).apply {
-                                textSize = 13f
-                                setTextColor(android.graphics.Color.DKGRAY)
-                                setLineSpacing(0f, 1.5f)
+            if (showAnswer) {
+                Spacer(modifier = Modifier.height(8.dp))
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(Color(0xFFF1F8E9), RoundedCornerShape(8.dp))
+                        .padding(8.dp)
+                ) {
+                    Row {
+                        Text("Ans: ", fontWeight = FontWeight.Bold, color = Color(0xFF388E3C), fontSize = 12.sp)
+                        AndroidView(
+                            factory = { context ->
+                                TextView(context).apply {
+                                    textSize = 13f
+                                    setTextColor(android.graphics.Color.DKGRAY)
+                                    setLineSpacing(0f, 1.5f)
+                                }
+                            },
+                            update = { view ->
+                                view.text = HtmlCompat.fromHtml(answer, HtmlCompat.FROM_HTML_MODE_COMPACT)
                             }
-                        },
-                        update = { view ->
-                            view.text = HtmlCompat.fromHtml(answer, HtmlCompat.FROM_HTML_MODE_COMPACT)
-                        }
-                    )
+                        )
+                    }
                 }
             }
         }

@@ -517,7 +517,7 @@ fun IndicatorStep(viewModel: LessonPlanViewModel) {
 
                         Text("Type of questions", fontSize = 12.sp, color = Color.Gray)
                         Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
-                            listOf("Multiple Choice", "True/False", "Fill in the blank", "Theory").forEach { qType ->
+                            listOf("Multiple Choice", "True/False", "Fill in the blank", "Essay").forEach { qType ->
                                 Row(
                                     verticalAlignment = Alignment.CenterVertically,
                                     modifier = Modifier
@@ -1489,6 +1489,20 @@ fun PreviewStep(viewModel: LessonPlanViewModel) {
                                         }
                                     }
                                     // ── Action buttons ─────────────────────────────────
+                                    // Info
+                                    IconButton(
+                                        onClick = {
+                                            selectedIndicatorForDetail = indicators.find { it.indicatorCode == indicatorCode }
+                                        },
+                                        modifier = Modifier.size(28.dp)
+                                    ) {
+                                        Icon(
+                                            Icons.Default.Info,
+                                            contentDescription = "Info",
+                                            modifier = Modifier.size(16.dp),
+                                            tint = Color(0xFF2196F3)
+                                        )
+                                    }
                                     // Reorder up
                                     IconButton(
                                         onClick = { viewModel.moveGeneratedPlan(planIndex, -1) },
@@ -1539,6 +1553,7 @@ fun PreviewStep(viewModel: LessonPlanViewModel) {
                                             tint = Color(0xFFFF9800)
                                         )
                                     }
+
                                     // Delete
                                     IconButton(
                                         onClick = { planToDelete = planIndex },

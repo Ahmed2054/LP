@@ -22,9 +22,17 @@ import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Download
 import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.filled.Save
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material.icons.filled.Visibility
+import androidx.compose.material.icons.filled.ExpandLess
+import androidx.compose.material.icons.filled.ExpandMore
+import androidx.compose.material.icons.filled.ContentCopy
+import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.material.icons.filled.KeyboardArrowUp
+import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -34,6 +42,7 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Surface
@@ -59,12 +68,12 @@ import com.lp.lessonplanner.data.local.CurriculumEntity
 import com.lp.lessonplanner.data.local.SavedPlanEntity
 import com.lp.lessonplanner.ui.components.LessonPlanPreview
 import com.lp.lessonplanner.ui.utils.FormatAction
-import com.lp.lessonplanner.viewmodel.LessonPlanViewModel
+import com.lp.lessonplanner.viewmodel.*
 import kotlinx.coroutines.launch
 
 @Composable
 fun ViewPlanScreen(
-    plan: SavedPlanEntity,
+    plans: List<SavedPlanEntity>,
     viewModel: LessonPlanViewModel,
     onBack: () -> Unit,
     onDelete: () -> Unit
@@ -83,8 +92,8 @@ fun ViewPlanScreen(
     if (showDeleteDialog) {
         AlertDialog(
             onDismissRequest = { showDeleteDialog = false },
-            title = { Text("Delete Plan") },
-            text = { Text("Are you sure you want to delete this plan? This action cannot be undone.") },
+            title = { Text(if (plans.size == 1) "Delete Plan" else "Delete ${plans.size} Plans") },
+            text = { Text(if (plans.size == 1) "Are you sure you want to delete this plan? This action cannot be undone." else "Are you sure you want to delete these ${plans.size} plans? This action cannot be undone.") },
             confirmButton = {
                 TextButton(
                     onClick = {
@@ -150,9 +159,9 @@ fun ViewPlanScreen(
                     Button(
                         onClick = {
                             when (action) {
-                                is FormatAction.Preview -> viewModel.previewPlanAsPdf(plan)
-                                is FormatAction.Download -> viewModel.downloadPlanAsPdf(plan)
-                                is FormatAction.Export -> viewModel.exportPlanAsPdf(plan)
+                                is FormatAction.Preview -> viewModel.previewPlansAsPdf(plans)
+                                is FormatAction.Download -> viewModel.downloadPlansAsPdf(plans)
+                                is FormatAction.Export -> viewModel.exportPlansAsPdf(plans)
                             }
                             showFormatDialog = null
                         },
@@ -163,9 +172,9 @@ fun ViewPlanScreen(
                     Button(
                         onClick = {
                             when (action) {
-                                is FormatAction.Preview -> viewModel.previewPlanAsDocx(plan)
-                                is FormatAction.Download -> viewModel.downloadPlanAsDocx(plan)
-                                is FormatAction.Export -> viewModel.exportPlanAsDocx(plan)
+                                is FormatAction.Preview -> viewModel.previewPlansAsDocx(plans)
+                                is FormatAction.Download -> viewModel.downloadPlansAsDocx(plans)
+                                is FormatAction.Export -> viewModel.exportPlansAsDocx(plans)
                             }
                             showFormatDialog = null
                         },
@@ -197,18 +206,6 @@ fun ViewPlanScreen(
         }
     }
 
-    val planMap = remember(plan.content) {
-        try {
-            Gson().fromJson(plan.content, Map::class.java)
-        } catch (e: Exception) {
-            null
-        }
-    }
-    val header = planMap?.get("header") as? Map<*, *>
-    val grade = header?.get("class") as? String ?: ""
-    val subjectName = header?.get("subject") as? String ?: ""
-    val indicatorLabel = header?.get("indicator") as? String ?: plan.indicatorCode ?: ""
-    val indicatorCode = indicatorLabel.split(" - ").firstOrNull()?.trim().orEmpty()
 
     Box(modifier = Modifier.fillMaxSize()) {
         Column(
@@ -248,7 +245,7 @@ fun ViewPlanScreen(
                             shape = RoundedCornerShape(16.dp)
                         ) {
                             Text(
-                                text = "1 Plan Generated",
+                                text = "${plans.size} Plan${if (plans.size > 1) "s" else ""} Generated",
                                 modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
                                 fontSize = 12.sp,
                                 fontWeight = FontWeight.Bold,
@@ -298,7 +295,7 @@ fun ViewPlanScreen(
                         }
 
                         OutlinedButton(
-                            onClick = { viewModel.previewPlanAsPdf(plan) },
+                            onClick = { viewModel.previewPlansAsPdf(plans) },
                             modifier = Modifier.weight(1f),
                             shape = RoundedCornerShape(12.dp),
                             border = androidx.compose.foundation.BorderStroke(1.dp, Color(0xFFFF9800)),
@@ -314,6 +311,93 @@ fun ViewPlanScreen(
 
             Spacer(Modifier.height(16.dp))
 
+            // Shared Info Card
+            var commonInfoExpanded by remember { mutableStateOf(false) }
+            Card(
+                modifier = Modifier.fillMaxWidth(),
+                colors = CardDefaults.cardColors(containerColor = Color(0xFFF8F9FA)),
+                shape = RoundedCornerShape(12.dp),
+                border = androidx.compose.foundation.BorderStroke(1.dp, Color(0xFFE9ECEF))
+            ) {
+                Column(modifier = Modifier.padding(12.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clickable { commonInfoExpanded = !commonInfoExpanded },
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text("Common Information", fontWeight = FontWeight.Bold, fontSize = 14.sp, color = Color(0xFF1A73E8))
+                        Icon(
+                            imageVector = if (commonInfoExpanded) Icons.Default.ExpandLess else Icons.Default.ExpandMore,
+                            contentDescription = if (commonInfoExpanded) "Collapse" else "Expand",
+                            tint = Color(0xFF1A73E8)
+                        )
+                    }
+                    
+                    if (commonInfoExpanded) {
+                        val firstPlanJson = plans.firstOrNull()?.content
+                        val firstHeader = remember(firstPlanJson) {
+                            try {
+                                val map = Gson().fromJson(firstPlanJson, Map::class.java)
+                                map["header"] as? Map<*, *>
+                            } catch (e: Exception) { null }
+                        }
+
+                        OutlinedTextField(
+                            value = (firstHeader?.get("school") as? String).orEmpty(),
+                            onValueChange = { viewModel.updateHeaderField(0, "school", it, isHistory = true) },
+                            label = { Text("School") },
+                            modifier = Modifier.fillMaxWidth(),
+                            shape = RoundedCornerShape(8.dp),
+                            singleLine = true
+                        )
+
+                        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                            OutlinedTextField(
+                                value = (firstHeader?.get("facilitatorName") as? String).orEmpty(),
+                                onValueChange = { viewModel.updateHeaderField(0, "facilitatorName", it, isHistory = true) },
+                                label = { Text("Facilitator") },
+                                modifier = Modifier.weight(1f),
+                                shape = RoundedCornerShape(8.dp),
+                                singleLine = true
+                            )
+
+                            OutlinedTextField(
+                                value = (firstHeader?.get("term") as? String).orEmpty(),
+                                onValueChange = { viewModel.updateHeaderField(0, "term", it, isHistory = true) },
+                                label = { Text("Term") },
+                                modifier = Modifier.weight(0.4f),
+                                shape = RoundedCornerShape(8.dp),
+                                singleLine = true
+                            )
+                        }
+
+                        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                            OutlinedTextField(
+                                value = (firstHeader?.get("classSize") as? String).orEmpty(),
+                                onValueChange = { viewModel.updateHeaderField(0, "classSize", it, isHistory = true) },
+                                label = { Text("Class Size") },
+                                modifier = Modifier.weight(1f),
+                                shape = RoundedCornerShape(8.dp),
+                                singleLine = true
+                            )
+
+                            OutlinedTextField(
+                                value = (firstHeader?.get("duration") as? String).orEmpty(),
+                                onValueChange = { viewModel.updateHeaderField(0, "duration", it, isHistory = true) },
+                                label = { Text("Duration") },
+                                modifier = Modifier.weight(1f),
+                                shape = RoundedCornerShape(8.dp),
+                                singleLine = true
+                            )
+                        }
+                    }
+                }
+            }
+
+            Spacer(Modifier.height(12.dp))
+
             if (uiState.isLoading) {
                 Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
@@ -328,57 +412,183 @@ fun ViewPlanScreen(
                     contentPadding = PaddingValues(bottom = 24.dp),
                     verticalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
-                    item {
+                    itemsIndexed(plans) { planIndex, currentPlan ->
+                        val currentPlanMap = remember(currentPlan.content) {
+                            try {
+                                Gson().fromJson(currentPlan.content, Map::class.java)
+                            } catch (e: Exception) { null }
+                        }
+                        val currentHeader = currentPlanMap?.get("header") as? Map<*, *>
+                        val currentSubjectName = currentHeader?.get("subject") as? String ?: ""
+                        val currentIndicatorLabel = currentHeader?.get("indicator") as? String ?: currentPlan.indicatorCode ?: ""
+                        val currentIndicatorCode = currentIndicatorLabel.split(" - ").firstOrNull()?.trim().orEmpty()
+                        val weekNumber = currentHeader?.get("week") as? String ?: ""
+
+                        var expanded by remember { mutableStateOf(false) }
+
                         Surface(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(bottom = 8.dp)
-                                .clip(RoundedCornerShape(12.dp))
-                                .clickable {
-                                    coroutineScope.launch {
-                                        selectedIndicatorForDetail = viewModel.resolveIndicatorFromSavedPlan(plan)
-                                    }
-                                },
+                            modifier = Modifier.fillMaxWidth(),
                             color = Color(0xFFE3F2FD),
                             shape = RoundedCornerShape(12.dp),
                             border = androidx.compose.foundation.BorderStroke(1.dp, Color(0xFFBBDEFB))
                         ) {
-                            Row(
-                                modifier = Modifier.padding(horizontal = 14.dp, vertical = 10.dp),
-                                verticalAlignment = Alignment.CenterVertically
-                            ) {
-                                Icon(Icons.Default.Info, contentDescription = null, tint = Color(0xFF2196F3), modifier = Modifier.size(16.dp))
-                                Spacer(Modifier.width(10.dp))
-                                Text(
-                                    text = listOfNotNull(
-                                        grade.ifEmpty { null },
-                                        subjectName.ifEmpty { null },
-                                        indicatorCode.ifEmpty { null }
-                                    ).joinToString(" · "),
-                                    fontSize = 13.sp,
-                                    fontWeight = FontWeight.Bold,
-                                    color = Color(0xFF1976D2)
-                                )
+                            Column {
+                                Row(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .clickable { expanded = !expanded }
+                                        .padding(horizontal = 12.dp, vertical = 10.dp),
+                                    verticalAlignment = Alignment.CenterVertically
+                                ) {
+                                    Icon(
+                                        imageVector = if (expanded) Icons.Default.ExpandLess else Icons.Default.ExpandMore,
+                                        contentDescription = if (expanded) "Collapse" else "Expand",
+                                        tint = Color(0xFF2196F3),
+                                        modifier = Modifier.size(18.dp)
+                                    )
+                                    Spacer(Modifier.width(6.dp))
+                                    Column(modifier = Modifier.weight(1f)) {
+                                        Text(
+                                            text = "$currentIndicatorCode · $currentSubjectName",
+                                            fontSize = 13.sp,
+                                            fontWeight = FontWeight.Bold,
+                                            color = Color(0xFF1976D2),
+                                            maxLines = 1,
+                                            overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis
+                                        )
+                                        if (weekNumber.isNotBlank()) {
+                                            Text(
+                                                text = "Week $weekNumber",
+                                                fontSize = 11.sp,
+                                                fontWeight = FontWeight.Medium,
+                                                color = Color(0xFF1976D2).copy(alpha = 0.8f)
+                                            )
+                                        }
+                                    }
+
+                                    // Info
+                                    IconButton(
+                                        onClick = {
+                                            coroutineScope.launch {
+                                                selectedIndicatorForDetail = viewModel.resolveIndicatorFromSavedPlan(currentPlan)
+                                            }
+                                        },
+                                        modifier = Modifier.size(28.dp)
+                                    ) {
+                                        Icon(
+                                            Icons.Default.Info,
+                                            contentDescription = "Info",
+                                            modifier = Modifier.size(16.dp),
+                                            tint = Color(0xFF2196F3)
+                                        )
+                                    }
+
+                                    // Reorder up
+                                    IconButton(
+                                        onClick = { viewModel.moveSelectedHistoryPlan(planIndex, -1) },
+                                        enabled = planIndex > 0,
+                                        modifier = Modifier.size(28.dp)
+                                    ) {
+                                        Icon(
+                                            Icons.Default.KeyboardArrowUp,
+                                            contentDescription = "Move Up",
+                                            modifier = Modifier.size(18.dp),
+                                            tint = if (planIndex > 0) Color(0xFF1976D2) else Color.LightGray
+                                        )
+                                    }
+                                    
+                                    // Reorder down
+                                    val totalPlans = plans.size
+                                    IconButton(
+                                        onClick = { viewModel.moveSelectedHistoryPlan(planIndex, 1) },
+                                        enabled = planIndex < totalPlans - 1,
+                                        modifier = Modifier.size(28.dp)
+                                    ) {
+                                        Icon(
+                                            Icons.Default.KeyboardArrowDown,
+                                            contentDescription = "Move Down",
+                                            modifier = Modifier.size(18.dp),
+                                            tint = if (planIndex < totalPlans - 1) Color(0xFF1976D2) else Color.LightGray
+                                        )
+                                    }
+                                    
+                                    // Duplicate
+                                    IconButton(
+                                        onClick = { viewModel.duplicatePlan(currentPlan) },
+                                        modifier = Modifier.size(28.dp)
+                                    ) {
+                                        Icon(
+                                            Icons.Default.ContentCopy,
+                                            contentDescription = "Duplicate Plan",
+                                            modifier = Modifier.size(16.dp),
+                                            tint = Color(0xFF4CAF50)
+                                        )
+                                    }
+
+                                    if (uiState.regeneratingPhaseIndex?.first == planIndex && uiState.regeneratingPhaseIndex?.second == -1) {
+                                        CircularProgressIndicator(
+                                            modifier = Modifier
+                                                .padding(horizontal = 4.dp)
+                                                .size(18.dp),
+                                            strokeWidth = 2.dp,
+                                            color = Color(0xFF2196F3)
+                                        )
+                                    } else {
+                                        // Regenerate
+                                        IconButton(
+                                            onClick = { viewModel.regeneratePlan(planIndex, apiKey, model, isHistory = true) },
+                                            modifier = Modifier.size(28.dp)
+                                        ) {
+                                            Icon(
+                                                Icons.Default.Refresh,
+                                                contentDescription = "Regenerate Plan",
+                                                modifier = Modifier.size(16.dp),
+                                                tint = Color(0xFFFF9800)
+                                            )
+                                        }
+                                    }
+                                    
+                                    // Delete
+                                    IconButton(
+                                        onClick = {
+                                            viewModel.deletePlan(currentPlan)
+                                            if (plans.size <= 1) onBack()
+                                        },
+                                        modifier = Modifier.size(28.dp)
+                                    ) {
+                                        Icon(
+                                            Icons.Default.Delete,
+                                            contentDescription = "Delete Plan",
+                                            modifier = Modifier.size(16.dp),
+                                            tint = Color.Red
+                                        )
+                                    }
+                                }
                             }
                         }
 
-                        LessonPlanPreview(
-                            generatedPlanJson = plan.content,
-                            editingPhaseIndex = uiState.editingPhaseIndex?.second,
-                            regeneratingPhaseIndex = uiState.regeneratingPhaseIndex?.second,
-                            onEditPhase = { phaseIndex ->
-                                viewModel.updateEditingPhase(phaseIndex?.let { 0 to it })
-                            },
-                            onUpdatePhaseField = { phaseIndex, field, value ->
-                                viewModel.updatePhaseField(0, phaseIndex, field, value, isHistory = true)
-                            },
-                            onRegeneratePhase = { phaseIndex, name ->
-                                viewModel.regeneratePhase(0, phaseIndex, name, apiKey, model, isHistory = true)
-                            },
-                            onUpdateHeaderField = { field, value ->
-                                viewModel.updateHeaderField(0, field, value, isHistory = true)
+                        androidx.compose.animation.AnimatedVisibility(visible = expanded) {
+                            Column {
+                                Spacer(Modifier.height(8.dp))
+                                LessonPlanPreview(
+                                    generatedPlanJson = currentPlan.content,
+                                    editingPhaseIndex = if (uiState.editingPhaseIndex?.first == planIndex) uiState.editingPhaseIndex?.second else null,
+                                    regeneratingPhaseIndex = if (uiState.regeneratingPhaseIndex?.first == planIndex) uiState.regeneratingPhaseIndex?.second else null,
+                                    onEditPhase = { phaseIndex ->
+                                        viewModel.updateEditingPhase(if (phaseIndex == null) null else planIndex to phaseIndex)
+                                    },
+                                    onUpdatePhaseField = { phaseIndex, field, value ->
+                                        viewModel.updatePhaseField(planIndex, phaseIndex, field, value, isHistory = true)
+                                    },
+                                    onRegeneratePhase = { phaseIndex, name ->
+                                        viewModel.regeneratePhase(planIndex, phaseIndex, name, apiKey, model, isHistory = true)
+                                    },
+                                    onUpdateHeaderField = { field, value ->
+                                        viewModel.updateHeaderField(planIndex, field, value, isHistory = true)
+                                    }
+                                )
                             }
-                        )
+                        }
                     }
                 }
             }

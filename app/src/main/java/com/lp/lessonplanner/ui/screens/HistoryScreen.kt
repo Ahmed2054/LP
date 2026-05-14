@@ -3,9 +3,11 @@ package com.lp.lessonplanner.ui.screens
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
+import androidx.compose.foundation.gestures.detectDragGesturesAfterLongPress
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -16,49 +18,57 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.lp.lessonplanner.viewmodel.LessonPlanViewModel
+import androidx.compose.ui.zIndex
+import com.lp.lessonplanner.viewmodel.*
 import com.lp.lessonplanner.data.local.SavedPlanEntity
 import com.lp.lessonplanner.ui.utils.FormatAction
+import com.lp.lessonplanner.ui.utils.formatToDDMMYYYY
 import java.text.SimpleDateFormat
 import java.util.*
 
 @Composable
-fun HistoryScreen(viewModel: LessonPlanViewModel, onPlanClick: (SavedPlanEntity) -> Unit) {
-    val history: List<SavedPlanEntity> by viewModel.history.collectAsState()
-    var searchQuery by remember { mutableStateOf("") }
+fun HistoryScreen(viewModel: LessonPlanViewModel, onNavigateToPreview: () -> Unit) {
+    val uiState by viewModel.uiState.collectAsState()
+    val history = uiState.paginatedHistory
+    val fullHistory by viewModel.history.collectAsState()
+    val historyOrderIds: List<Int> by viewModel.historyOrderIds.collectAsState()
+    val searchQuery = uiState.historySearchQuery
     var planToDelete by remember { mutableStateOf<SavedPlanEntity?>(null) }
-    
+    var showBulkDeleteDialog by remember { mutableStateOf(false) }
+    val listState = rememberLazyListState()
+
+    // Drag state
+    // var draggingIndex removed
+    // var dragOffsetY removed
+
     // Selection state
     var selectedPlanIds by remember { mutableStateOf(setOf<Int>()) }
     val isSelectionMode = selectedPlanIds.isNotEmpty()
 
     // Tab state
-    var selectedTabIndex by remember { mutableIntStateOf(0) }
+    val selectedTabIndex = uiState.historyTabIndex
     val tabs = listOf("Plans", "Notes", "Questions")
 
-    val filteredHistory = history.filter {
-        val subjectName = try {
-            org.json.JSONObject(it.content).getJSONObject("header").optString("subject", "")
-        } catch (e: Exception) { "" }
-
-        val matchesSearch = it.indicatorCode?.contains(searchQuery, ignoreCase = true) == true ||
-                subjectName.contains(searchQuery, ignoreCase = true) ||
-                it.date.contains(searchQuery) ||
-                it.planType.contains(searchQuery, ignoreCase = true)
-        
-        val matchesTab = when (selectedTabIndex) {
-            0 -> it.planType == "Lesson Plan"
-            1 -> it.planType == "Full Note"
-            2 -> it.planType == "Questions"
-            else -> true
+    // Apply saved order to the full history list
+    val orderedHistory = remember(history, historyOrderIds) {
+        if (historyOrderIds.isEmpty()) {
+            history
+        } else {
+            val byId = history.associateBy { it.id }
+            val ordered = historyOrderIds.mapNotNull { byId[it] }
+            val unseen = history.filter { it.id !in historyOrderIds.toSet() }
+            ordered + unseen
         }
-        
-        matchesSearch && matchesTab
     }
+
+    // filtering is now done at the ViewModel/Database level
+    val filteredHistory = orderedHistory
 
     if (planToDelete != null) {
         AlertDialog(
@@ -78,6 +88,32 @@ fun HistoryScreen(viewModel: LessonPlanViewModel, onPlanClick: (SavedPlanEntity)
             },
             dismissButton = {
                 TextButton(onClick = { planToDelete = null }) {
+                    Text("Cancel")
+                }
+            }
+        )
+    }
+
+    if (showBulkDeleteDialog) {
+        AlertDialog(
+            onDismissRequest = { showBulkDeleteDialog = false },
+            title = { Text("Delete ${selectedPlanIds.size} Plans") },
+            text = { Text("Are you sure you want to delete ${selectedPlanIds.size} selected lesson plan(s)? This action cannot be undone.") },
+            confirmButton = {
+                TextButton(
+                    onClick = {
+                        val plansToDelete = fullHistory.filter { it.id in selectedPlanIds }
+                        viewModel.deleteMultiplePlans(plansToDelete)
+                        selectedPlanIds = emptySet()
+                        showBulkDeleteDialog = false
+                    },
+                    colors = ButtonDefaults.textButtonColors(contentColor = Color.Red)
+                ) {
+                    Text("Delete")
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { showBulkDeleteDialog = false }) {
                     Text("Cancel")
                 }
             }
@@ -105,7 +141,7 @@ fun HistoryScreen(viewModel: LessonPlanViewModel, onPlanClick: (SavedPlanEntity)
                 Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly) {
                     Button(
                         onClick = {
-                            val selectedPlans = selectedPlanIds.mapNotNull { id -> history.find { it.id == id } }
+                            val selectedPlans = selectedPlanIds.mapNotNull { id -> fullHistory.find { it.id == id } }
                             when (action) {
                                 is FormatAction.Download -> viewModel.downloadPlansAsPdf(selectedPlans)
                                 is FormatAction.Export -> viewModel.exportPlansAsPdf(selectedPlans)
@@ -120,7 +156,7 @@ fun HistoryScreen(viewModel: LessonPlanViewModel, onPlanClick: (SavedPlanEntity)
                     }
                     Button(
                         onClick = {
-                            val selectedPlans = selectedPlanIds.mapNotNull { id -> history.find { it.id == id } }
+                            val selectedPlans = selectedPlanIds.mapNotNull { id -> fullHistory.find { it.id == id } }
                             when (action) {
                                 is FormatAction.Download -> viewModel.downloadPlansAsDocx(selectedPlans)
                                 is FormatAction.Export -> viewModel.exportPlansAsDocx(selectedPlans)
@@ -150,18 +186,35 @@ fun HistoryScreen(viewModel: LessonPlanViewModel, onPlanClick: (SavedPlanEntity)
     ) {
         HistoryHeader(
             searchQuery, 
-            onSearchChange = { searchQuery = it },
+            onSearchChange = { viewModel.updateHistorySearch(it) },
             selectedCount = selectedPlanIds.size,
             onClearSelection = { selectedPlanIds = emptySet() },
+            onOpenSelected = {
+                val selectedPlans = selectedPlanIds.mapNotNull { id -> fullHistory.find { it.id == id } }
+                if (selectedPlans.isNotEmpty()) {
+                    viewModel.selectHistoryPlans(selectedPlans)
+                    selectedPlanIds = emptySet()
+                    onNavigateToPreview()
+                }
+            },
+            onDeleteSelected = { showBulkDeleteDialog = true },
             onPreviewSelected = {
-                val selectedPlans = selectedPlanIds.mapNotNull { id -> history.find { it.id == id } }
+                val selectedPlans = selectedPlanIds.mapNotNull { id -> fullHistory.find { it.id == id } }
                 if (selectedPlans.isNotEmpty()) {
                     viewModel.previewPlansAsPdf(selectedPlans)
                     selectedPlanIds = emptySet()
                 }
             },
             onDownloadSelected = { showFormatDialog = FormatAction.Download },
-            onExportSelected = { showFormatDialog = FormatAction.Export }
+            onExportSelected = { showFormatDialog = FormatAction.Export },
+            isAllSelected = filteredHistory.isNotEmpty() && filteredHistory.all { it.id in selectedPlanIds },
+            onSelectAll = { selectAll ->
+                if (selectAll) {
+                    selectedPlanIds = selectedPlanIds + filteredHistory.map { it.id }.toSet()
+                } else {
+                    selectedPlanIds = selectedPlanIds - filteredHistory.map { it.id }.toSet()
+                }
+            }
         )
 
         TabRow(
@@ -178,7 +231,7 @@ fun HistoryScreen(viewModel: LessonPlanViewModel, onPlanClick: (SavedPlanEntity)
             tabs.forEachIndexed { index, title ->
                 Tab(
                     selected = selectedTabIndex == index,
-                    onClick = { selectedTabIndex = index },
+                    onClick = { viewModel.updateHistoryTab(index) },
                     text = { 
                         Text(
                             title, 
@@ -198,12 +251,15 @@ fun HistoryScreen(viewModel: LessonPlanViewModel, onPlanClick: (SavedPlanEntity)
             }
         } else {
             LazyColumn(
-                modifier = Modifier.fillMaxSize(),
+                state = listState,
+                modifier = Modifier.weight(1f),
                 contentPadding = PaddingValues(16.dp),
                 verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
-                items(filteredHistory, key = { it.id }) { plan ->
+                itemsIndexed(filteredHistory, key = { _, plan -> plan.id }) { index, plan ->
                     val isSelected = selectedPlanIds.contains(plan.id)
+                    // val isDragging removed
+
                     HistoryItem(
                         plan = plan,
                         onClick = {
@@ -214,18 +270,87 @@ fun HistoryScreen(viewModel: LessonPlanViewModel, onPlanClick: (SavedPlanEntity)
                                     selectedPlanIds + plan.id
                                 }
                             } else {
-                                onPlanClick(plan)
+                                viewModel.selectHistoryPlans(listOf(plan))
+                                onNavigateToPreview()
                             }
                         },
                         onLongClick = {
                             selectedPlanIds = selectedPlanIds + plan.id
                         },
                         onDeleteClick = { planToDelete = plan },
+                        onDuplicateClick = { viewModel.duplicatePlan(plan) },
                         isSelected = isSelected,
-                        isSelectionMode = isSelectionMode
+                        isSelectionMode = isSelectionMode,
+                        // isDragging removed
+                        canMoveUp = index > 0,
+                        canMoveDown = index < filteredHistory.lastIndex,
+                        onMoveUp = {
+                            if (index > 0) {
+                                val mutable = filteredHistory.toMutableList()
+                                val moved = mutable.removeAt(index)
+                                mutable.add(index - 1, moved)
+                                viewModel.updateHistoryOrder(mutable.map { it.id })
+                            }
+                        },
+                        onMoveDown = {
+                            if (index < filteredHistory.lastIndex) {
+                                val mutable = filteredHistory.toMutableList()
+                                val moved = mutable.removeAt(index)
+                                mutable.add(index + 1, moved)
+                                viewModel.updateHistoryOrder(mutable.map { it.id })
+                            }
+                        }
                     )
                 }
             }
+
+            HistoryPaginationControls(
+                currentPage = uiState.historyPage,
+                totalCount = uiState.totalHistoryCount,
+                pageSize = 10,
+                onPageChange = { viewModel.updateHistoryPage(it) }
+            )
+        }
+    }
+}
+
+@Composable
+fun HistoryPaginationControls(
+    currentPage: Int,
+    totalCount: Int,
+    pageSize: Int,
+    onPageChange: (Int) -> Unit
+) {
+    val totalPages = kotlin.math.ceil(totalCount.toDouble() / pageSize).toInt()
+    if (totalPages <= 1) return
+
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp),
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Button(
+            onClick = { onPageChange(currentPage - 1) },
+            enabled = currentPage > 0,
+            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF2196F3))
+        ) {
+            Text("Previous")
+        }
+
+        Text(
+            "Page ${currentPage + 1} of $totalPages",
+            fontSize = 14.sp,
+            fontWeight = FontWeight.Medium
+        )
+
+        Button(
+            onClick = { onPageChange(currentPage + 1) },
+            enabled = (currentPage + 1) < totalPages,
+            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF2196F3))
+        ) {
+            Text("Next")
         }
     }
 }
@@ -236,9 +361,13 @@ fun HistoryHeader(
     onSearchChange: (String) -> Unit,
     selectedCount: Int,
     onClearSelection: () -> Unit,
+    onOpenSelected: () -> Unit,
+    onDeleteSelected: () -> Unit,
     onPreviewSelected: () -> Unit,
     onDownloadSelected: () -> Unit,
-    onExportSelected: () -> Unit
+    onExportSelected: () -> Unit,
+    isAllSelected: Boolean = false,
+    onSelectAll: (Boolean) -> Unit = {}
 ) {
     Column(
         modifier = Modifier
@@ -251,15 +380,23 @@ fun HistoryHeader(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                IconButton(onClick = onClearSelection) {
-                    Icon(Icons.Default.Close, contentDescription = "Clear Selection")
-                }
+                Checkbox(
+                    checked = isAllSelected,
+                    onCheckedChange = onSelectAll,
+                    colors = CheckboxDefaults.colors(checkedColor = Color(0xFF2196F3))
+                )
                 Text(
                     "$selectedCount selected",
                     modifier = Modifier.weight(1f),
-                    fontSize = 18.sp,
+                    fontSize = 16.sp,
                     fontWeight = FontWeight.Bold
                 )
+                IconButton(onClick = onOpenSelected) {
+                    Icon(Icons.Default.OpenInNew, contentDescription = "Open Selected", tint = Color(0xFF4CAF50))
+                }
+                IconButton(onClick = onDeleteSelected) {
+                    Icon(Icons.Default.Delete, contentDescription = "Delete Selected", tint = Color.Red)
+                }
                 IconButton(onClick = onPreviewSelected) {
                     Icon(Icons.Default.Visibility, contentDescription = "Preview Selected", tint = Color(0xFFFF9800))
                 }
@@ -311,18 +448,25 @@ fun HistoryHeader(
 @OptIn(androidx.compose.foundation.ExperimentalFoundationApi::class)
 @Composable
 fun HistoryItem(
-    plan: SavedPlanEntity, 
-    onClick: () -> Unit, 
+    plan: SavedPlanEntity,
+    onClick: () -> Unit,
     onLongClick: () -> Unit,
     onDeleteClick: () -> Unit,
+    onDuplicateClick: () -> Unit,
     isSelected: Boolean,
-    isSelectionMode: Boolean
+    isSelectionMode: Boolean,
+    canMoveUp: Boolean = false,
+    canMoveDown: Boolean = false,
+    onMoveUp: () -> Unit = {},
+    onMoveDown: () -> Unit = {}
 ) {
-    val date = plan.date
+    val date = formatToDDMMYYYY(plan.date)
+    val elevation = 1.dp
 
     Card(
         modifier = Modifier
             .fillMaxWidth()
+            .shadow(elevation, RoundedCornerShape(12.dp))
             .combinedClickable(
                 onClick = onClick,
                 onLongClick = onLongClick
@@ -398,6 +542,38 @@ fun HistoryItem(
             }
 
             if (!isSelectionMode) {
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    modifier = Modifier.padding(end = 8.dp)
+                ) {
+                    if (canMoveUp) {
+                        IconButton(
+                            onClick = onMoveUp,
+                            modifier = Modifier.size(24.dp)
+                        ) {
+                            Icon(Icons.Default.KeyboardArrowUp, contentDescription = "Move Up", tint = Color.Gray)
+                        }
+                    } else {
+                        Spacer(modifier = Modifier.size(24.dp))
+                    }
+                    if (canMoveDown) {
+                        IconButton(
+                            onClick = onMoveDown,
+                            modifier = Modifier.size(24.dp)
+                        ) {
+                            Icon(Icons.Default.KeyboardArrowDown, contentDescription = "Move Down", tint = Color.Gray)
+                        }
+                    } else {
+                        Spacer(modifier = Modifier.size(24.dp))
+                    }
+                }
+                IconButton(onClick = onDuplicateClick) {
+                    Icon(
+                        Icons.Default.ContentCopy,
+                        contentDescription = "Duplicate",
+                        tint = Color(0xFF4CAF50).copy(alpha = 0.6f)
+                    )
+                }
                 IconButton(onClick = onDeleteClick) {
                     Icon(
                         Icons.Default.DeleteOutline,
@@ -425,4 +601,3 @@ fun EmptyHistory() {
         }
     }
 }
-

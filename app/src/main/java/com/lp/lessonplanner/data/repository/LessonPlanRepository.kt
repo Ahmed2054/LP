@@ -56,7 +56,18 @@ class LessonPlanRepository(
     val allSavedPlans = savedPlanDao.getAllSavedPlans()
     
     suspend fun savePlan(plan: SavedPlanEntity) = savedPlanDao.insertPlan(plan)
-    
+
+    suspend fun getSavedPlansPaginated(limit: Int, offset: Int): List<SavedPlanEntity> = 
+        savedPlanDao.getSavedPlansPaginated(limit, offset)
+
+    suspend fun getFilteredSavedPlansPaginated(query: String, planType: String?, limit: Int, offset: Int): List<SavedPlanEntity> =
+        savedPlanDao.getFilteredSavedPlansPaginated(query, planType, limit, offset)
+
+    suspend fun getSavedPlanCount(): Int = savedPlanDao.getSavedPlanCount()
+
+    suspend fun getFilteredSavedPlanCount(query: String, planType: String?): Int =
+        savedPlanDao.getFilteredSavedPlanCount(query, planType)
+
     suspend fun updatePlan(plan: SavedPlanEntity) = savedPlanDao.updatePlan(plan)
     
     suspend fun deletePlan(plan: SavedPlanEntity) = savedPlanDao.deletePlan(plan)

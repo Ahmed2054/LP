@@ -20,7 +20,7 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.lp.lessonplanner.viewmodel.CreditPackage
-import com.lp.lessonplanner.viewmodel.LessonPlanViewModel
+import com.lp.lessonplanner.viewmodel.*
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -525,7 +525,7 @@ fun SettingsScreen(viewModel: LessonPlanViewModel) {
                     Text("Factory Reset App")
                 }
 
-                Spacer(Modifier.height(24.dp))
+                Spacer(Modifier.height(16.dp))
             }
 
             // About & Disclaimer Section
@@ -606,6 +606,18 @@ fun SettingsScreen(viewModel: LessonPlanViewModel) {
                             Icon(Icons.AutoMirrored.Filled.Chat, contentDescription = "WhatsApp", tint = Color(0xFF2E7D32))
                         }
                         Text("WhatsApp", fontSize = 12.sp, modifier = Modifier.padding(start = 4.dp))
+                    }
+
+                    Spacer(Modifier.height(16.dp))
+
+                    OutlinedButton(
+                        onClick = { viewModel.checkForUpdates(isSilent = false) },
+                        modifier = Modifier.fillMaxWidth(),
+                        border = androidx.compose.foundation.BorderStroke(1.dp, MaterialTheme.colorScheme.primary)
+                    ) {
+                        Icon(Icons.Default.Sync, contentDescription = null)
+                        Spacer(Modifier.width(8.dp))
+                        Text("Check for Updates")
                     }
                 }
             }

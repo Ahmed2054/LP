@@ -1,7 +1,5 @@
 package com.lp.lessonplanner.ui.screens
 
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -14,7 +12,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Book
 import androidx.compose.material.icons.filled.ChevronRight
-import androidx.compose.material.icons.filled.FileUpload
 import androidx.compose.material.icons.filled.School
 import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material3.*
@@ -27,7 +24,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.lp.lessonplanner.data.local.SubjectEntity
-import com.lp.lessonplanner.viewmodel.LessonPlanViewModel
+import com.lp.lessonplanner.viewmodel.*
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -38,12 +35,6 @@ fun CurriculumScreen(viewModel: LessonPlanViewModel) {
     
     var viewingSubject by remember { mutableStateOf<SubjectEntity?>(null) }
     var showAddDialog by remember { mutableStateOf(false) }
-
-    val launcher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.GetContent()
-    ) { uri ->
-        uri?.let { viewModel.importCurriculum(it) }
-    }
 
     if (showAddDialog) {
         AddIndicatorDialog(
@@ -80,27 +71,11 @@ fun CurriculumScreen(viewModel: LessonPlanViewModel) {
             
             Button(
                 onClick = { showAddDialog = true },
-                shape = RoundedCornerShape(12.dp),
-                modifier = Modifier.padding(end = 8.dp)
+                shape = RoundedCornerShape(12.dp)
             ) {
                 Icon(Icons.Default.Add, contentDescription = null, modifier = Modifier.size(18.dp))
                 Spacer(Modifier.width(4.dp))
                 Text("Add")
-            }
-            
-            Button(
-                onClick = { launcher.launch("text/*") },
-                enabled = !uiState.isLoading,
-                shape = RoundedCornerShape(12.dp),
-                contentPadding = PaddingValues(horizontal = 16.dp)
-            ) {
-                if (uiState.isLoading) {
-                    CircularProgressIndicator(modifier = Modifier.size(16.dp), color = Color.White, strokeWidth = 2.dp)
-                } else {
-                    Icon(Icons.Default.FileUpload, contentDescription = null, modifier = Modifier.size(18.dp))
-                    Spacer(Modifier.width(8.dp))
-                    Text("Import")
-                }
             }
         }
 
@@ -110,7 +85,7 @@ fun CurriculumScreen(viewModel: LessonPlanViewModel) {
                     Icon(Icons.Default.Book, contentDescription = null, modifier = Modifier.size(64.dp), tint = Color.LightGray)
                     Spacer(Modifier.height(16.dp))
                     Text("No subjects found", color = Color.Gray)
-                    Text("Import a CSV to get started", fontSize = 12.sp, color = Color.LightGray)
+                    Text("Add a subject to get started", fontSize = 12.sp, color = Color.LightGray)
                 }
             }
         } else {

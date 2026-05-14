@@ -1,6 +1,6 @@
 [
   {
-    "subject": "Computing",
+    "subject": "COMPUTING",
     "grade": "B7",
     "strand": "INTRODUCTION TO COMPUTING",
     "sub_strand": "COMPONENTS OF COMPUTERS AND COMPUTER SYSTEMS",
@@ -8,21 +8,21 @@
     "indicator_code": "B7.1.1.1.1",
     "indicator_description": "Discuss the fourth-generation computers",
     "examplars": "1. Discuss features of fourth generation computers\n2. Identify a microchip\n3. Explore the architecture of a processor",
-    "core_competencies": "CI, CC, DL, CP, PL"
+    "core_competencies": "CI, CC, DL, CP, CG, PL"
   },
   {
-    "subject": "Computing",
+    "subject": "COMPUTING",
     "grade": "B7",
     "strand": "INTRODUCTION TO COMPUTING",
     "sub_strand": "COMPONENTS OF COMPUTERS AND COMPUTER SYSTEMS",
     "content_standard": "B7.1.1.1. Examine the parts of a computer",
     "indicator_code": "B7.1.1.1.2",
-    "indicator_description": "Demonstrate understanding in the use of input devices (barcode, scanner, etc.)",
-    "examplars": "1. Watch video or picture of input devices e.g. wireless keyboard, mouse and touchscreen in class\n2. Demonstrate the use of input devices in a computer laboratory/classroom.\n3. Distinguish manual (e.g. keyboard, etc.) and automatic (e.g. barcode readeretc.) input devices.\n4 Explore the advantages and disadvantages of input devices\n5. Explore areas where different types of input devices are used.",
-    "core_competencies": "C16.1, CC 7.4"
+    "indicator_description": "Demonstrate understanding in the use of input devices(barcode, scanner, etc.)",
+    "examplars": "1. Watch video or picture of input devices e.g. wireless keyboard, mouse and touchscreen in class\n2. Demonstrate the use of input devices in a computer laboratory/classroom.\n3. Distinguish manual (e.g. keyboard, etc.) and automatic (e.g. barcode readeretc.) input devices.\n4 Explore the advantages and disadvantages of input devices\n5. Explore areas where different types of input devices are used..",
+    "core_competencies": "CI 6.1, CC 7.4"
   },
   {
-    "subject": "Computing",
+    "subject": "COMPUTING",
     "grade": "B7",
     "strand": "INTRODUCTION TO COMPUTING",
     "sub_strand": "COMPONENTS OF COMPUTERS AND COMPUTER SYSTEMS",
@@ -33,7 +33,7 @@
     "core_competencies": "CC 8.1, DL 5.3"
   },
   {
-    "subject": "Computing",
+    "subject": "COMPUTING",
     "grade": "B7",
     "strand": "INTRODUCTION TO COMPUTING",
     "sub_strand": "COMPONENTS OF COMPUTERS AND COMPUTER SYSTEMS",
@@ -44,7 +44,7 @@
     "core_competencies": "CC 8.1, DL 5.3"
   },
   {
-    "subject": "Computing",
+    "subject": "COMPUTING",
     "grade": "B7",
     "strand": "INTRODUCTION TO COMPUTING",
     "sub_strand": "COMPONENTS OF COMPUTERS AND COMPUTER SYSTEMS",
@@ -55,7 +55,7 @@
     "core_competencies": "CC 8.1"
   },
   {
-    "subject": "Computing",
+    "subject": "COMPUTING",
     "grade": "B7",
     "strand": "INTRODUCTION TO COMPUTING",
     "sub_strand": "COMPONENTS OF COMPUTERS AND COMPUTER SYSTEMS",
@@ -63,24 +63,24 @@
     "indicator_code": "B7.1.1.2.2",
     "indicator_description": "Practise file management techniques (file & folder management, Users & Accounts)",
     "examplars": "1. Demonstrate file management techniques by following the naming conventions and organising files in folders and subfolders\n2. Explore the types and importance of file extensions.\n3. Explore different account levels for users of computer systems\n4. Explore different permission levels that are applied to files and folders.",
-    "core_competencies": "CC 8.1, C16.9"
+    "core_competencies": "CC 8.1, CI 6.9"
   },
   {
-    "subject": "Computing",
+    "subject": "COMPUTING",
     "grade": "B7",
     "strand": "INTRODUCTION TO COMPUTING",
-    "sub_strand": "TECHNOLOGY IN THE COMMUNITY",
+    "sub_strand": "TECHNOLOGY INTHE COMMUNITY",
     "content_standard": "B7.1.2.1. Demonstrate the use of Technology in the community.",
     "indicator_code": "B7.1.2.1.1",
-    "indicator_description": "Describe and give examples of at least five technology tools for learning in each subject",
-    "examplars": "1. Explore the various technology tools that can be used for learning.\nNB: Exploration can be done through learners surfing the internet or the teacher guiding them to brainstorm the ICT tools.",
+    "indicator_description": "Describe and give examples of at least five technology tools for learning in each subject (e.g. Spreadsheets, Virtual Museum, Scrabble, Presentation, Scratch, etc.)",
+    "examplars": "1. Explore the various technology tools that can be used for learning.",
     "core_competencies": "DL 5.3, CC 8.1"
   },
   {
-    "subject": "Computing",
+    "subject": "COMPUTING",
     "grade": "B7",
     "strand": "INTRODUCTION TO COMPUTING",
-    "sub_strand": "TECHNOLOGY IN THE COMMUNITY",
+    "sub_strand": "TECHNOLOGY INTHE COMMUNITY",
     "content_standard": "B7.1.2.1. Demonstrate the use of Technology in the community.",
     "indicator_code": "B7.1.2.1.2",
     "indicator_description": "Demonstrate the use of at least three technology tools identified in B7.1.2.1.1.",
@@ -88,10 +88,10 @@
     "core_competencies": "CC 8.1, DL 5.3"
   },
   {
-    "subject": "Computing",
+    "subject": "COMPUTING",
     "grade": "B7",
     "strand": "INTRODUCTION TO COMPUTING",
-    "sub_strand": "TECHNOLOGY IN THE COMMUNITY",
+    "sub_strand": "TECHNOLOGY INTHE COMMUNITY",
     "content_standard": "B7.1.2.1. Demonstrate the use of Technology in the community.",
     "indicator_code": "B7.1.2.1.3",
     "indicator_description": "Discuss the benefits of using technology tools in learning.",
@@ -99,10 +99,10 @@
     "core_competencies": "CC 8.1, DL 5.3"
   },
   {
-    "subject": "Computing",
+    "subject": "COMPUTING",
     "grade": "B7",
     "strand": "INTRODUCTION TO COMPUTING",
-    "sub_strand": "TECHNOLOGY IN THE COMMUNITY",
+    "sub_strand": "TECHNOLOGY INTHE COMMUNITY",
     "content_standard": "B7.1.2.1. Demonstrate the use of Technology in the community.",
     "indicator_code": "B7.1.2.1.4",
     "indicator_description": "Examine the negative impact of computers and computer use on the environment",
@@ -110,10 +110,10 @@
     "core_competencies": "DL 5.3, CC 8.1"
   },
   {
-    "subject": "Computing",
+    "subject": "COMPUTING",
     "grade": "B7",
     "strand": "INTRODUCTION TO COMPUTING",
-    "sub_strand": "TECHNOLOGY IN THE COMMUNITY",
+    "sub_strand": "TECHNOLOGY INTHE COMMUNITY",
     "content_standard": "B7.1.2.1. Demonstrate the use of Technology in the community.",
     "indicator_code": "B7.1.2.1.5",
     "indicator_description": "Propose environmentally responsible practices that can be used to reduce the negative impact of computers and computer use on the environment",
@@ -121,10 +121,10 @@
     "core_competencies": "DL 5.3, CC 8.1"
   },
   {
-    "subject": "Computing",
+    "subject": "COMPUTING",
     "grade": "B7",
     "strand": "INTRODUCTION TO COMPUTING",
-    "sub_strand": "TECHNOLOGY IN THE COMMUNITY",
+    "sub_strand": "TECHNOLOGY INTHE COMMUNITY",
     "content_standard": "B7.1.2.1. Demonstrate the use of Technology in the community.",
     "indicator_code": "B7.1.2.1.6",
     "indicator_description": "Create a component from disposed computer parts.",
@@ -132,18 +132,18 @@
     "core_competencies": "DL 5.3, CC 8.1"
   },
   {
-    "subject": "Computing",
+    "subject": "COMPUTING",
     "grade": "B7",
     "strand": "INTRODUCTION TO COMPUTING",
     "sub_strand": "HEALTH AND SAFETY IN THE USE OF ICT TOOLS",
     "content_standard": "B7.1.3.1. Demonstrate how to apply Health and Safety measures in using ICT Tools",
     "indicator_code": "B7.1.3.1.1",
     "indicator_description": "Describe health measures and current regulatory requirements and potential computing-related disorders",
-    "examplars": "1. Watch videos on the health hazards of prolonged use of computing devicesor show pictures of bad body postures and other hazards in using computing devices e.g. hearing impairment from loud Public Address (PA) Systems, vision impairment from the monitor, repetitive strain injury, Carpaltunnel syndrome, computer vision syndrome, etc.\n2. Identify the health hazards associated with each device.\n3. Provide preventive measures regarding the stated health and safety risks.",
+    "examplars": "1. Watch videos on the health hazards of prolonged use of computing devices or show pictures of bad body postures and other hazards in using computing devices e.g. hearing impairment from loud Public Address (PA) Systems, vision impairment from the monitor, repetitive strain injury, Carpal tunnel syndrome, computer vision syndrome, etc.\n2. Identify the health hazards associated with each device.\n3. Provide preventive measures regarding the stated health and safety risks.",
     "core_competencies": "CC 8.1, DL 5.1"
   },
   {
-    "subject": "Computing",
+    "subject": "COMPUTING",
     "grade": "B7",
     "strand": "INTRODUCTION TO COMPUTING",
     "sub_strand": "HEALTH AND SAFETY IN THE USE OF ICT TOOLS",
@@ -151,21 +151,21 @@
     "indicator_code": "B7.1.3.1.2",
     "indicator_description": "Describe Safety measures in using ICT tools",
     "examplars": "1. Discuss the danger of spilling liquids on a computer device or on the electronic circuit.\n2. Discuss tripping over power cables and touching the negative and positive terminals of electrical wires.",
-    "core_competencies": "DL 5.1"
+    "core_competencies": "CC 8.1, DL 5.1"
   },
   {
-    "subject": "Computing",
+    "subject": "COMPUTING",
     "grade": "B7",
     "strand": "INTRODUCTION TO COMPUTING",
     "sub_strand": "HEALTH AND SAFETY IN THE USE OF ICT TOOLS",
     "content_standard": "B7.1.3.1. Demonstrate how to apply Health and Safety measures in using ICT Tools",
     "indicator_code": "B7.1.3.1.3",
-    "indicator_description": "Demonstrate how to apply Health and Safety measures in Using ICT Tools / Examine workstation health risk assessment methods",
+    "indicator_description": "Examine workstation health risk assessment methods",
     "examplars": "1. Explore the risks associated with workstations and how to overcome them (e.g. wrist pains, eye problems, back and neck pains, faulty electrical connections, etc.)",
     "core_competencies": "PL 5.3, CP 5.7"
   },
   {
-    "subject": "Computing",
+    "subject": "COMPUTING",
     "grade": "B7",
     "strand": "INTRODUCTION TO COMPUTING",
     "sub_strand": "HEALTH AND SAFETY IN THE USE OF ICT TOOLS",
@@ -176,7 +176,7 @@
     "core_competencies": "PL 5.3, CP 5.7"
   },
   {
-    "subject": "Computing",
+    "subject": "COMPUTING",
     "grade": "B7",
     "strand": "PRODUCTIVITY SOFTWARE",
     "sub_strand": "INTRODUCTION TO WORD PROCESSING",
@@ -187,18 +187,18 @@
     "core_competencies": "CC 8.2, DL 5.1"
   },
   {
-    "subject": "Computing",
+    "subject": "COMPUTING",
     "grade": "B7",
     "strand": "PRODUCTIVITY SOFTWARE",
     "sub_strand": "INTRODUCTION TO WORD PROCESSING",
     "content_standard": "B7.2.1.1 Demonstrate how to use Microsoft Word (Editing)",
     "indicator_code": "B7.2.1.1.2",
     "indicator_description": "Demonstrate how to insert, select, delete and move text",
-    "examplars": "1. Show projected examples of MS-Word interface with the aid of a computer, projector or pictures.\n2. Explore tools for editing in MS Word\n3. Explore the use of the overtype or insert option by right-clicking the statusbar.",
+    "examplars": "1. Show projected examples of MS-Word interface with the aid of a computer, projector or pictures.\n2. Explore tools for editing in MS Word\n3. Explore the use of the overtype or insert option by right-clicking the status bar.",
     "core_competencies": "DL 5.1"
   },
   {
-    "subject": "Computing",
+    "subject": "COMPUTING",
     "grade": "B7",
     "strand": "PRODUCTIVITY SOFTWARE",
     "sub_strand": "INTRODUCTION TO WORD PROCESSING",
@@ -209,51 +209,51 @@
     "core_competencies": "DL 5.1"
   },
   {
-    "subject": "Computing",
+    "subject": "COMPUTING",
     "grade": "B7",
     "strand": "PRODUCTIVITY SOFTWARE",
     "sub_strand": "INTRODUCTION TO WORD PROCESSING",
     "content_standard": "B7.2.1.1 Demonstrate how to use Microsoft Word (Editing)",
     "indicator_code": "B7.2.1.1.4",
     "indicator_description": "Demonstrate how to spell check, carry out content translation, language setting",
-    "examplars": "1. Demonstrate the use of the Proofing and Language group under the Reviewtab\n2. Show how to use the Language, Spelling & Grammar, Thesaurus andother tools in MS-Word under the Home tab.\nNB: This is to help learners gain software knowledge in office applications(word processing) to grasp the concept better.",
+    "examplars": "1. Demonstrate the use of the Proofing and Language group under the Review tab\n2. Show how to use the Language, Spelling & Grammar, Thesaurus and other tools in MS-Word under the Home tab.",
     "core_competencies": "DL 5.1"
   },
   {
-    "subject": "Computing",
+    "subject": "COMPUTING",
     "grade": "B7",
     "strand": "PRODUCTIVITY SOFTWARE",
     "sub_strand": "INTRODUCTION TO WORD PROCESSING",
     "content_standard": "B7.2.1.1 Demonstrate how to use Microsoft Word (Editing)",
-    "indicator_code": "B7.2.1.1.4.5",
+    "indicator_code": "B7.2.1.1.5",
     "indicator_description": "Demonstrate how to use text-decoration, change text case, text size and colour",
-    "examplars": "1. Explore the use of the Font group under the Home tab\n2. Demonstrate the use of sentence case, font size, colour and font decoration features in MS-Word\n3. Project examples of MS-Word interface to learners with the aid of a projectoror pictures.",
-    "core_competencies": "DL 5.1, C15.4"
+    "examplars": "1. Explore the use of the Font group under the Home tab\n2. Demonstrate the use of sentence case, font size, colour and font decoration features in MS-Word\n3. Project examples of MS-Word interface to learners with the aid of a projector or pictures.",
+    "core_competencies": "DL 5.1, CI 15.4"
   },
   {
-    "subject": "Computing",
+    "subject": "COMPUTING",
     "grade": "B7",
     "strand": "PRODUCTIVITY SOFTWARE",
     "sub_strand": "INTRODUCTION TO WORD PROCESSING",
     "content_standard": "B7.2.1.1 Demonstrate how to use Microsoft Word (Editing)",
-    "indicator_code": "B7.2.1.1.4.6",
+    "indicator_code": "B7.2.1.1.6",
     "indicator_description": "Demonstrate how to align text, indent paragraphs, bullet, line space and shade",
-    "examplars": "1. Explore the use of the Paragraph group, using the align left, centre, align rightand justified in MS-Word under the Home tab.\n2. Explore the use of Bullets, Decrease and Increase Indentation under the Home tab.\n3. Identify the use of the Border Button and set line spacing using the dialogueBox Launcher button under the Home tab.",
-    "core_competencies": "DL 5.1, C15.4"
+    "examplars": "1. Explore the use of the Paragraph group, using the align left, centre, align right and justified in MS-Word under the Home tab.\n2. Explore the use of Bullets, Decrease and Increase Indentation under the Home tab.\n3. Identify the use of the Border Button and set line spacing using the dialogue Box Launcher button under the Home tab.",
+    "core_competencies": "DL 5.1, CI 15.4"
   },
   {
-    "subject": "Computing",
+    "subject": "COMPUTING",
     "grade": "B7",
     "strand": "PRODUCTIVITY SOFTWARE",
     "sub_strand": "INTRODUCTION TO WORD PROCESSING",
     "content_standard": "B7.2.1.1 Demonstrate how to use Microsoft Word (Formatting Text)",
-    "indicator_code": "B7.2.1.1.3",
+    "indicator_code": "B7.2.1.1.7",
     "indicator_description": "Demonstrate how to set tabs and apply formatting",
-    "examplars": "1. Explore the Tab button to set the centre and right tabs\nNB: This is to help learners with software knowledge in office applications (word processing) to grasp the concept better.",
-    "core_competencies": "DL 5.1, C15.4"
+    "examplars": "1. Explore the Tab button to set the centre and right tabs",
+    "core_competencies": "DL 5.1, CI 15.4"
   },
   {
-    "subject": "Computing",
+    "subject": "COMPUTING",
     "grade": "B7",
     "strand": "PRODUCTIVITY SOFTWARE",
     "sub_strand": "INTRODUCTION TO PRESENTATION SOFTWARE",
@@ -264,29 +264,29 @@
     "core_competencies": "DL 5.1"
   },
   {
-    "subject": "Computing",
+    "subject": "COMPUTING",
     "grade": "B7",
     "strand": "PRODUCTIVITY SOFTWARE",
     "sub_strand": "INTRODUCTION TO PRESENTATION SOFTWARE",
     "content_standard": "B7.2.2.1 Demonstrate how to use Microsoft PowerPoint (Editing): Introduction to PowerPoint.",
     "indicator_code": "B7.2.2.1.2",
     "indicator_description": "Explore features of MS-PowerPoint interface.",
-    "examplars": "1. Show examples of MS-PowerPoint interface with the aid of a projector or pictures.\n2. Explore MS-PowerPoint themes and templates\n3. Explore the use of the Proofing and Language group under the Review tab\n4. Demonstrate the use of the Language, Spelling & Grammar, Thesaurusand other buttons in MS-PowerPoint under the Review tab",
+    "examplars": "1. Show examples of MS-PowerPoint interface with the aid of a projector or pictures.\n2. Explore MS-PowerPoint themes and templates\n3. Explore the use of the Proofing and Language group under the Review tab\n4. Demonstrate the use of the Language, Spelling & Grammar, Thesaurus and other buttons in MS-PowerPoint under the Review tab",
     "core_competencies": "DL 5.1"
   },
   {
-    "subject": "Computing",
+    "subject": "COMPUTING",
     "grade": "B7",
     "strand": "PRODUCTIVITY SOFTWARE",
     "sub_strand": "INTRODUCTION TO PRESENTATION SOFTWARE",
     "content_standard": "B7.2.2.1 Demonstrate how to use Microsoft PowerPoint (Editing): Introduction to PowerPoint.",
     "indicator_code": "B7.2.2.1.3",
     "indicator_description": "Demonstrate how to use Special Characters. Design a 7-slide presentation in MS-PowerPoint using the tools under the Insert ribbon.",
-    "examplars": "1. Explore the use of special characters section under the Insert tab underthe symbol group\n2. Present a prepared project or exercise using the editing group of the ribbons studied.\n3. Use projected examples of a PowerPoint interface with the aid of a projector or pictures\n4. Use projected examples of a PowerPoint interface with the aid ofa projector or pictures.",
-    "core_competencies": "C15.4, CC 9.6"
+    "examplars": "1. Explore the use of special characters section under the Insert tab under the symbol group\n2. Present a prepared project or exercise using the editing group of the ribbons studied.\n3. Use projected examples of a PowerPoint interface with the aid of a projector or pictures.",
+    "core_competencies": "CI 15.4, CC 9.6"
   },
   {
-    "subject": "Computing",
+    "subject": "COMPUTING",
     "grade": "B7",
     "strand": "PRODUCTIVITY SOFTWARE",
     "sub_strand": "INTRODUCTION TO PRESENTATION SOFTWARE",
@@ -294,109 +294,109 @@
     "indicator_code": "B7.2.2.2.1",
     "indicator_description": "Demonstrate how to change text case, text size, text colour and decorate text",
     "examplars": "1. Explore the use of the Font group under the Home ribbon.\n2. Make use of the sentence case, font size, colour and font decoration features in MS-PowerPoint\n3. Project examples of PowerPoint interface to learners with the aid of a projector or pictures.",
-    "core_competencies": "DL 5.1, C15.4"
+    "core_competencies": "DL 5.1, CI 15.4"
   },
   {
-    "subject": "Computing",
+    "subject": "COMPUTING",
     "grade": "B7",
     "strand": "PRODUCTIVITY SOFTWARE",
     "sub_strand": "INTRODUCTION TO PRESENTATION SOFTWARE",
     "content_standard": "B7.2.2.2 Demonstrate how to use Microsoft PowerPoint (Formatting)",
-    "indicator_code": "B7.2.2.1.2",
+    "indicator_code": "B7.2.2.2.2",
     "indicator_description": "Demonstrate how to align text, indent paragraphs, borders and shades.",
-    "examplars": "1. Explore the use of the Proofing and Language Sections under the Review ribbon.\n2. Use the Language, Spelling & Grammar, Thesaurus and other buttons inMS-PowerPoint under the Review ribbon.",
-    "core_competencies": "DL 5.1, C15.4"
+    "examplars": "1. Explore the use of the Proofing and Language Sections under the Review ribbon.\n2. Use the Language, Spelling & Grammar, Thesaurus and other buttons in MS-PowerPoint under the Review ribbon.",
+    "core_competencies": "DL 5.1, CI 15.4"
   },
   {
-    "subject": "Computing",
+    "subject": "COMPUTING",
     "grade": "B7",
     "strand": "PRODUCTIVITY SOFTWARE",
     "sub_strand": "INTRODUCTION TO PRESENTATION SOFTWARE",
     "content_standard": "B7.2.2.2 Demonstrate how to use Microsoft PowerPoint (Formatting)",
-    "indicator_code": "B7.2.2.1.3",
-    "indicator_description": "Demonstrate the use of the Slide Master, design template, and be able to give a 5-slide presentation",
-    "examplars": "1. Explore the use of Master Views group under the View ribbon\n2. Prepare and present a prepared project or exercise using what has been studied in Indicator I and 2.\nNB: This is to help the learners with software knowledge in MS-PowerPoint, Office Applications to grasp the concept well.",
-    "core_competencies": "DL 5.1, C15.4"
+    "indicator_code": "B7.2.2.2.3",
+    "indicator_description": "Demonstrate the use of the Slide Master, design template, and be able to give a 5-slide presentation in MS-PowerPoint using the tools of the ribbons studied.",
+    "examplars": "1. Explore the use of Master Views group under the View ribbon\n2. Prepare and present a prepared project or exercise using what has been studied in Indicator 1 and 2.",
+    "core_competencies": "DL 5.1, CI 15.4"
   },
   {
-    "subject": "Computing",
+    "subject": "COMPUTING",
     "grade": "B7",
     "strand": "PRODUCTIVITY SOFTWARE",
     "sub_strand": "INTRODUCTION TO ELECTRONIC SPREADSHEET",
     "content_standard": "B7.2.3.1. Demonstrate how to use the Spreadsheet (Editing Worksheets)",
     "indicator_code": "B7.2.3.1.1",
     "indicator_description": "Explain the importance of electronic spreadsheet",
-    "examplars": "1. Discuss the meaning of electronic spreadsheet.\n2. Discuss the benefits of using electronic spreadsheet software.\n3. Brainstorm to elicit response some common electronic spreadsheet software packages (e.g. MS Excel, Lotus 1-2-3, LibreOffice Calc, GoogleSheets etc.)",
+    "examplars": "1. Discuss the meaning of electronic spreadsheet.\n2. Discuss the benefits of using electronic spreadsheet software.\n3. Brainstorm to elicit response some common electronic spreadsheet software packages (e.g. MS Excel, Lotus 1-2-3, LibreOffice Calc, Google Sheets etc.)",
     "core_competencies": "DL 5.1"
   },
   {
-    "subject": "Computing",
+    "subject": "COMPUTING",
     "grade": "B7",
     "strand": "PRODUCTIVITY SOFTWARE",
     "sub_strand": "INTRODUCTION TO ELECTRONIC SPREADSHEET",
     "content_standard": "B7.2.3.1. Demonstrate how to use the Spreadsheet (Editing Worksheets)",
     "indicator_code": "B7.2.3.1.2",
     "indicator_description": "Explore features of MS-Excel interface",
-    "examplars": "1. Show projected examples of MS-Excel interface with the aid of a projectoror pictures.\n2. Explore operations of inserting, selecting, deleting and moving data.\n3. Demonstrate how to insert, select, delete and move data using a sampledata set.",
+    "examplars": "1. Show projected examples of MS-Excel interface with the aid of a projector or pictures.\n2. Explore operations of inserting, selecting, deleting and moving data.\n3. Demonstrate how to insert, select, delete and move data using a sample data set.",
     "core_competencies": "DL 5.1"
   },
   {
-    "subject": "Computing",
+    "subject": "COMPUTING",
     "grade": "B7",
     "strand": "PRODUCTIVITY SOFTWARE",
     "sub_strand": "INTRODUCTION TO ELECTRONIC SPREADSHEET",
     "content_standard": "B7.2.3.1. Demonstrate how to use the Spreadsheet (Editing Worksheets)",
     "indicator_code": "B7.2.3.1.3",
     "indicator_description": "Demonstrate how to set the cell datatype (General, Number, Currency, etc.).",
-    "examplars": "1. Investigate how to set and modify the cell type of values and text.\n2. Enter values, text, dates and time in worksheet cells and change the formatsfor presentation. E.g. General, Number, Currency, Accounting, Dates, Time, etc.",
+    "examplars": "1. Investigate how to set and modify the cell type of values and text.\n2. Enter values, text, dates and time in worksheet cells and change the formats for presentation. E.g. General, Number, Currency, Accounting, Dates, Time, etc.",
     "core_competencies": "DL 5.1"
   },
   {
-    "subject": "Computing",
+    "subject": "COMPUTING",
     "grade": "B7",
     "strand": "PRODUCTIVITY SOFTWARE",
     "sub_strand": "INTRODUCTION TO ELECTRONIC SPREADSHEET",
     "content_standard": "B7.2.3.1. Demonstrate how to use the Spreadsheet (Editing Worksheets)",
     "indicator_code": "B7.2.3.1.4",
     "indicator_description": "Demonstrate how to use Align Text, Merge & Wrap, Borders and Shades",
-    "examplars": "1. Demonstrate how to change text alignment (Horizontal & Vertical), mergecells and wrap text.\n2. Investigate how to access border & shade features and format the appearance of a worksheet as group work.",
+    "examplars": "1. Demonstrate how to change text alignment (Horizontal & Vertical), merge cells and wrap text.\n2. Investigate how to access border & shade features and format the appearance of a worksheet as group work.",
     "core_competencies": "DL 5.1"
   },
   {
-    "subject": "Computing",
+    "subject": "COMPUTING",
     "grade": "B7",
     "strand": "PRODUCTIVITY SOFTWARE",
     "sub_strand": "INTRODUCTION TO ELECTRONIC SPREADSHEET",
-    "content_standard": "Β7.2.3.2. Demonstratehow to format a worksheet",
+    "content_standard": "B7.2.3.2. Demonstrate how to format a worksheet",
     "indicator_code": "B7.2.3.2.1",
     "indicator_description": "Demonstrate how to adjust margins and set page orientation",
     "examplars": "1. Demonstrate how to adjust margins and set page orientation for printing.\n2. Perform margin adjustment on different page sizes\n3. Explore the display of worksheets in different views as listed on the View tab.",
-    "core_competencies": "DL 5.1, C15.4"
+    "core_competencies": "DL 5.1, CI 15.4"
   },
   {
-    "subject": "Computing",
+    "subject": "COMPUTING",
     "grade": "B7",
     "strand": "PRODUCTIVITY SOFTWARE",
     "sub_strand": "INTRODUCTION TO ELECTRONIC SPREADSHEET",
-    "content_standard": "Β7.2.3.2. Demonstratehow to format a worksheet",
+    "content_standard": "B7.2.3.2. Demonstrate how to format a worksheet",
     "indicator_code": "B7.2.3.2.2",
     "indicator_description": "Demonstrate how to set up a header and a footer.",
     "examplars": "1. Demonstrate how to set up header and footer elements.\n2. Explore the use of page numbers, current date, time and file name in setting up headers and footers.",
     "core_competencies": "DL 5.1"
   },
   {
-    "subject": "Computing",
+    "subject": "COMPUTING",
     "grade": "B7",
     "strand": "PRODUCTIVITY SOFTWARE",
     "sub_strand": "INTRODUCTION TO ELECTRONIC SPREADSHEET",
-    "content_standard": "Β7.2.3.2. Demonstratehow to format a worksheet",
+    "content_standard": "B7.2.3.2. Demonstrate how to format a worksheet",
     "indicator_code": "B7.2.3.2.3",
     "indicator_description": "Demonstrate the use of the Autofill function in MS-Excel worksheet",
     "examplars": "1. Demonstrate the use of the Autofill function e.g. to generate the days of the week, months of the year, set of numbers (e.g. counting numbers, odd numbers, multiplication tables etc.).",
     "core_competencies": "DL 5.1"
   },
   {
-    "subject": "Computing",
+    "subject": "COMPUTING",
     "grade": "B7",
     "strand": "PRODUCTIVITY SOFTWARE",
     "sub_strand": "INTRODUCTION TO ELECTRONIC SPREADSHEET",
@@ -407,18 +407,18 @@
     "core_competencies": "DL 5.1, CP 5.1"
   },
   {
-    "subject": "Computing",
+    "subject": "COMPUTING",
     "grade": "B7",
     "strand": "COMMUNICATION NETWORKS",
     "sub_strand": "COMPUTER NETWORKS",
     "content_standard": "B7.3.1.1 Identify the concept of computer networking for global communications",
     "indicator_code": "B7.3.1.1.1",
     "indicator_description": "Draw diagrams to illustrate features of the network topologies (Bus, Star, Ring, Mesh)",
-    "examplars": "1. Explore key hardware for setting up network systems (such as server, client, hub, switch, cable, etc.).\n2. Explain network topologies.\n3. Discuss the features of each network topology.\n4. Present in groups diagrams of well-elaborated network topologies. NB: Watch any appropriate video on the above",
-    "core_competencies": "C16.1, DL 5.1"
+    "examplars": "1. Explore key hardware for setting up network systems (such as server, client, hub, switch, cable, etc.).\n2. Explain network topologies.\n3. Discuss the features of each network topology.\n4. Present in groups diagrams of well-elaborated network topologies.",
+    "core_competencies": "CI 16.1, DL 5.1"
   },
   {
-    "subject": "Computing",
+    "subject": "COMPUTING",
     "grade": "B7",
     "strand": "COMMUNICATION NETWORKS",
     "sub_strand": "COMPUTER NETWORKS",
@@ -426,32 +426,32 @@
     "indicator_code": "B7.3.1.1.2",
     "indicator_description": "Describe types of networks [Personal Area Network (PAN), Local Area Network (LAN), Metropolitan Area Network (MAN), Wide Area Network (WAN)]",
     "examplars": "1. Explain the various types of networks available (e.g. PAN, LAN, MAN, WAN, WLAN, INTERNET, etc.).\n2. A Metropolitan Area Network (MAN) connects local networks across a larger geographical region.",
-    "core_competencies": "C16.6, DL 5.4"
+    "core_competencies": "CI 16.6, DL 5.4"
   },
   {
-    "subject": "Computing",
+    "subject": "COMPUTING",
     "grade": "B7",
     "strand": "COMMUNICATION NETWORKS",
     "sub_strand": "COMPUTER NETWORKS",
     "content_standard": "B7.3.1.1 Identify the concept of computer networking for global communications",
     "indicator_code": "B7.3.1.1.3",
     "indicator_description": "Discuss the entrepreneurial opportunities in networking computing devices",
-    "examplars": "1. Discuss the benefits and challenges of networking in different environments (school, business, health, etc.).\n2. Identify different environments where the various types of networks can be applied\n3. Identify the business aspect of networking and how they can be turned intoa lucrative business.",
+    "examplars": "1. Discuss the benefits and challenges of networking in different environments (school, business, health, etc.).\n2. Identify different environments where the various types of networks can be applied\n3. Identify the business aspect of networking and how they can be turned into a lucrative business.",
     "core_competencies": "DL 5.4"
   },
   {
-    "subject": "Computing",
+    "subject": "COMPUTING",
     "grade": "B7",
     "strand": "COMMUNICATION NETWORKS",
     "sub_strand": "INTERNET AND SOCIAL MEDIA",
     "content_standard": "B7.3.2.1 Demonstrate the use of Social Networking and Electronic Mail",
     "indicator_code": "B7.3.2.1.1",
-    "indicator_description": "Identify the various types and uses of Social Media sites",
+    "indicator_description": "Identify the various types and uses of Social Media sites such as those for Social Networking (Facebook, LinkedIn, WhatsApp) and Microblogging (Twitter, Tumblr)",
     "examplars": "1. Illustrate the use of social networking sites such as Facebook, LinkedIn, WhatsApp, etc.\n2. Demonstrate the use of microblogging platforms such as Twitter, Tumblr, etc.",
     "core_competencies": "CI 6.3, DL 6.3"
   },
   {
-    "subject": "Computing",
+    "subject": "COMPUTING",
     "grade": "B7",
     "strand": "COMMUNICATION NETWORKS",
     "sub_strand": "INTERNET AND SOCIAL MEDIA",
@@ -462,7 +462,7 @@
     "core_competencies": "CI 6.3, DL"
   },
   {
-    "subject": "Computing",
+    "subject": "COMPUTING",
     "grade": "B7",
     "strand": "COMMUNICATION NETWORKS",
     "sub_strand": "INFORMATION SECURITY",
@@ -473,29 +473,29 @@
     "core_competencies": "DL 6.5, CC 8.1"
   },
   {
-    "subject": "Computing",
+    "subject": "COMPUTING",
     "grade": "B7",
     "strand": "COMMUNICATION NETWORKS",
     "sub_strand": "INFORMATION SECURITY",
     "content_standard": "B7.3.3.1. Recognise data threats and means of protection",
     "indicator_code": "B7.3.3.1.2",
-    "indicator_description": "Explore the legal issues regarding intellectual property rights",
+    "indicator_description": "Explore the legal issues regarding intellectual property rights (e.g. Copyright, Patent, Trademark, Piracy, Copyright Infringement)",
     "examplars": "1. Discuss issues pertaining to copyright (e.g. freeware, shareware, crippleware).\n2. Differentiate between the various legal issues mentioned.\n3. Discuss the consequences associated with breaking these laws.",
     "core_competencies": "DL 5.1, CC 8.4"
   },
   {
-    "subject": "Computing",
+    "subject": "COMPUTING",
     "grade": "B7",
     "strand": "COMMUNICATION NETWORKS",
     "sub_strand": "INFORMATION SECURITY",
     "content_standard": "B7.3.3.1. Recognise data threats and means of protection",
     "indicator_code": "B7.3.3.1.3",
     "indicator_description": "Evaluate information security forensic auditing and criminal laws against offenders",
-    "examplars": "1. Watch a video of how offenders of data security breach are identified.\n2. Discuss the laws protecting data and the applicable sanctions for their breach.\n3. Identify some common occurrences of data security breaches that people inthe community overlook and their corresponding sanctions.",
+    "examplars": "1. Watch a video of how offenders of data security breach are identified.\n2. Discuss the laws protecting data and the applicable sanctions for their breach.\n3. Identify some common occurrences of data security breaches that people in the community overlook and their corresponding sanctions.",
     "core_competencies": "DL 6.6, CC 9.5"
   },
   {
-    "subject": "Computing",
+    "subject": "COMPUTING",
     "grade": "B7",
     "strand": "COMMUNICATION NETWORKS",
     "sub_strand": "WEB TECHNOLOGIES",
@@ -503,21 +503,21 @@
     "indicator_code": "B7.3.4.1.1",
     "indicator_description": "Identify the importance of the web in learning [Virtual Learning Environments (VLEs)]",
     "examplars": "1. Explore the importance of VLEs for learning.\n2. Allow self-paced learning (E-learning).\n3. Create opportunity to learn new skills without having to use a regular classroom.",
-    "core_competencies": "CC 6.1, DL 5.1"
+    "core_competencies": "CI 6.1, DL 5.1"
   },
   {
-    "subject": "Computing",
+    "subject": "COMPUTING",
     "grade": "B7",
     "strand": "COMMUNICATION NETWORKS",
     "sub_strand": "WEB TECHNOLOGIES",
     "content_standard": "B7.3.4.1. Demonstrate the use of a Web Browser (Search engine)",
     "indicator_code": "B7.3.4.1.2",
     "indicator_description": "Explore the use of open learning websites in the classroom",
-    "examplars": "1. Explore the uses of open learning websites in the classroom e.g. KhanAcademy, Coursera, Edx, Saylor, etc.",
-    "core_competencies": "C15.4, DL 6.3"
+    "examplars": "1. Explore the uses of open learning websites in the classroom e.g. Khan Academy, Coursera, Edx, Saylor, etc.",
+    "core_competencies": "CI 15.4, DL 6.3"
   },
   {
-    "subject": "Computing",
+    "subject": "COMPUTING",
     "grade": "B7",
     "strand": "COMMUNICATION NETWORKS",
     "sub_strand": "WEB TECHNOLOGIES",
@@ -528,7 +528,7 @@
     "core_competencies": "DL 5.1"
   },
   {
-    "subject": "Computing",
+    "subject": "COMPUTING",
     "grade": "B7",
     "strand": "COMPUTATIONAL THINKING",
     "sub_strand": "INTRODUCTION TO PROGRAMMING",
@@ -539,7 +539,7 @@
     "core_competencies": "CC 8.1, DL 5.5"
   },
   {
-    "subject": "Computing",
+    "subject": "COMPUTING",
     "grade": "B7",
     "strand": "COMPUTATIONAL THINKING",
     "sub_strand": "INTRODUCTION TO PROGRAMMING",
@@ -550,7 +550,7 @@
     "core_competencies": "CP 5.1, DL 6.5"
   },
   {
-    "subject": "Computing",
+    "subject": "COMPUTING",
     "grade": "B7",
     "strand": "COMPUTATIONAL THINKING",
     "sub_strand": "INTRODUCTION TO PROGRAMMING",
@@ -561,21 +561,21 @@
     "core_competencies": "CC 8.2"
   },
   {
-    "subject": "Computing",
+    "subject": "COMPUTING",
     "grade": "B7",
     "strand": "COMPUTATIONAL THINKING",
-    "sub_strand": "ALGORITHM",
+    "sub_strand": "STRAND 2:ALGORITHM",
     "content_standard": "B7.4.2.1. Analyse the correct step-by-step procedure in solving any real-world problem",
     "indicator_code": "B7.4.2.1.1",
-    "indicator_description": "Understand the use of sequence, selection and iteration in writing a programme.",
-    "examplars": "1. Write numbers (1-10) in an orderly arrangement to represent sequence. Write your itinerary for a day in a logical order (Sequence).\nNB: The above should be linear with no branching statements.\n2. Present a case study that has more than one option to choose from and still achieve the same outcome with any option chosen.\n3. Develop a solution to a problem which uses iteration to control theflow of the programme (iteration).\nNB: Programs such as lightbot could be used for practical lessons.",
+    "indicator_description": "Understand the use of sequence, selection and iteration in writing a programme. Describe the meanings of the terms algorithm, decomposition and abstraction",
+    "examplars": "1. Write numbers (1-10) in an orderly arrangement to represent sequence. Write your itinerary for a day in a logical order (Sequence).\n2. Present a case study that has more than one option to choose from and still achieve the same outcome with any option chosen. For example, tea with or without sugar options can still meet a beverage outcome (selection).\n3. Develop a solution to a problem which uses iteration to control the flow of the programme (iteration).",
     "core_competencies": "CP 6.1, CC 8.2"
   },
   {
-    "subject": "Computing",
+    "subject": "COMPUTING",
     "grade": "B7",
     "strand": "COMPUTATIONAL THINKING",
-    "sub_strand": "ALGORITHM",
+    "sub_strand": "STRAND 2:ALGORITHM",
     "content_standard": "B7.4.2.1. Analyse the correct step-by-step procedure in solving any real-world problem",
     "indicator_code": "B7.4.2.1.2",
     "indicator_description": "Perform a linear search",
@@ -583,469 +583,469 @@
     "core_competencies": "CP 6.1"
   },
   {
-    "subject": "Computing",
+    "subject": "COMPUTING",
     "grade": "B7",
     "strand": "COMPUTATIONAL THINKING",
     "sub_strand": "ROBOTICS",
     "content_standard": "B7.4.3.1 Discuss Robot Intelligence Concepts",
     "indicator_code": "B7.4.3.1.1",
-    "indicator_description": "Review the various applications of robotic machines insociety",
+    "indicator_description": "Review the various applications of robotic machines in society",
     "examplars": "1. State the applications and uses of robots in society (e.g. manufacturing, health, education, assembling and packing, transport, surgery, laboratory research, mass production of consumer and industrial goods, taking pictures,etc.)\n2. Explore prospects and challenges of using robots in various operations",
     "core_competencies": "DL 6.5, CC 8.2"
   },
   {
-    "subject": "Computing",
+    "subject": "COMPUTING",
     "grade": "B7",
     "strand": "COMPUTATIONAL THINKING",
     "sub_strand": "ARTIFICIAL INTELLIGENCE",
     "content_standard": "B7.4.4.1. Discuss Artificial intelligence concepts",
     "indicator_code": "B7.4.4.1.1",
-    "indicator_description": "Discuss the application of various areas of artificial intelligence",
-    "examplars": "1. Compare the key technologies: machine learning, Artificial Neural Networks (ANN), Reality, Augmented reality, Gamification, Deep Learning, Artificial Data Mining and Analytics.\n2. Discuss the uses and importance of Artificial Intelligence (Al) to society.\n3. Watch video/picture of the use of Al in society (intelligent robots).",
+    "indicator_description": "Discuss the application of various areas of artificial intelligence (Machine learning, Artificial Neural Networks, Virtual Reality, Augmented Reality, Mixed Reality, Gamification",
+    "examplars": "1. Compare the key technologies: machine learning, Artificial Neural Networks (ANN), Reality, Augmented reality, Gamification, Deep Learning, Artificial Data Mining and Analytics. (NB: general definitions only)\n2. Discuss the uses and importance of Artificial Intelligence (Al) to society.\n3. Watch video/picture of the use of Al in society (intelligent robots).",
     "core_competencies": "DL 6.5, CC 8.1"
   },
   {
-    "subject": "Computing",
+    "subject": "COMPUTING",
     "grade": "B8",
     "strand": "INTRODUCTION TO COMPUTING",
     "sub_strand": "COMPONENTS OF COMPUTERS AND COMPUTER SYSTEMS",
     "content_standard": "B8.1.1.1. Identify parts a computer and technology tools",
     "indicator_code": "B8.1.1.1.1",
-    "indicator_description": "Discuss the fifth generation of computers with emphasis of on quantum computing",
-    "examplars": "1. Discuss the features of the fifth-generation computers.\n2. Describe quantum computing using the Google operational quantum computing called \"Sycamore\".\n3. Discuss parallel processing hardware and Artificial Intelligence (Al) software.",
+    "indicator_description": "Discuss the fifth generation of computers with emphasisof on quantum computing",
+    "examplars": "1. Discuss the features of the fifth-generation computers. [cite: 673]\n2. Describe quantum computing using the Google operational quantum computing called \"Sycamore\". [cite: 673]\n3. Discuss parallel processing hardware and Artificial Intelligence (Al) software. [cite: 673]",
     "core_competencies": "CC, DL, CC 8.1"
   },
   {
-    "subject": "Computing",
+    "subject": "COMPUTING",
     "grade": "B8",
     "strand": "INTRODUCTION TO COMPUTING",
     "sub_strand": "COMPONENTS OF COMPUTERS AND COMPUTER SYSTEMS",
     "content_standard": "B8.1.1.1. Identify parts a computer and technology tools",
     "indicator_code": "B8.1.1.1.2",
-    "indicator_description": "Demonstrate understanding of direct data entry devices",
-    "examplars": "1. Identify Graphic tablet, Magnetic card reader, optical card reader, QR code reader, Radio Frequency Identification (RFID) Readers from video or pictures.\n2. Explore features of these input devices.\n3. Explore how these input devices work in real life situations.\n4. Generate QR codes and link them to specific websites.",
+    "indicator_description": "Demonstrate understanding of direct data entry devices (Graphic Tablet, Magnetic Card Reader, Optical Card Reader, QR code reader, Radio Frequency Identification (RFID) Readers)",
+    "examplars": "1. Identify Graphic tablet, Magnetic card reader, optical card reader, QR code reader, Radio Frequency Identification (RFID) Readers from video or pictures. [cite: 673]\n2. Explore features of these input devices. [cite: 673]\n3. Explore how these input devices work in real life situations. [cite: 673]\n4. Generate QR codes and link them to specific websites. [cite: 673]",
     "core_competencies": "DL 5.3"
   },
   {
-    "subject": "Computing",
+    "subject": "COMPUTING",
     "grade": "B8",
     "strand": "INTRODUCTION TO COMPUTING",
     "sub_strand": "COMPONENTS OF COMPUTERS AND COMPUTER SYSTEMS",
-    "content_standard": "B8.1.1.1. Identify parts of a computer and technology tools",
+    "content_standard": "B8.1.1.1. Identify parts a computer and technology tools",
     "indicator_code": "B8.1.1.1.3",
     "indicator_description": "Examine the uses of the output devices: Braille printers, Impact, Inkjet, Thermal, Wax, 3D printers",
-    "examplars": "1. Identify Braille printers, Impact, Inkjet, Thermal, Wax, 3D printersfrom pictures or videos.\n2. Explore the features of these output devices.\n3. Explore how these output devices work in real life situations.",
+    "examplars": "1. Identify Braille printers, Impact, Inkjet, Thermal, Wax, 3D printersfrom pictures or videos. [cite: 678]\n2. Explore the features of these output devices. [cite: 678]\n3. Explore how these output devices work in real life situations. [cite: 678]",
     "core_competencies": "DL 5.3"
   },
   {
-    "subject": "Computing",
+    "subject": "COMPUTING",
     "grade": "B8",
     "strand": "INTRODUCTION TO COMPUTING",
     "sub_strand": "COMPONENTS OF COMPUTERS AND COMPUTER SYSTEMS",
-    "content_standard": "B8.1.1.1. Identify parts of a computer and technology tools",
+    "content_standard": "B8.1.1.1. Identify parts a computer and technology tools",
     "indicator_code": "B8.1.1.1.4",
     "indicator_description": "Describe storage devices: Flash Memory Storage Systems, Embedded Flash Memory Cards and Readers, USB Flash Drives, Solid State Drives and Hybrid hard drives",
-    "examplars": "1. Illustrate the use of Flash Memory Storage Systems, Embedded Flash Memory, Flash Memory Cards and Readers, USB Flash Drives, Solid State Drives and Hybrid hard drives.\n2. Discuss the features of Flash Memory Storage Systems, Embedded Flash Memory Flash Memory Cards and Readers.",
+    "examplars": "1. Illustrate the use of Flash Memory Storage Systems, Embedded Flash Memory, Flash Memory Cards and Readers, USB Flash Drives, Solid State Drives and Hybrid hard drives. [cite: 678]\n2. Discuss the features of Flash Memory Storage Systems, Embedded Flash Memory Flash Memory Cards and Readers. [cite: 678]",
     "core_competencies": "CC 8.1, DL 5.3"
   },
   {
-    "subject": "Computing",
+    "subject": "COMPUTING",
     "grade": "B8",
     "strand": "INTRODUCTION TO COMPUTING",
     "sub_strand": "COMPONENTS OF COMPUTERS AND COMPUTER SYSTEMS",
     "content_standard": "B8.1.1.2. Demonstrate the use of the Desktop features.",
     "indicator_code": "B8.1.1.2.1",
     "indicator_description": "Explore the use of the Charms bar",
-    "examplars": "1. Identify the icons in the Charms bar\n2. Describe features of the Charms bar icons",
+    "examplars": "1. Identify the icons in the Charms bar [cite: 678]\n2. Describe features of the Charms bar icons [cite: 678]",
     "core_competencies": "DL 5.3"
   },
   {
-    "subject": "Computing",
+    "subject": "COMPUTING",
     "grade": "B8",
     "strand": "INTRODUCTION TO COMPUTING",
     "sub_strand": "COMPONENTS OF COMPUTERS AND COMPUTER SYSTEMS",
     "content_standard": "B8.1.1.2. Demonstrate the use of the Desktop features.",
     "indicator_code": "B8.1.1.2.2",
     "indicator_description": "Practise file management techniques (Drive Management)",
-    "examplars": "1. Demonstrate the file management techniques such as defragmentation, compression of files, etc.\n2. Explore ways of partitioning a hard disk.",
+    "examplars": "1. Demonstrate the file management techniques such as defragmentation, compression of files, etc. [cite: 678]\n2. Explore ways of partitioning a hard disk. [cite: 678]",
     "core_competencies": "DL 5.3"
   },
   {
-    "subject": "Computing",
+    "subject": "COMPUTING",
     "grade": "B8",
     "strand": "INTRODUCTION TO COMPUTING",
-    "sub_strand": "TECHNOLOGY IN THE COMMUNITY",
+    "sub_strand": "TECHNOLOGY INTHE COMMUNITY",
     "content_standard": "B8.1.2.1. Demonstrate the use of Technology in the Community",
     "indicator_code": "B8.1.2.1.1",
     "indicator_description": "Discuss technologies that help to improve computer accessibility (adaptive and assistive technologies)",
-    "examplars": "1. Identify the categories of people with special needs.\n2. Discuss technologies that can be used to help people with special needs (e.g. Computer software and hardware such as voice recognition programs, screen readers, and screen enlargement applications, to help people with mobility and sensory impairments use computers and mobile devices, etc.)",
+    "examplars": "1. Identify the categories of people with special needs. [cite: 681]\n2. Discuss technologies that can be used to help people with special needs (e.g. Computer software and hardware such as voice recognition programs, screen readers, and screen enlargement applications, etc.) [cite: 681]",
     "core_competencies": "DL 5.3, CC 8.1"
   },
   {
-    "subject": "Computing",
+    "subject": "COMPUTING",
     "grade": "B8",
     "strand": "INTRODUCTION TO COMPUTING",
-    "sub_strand": "TECHNOLOGY IN THE COMMUNITY",
+    "sub_strand": "TECHNOLOGY INTHE COMMUNITY",
     "content_standard": "B8.1.2.1. Demonstrate the use of Technology in the Community",
     "indicator_code": "B8.1.2.1.2",
-    "indicator_description": "Describe how portable computing devices affect our everyday lives",
-    "examplars": "1. Discuss portable computing devices that we use daily e.g. mobile phones,smart watches, etc.\n2. Describe how these devices affect our daily lives.",
+    "indicator_description": "Describe how portable computing devices affect oureveryday lives",
+    "examplars": "1. Discuss portable computing devices that we use daily e.g. mobile phones, smart watches, etc. [cite: 681]\n2. Describe how these devices affect our daily lives. [cite: 681]",
     "core_competencies": "DL 5.3, CC 8.1"
   },
   {
-    "subject": "Computing",
+    "subject": "COMPUTING",
     "grade": "B8",
     "strand": "INTRODUCTION TO COMPUTING",
-    "sub_strand": "TECHNOLOGY IN THE COMMUNITY",
+    "sub_strand": "TECHNOLOGY INTHE COMMUNITY",
     "content_standard": "B8.1.2.1. Demonstrate the use of Technology in the Community",
     "indicator_code": "B8.1.2.1.3",
     "indicator_description": "Explain the issues associated with online services (e.g. social media, wikis, blogs, etc.)",
-    "examplars": "1. Identify the online services that learners normally use or have access to.\n2. Evaluate issues that are associated with online service delivery.",
+    "examplars": "1. Identify the online services that learners normally use or have access to. [cite: 681]\n2. Evaluate issues that are associated with online service delivery. [cite: 681]",
     "core_competencies": "DL 5.3"
   },
   {
-    "subject": "Computing",
+    "subject": "COMPUTING",
     "grade": "B8",
     "strand": "INTRODUCTION TO COMPUTING",
-    "sub_strand": "HEALTH AND SAFETY IN THE USE OF ICT TOOLS",
+    "sub_strand": "HEALTH AND SAFETY INTHE USE OF ICT TOOLS",
     "content_standard": "B8.1.3.1. Demonstrate How to Apply Health and Safety measures in Using ICT Tools",
     "indicator_code": "B8.1.3.1.1",
     "indicator_description": "Discuss health issues at workstations",
-    "examplars": "1. Discuss the importance of taking regular breaks from bulk work (possibly after every hour).\n2. Discuss the adoption of good posture while at the computer\n3. Discuss the use of document holders to avoid having to lean over and bendyour neck while looking at paperwork.",
+    "examplars": "1. Discuss the importance of taking regular breaks from bulk work (possiblyafter every hour). [cite: 686]\n2. Discuss the adoption of good posture while at the computer [cite: 686]\n3. Discuss the use of document holders to avoid having to lean over and bendyour neck while looking at paperwork. [cite: 686]",
     "core_competencies": "PL 5.6, DL 5.3"
   },
   {
-    "subject": "Computing",
+    "subject": "COMPUTING",
     "grade": "B8",
     "strand": "INTRODUCTION TO COMPUTING",
-    "sub_strand": "HEALTH AND SAFETY IN THE USE OF ICT TOOLS",
+    "sub_strand": "HEALTH AND SAFETY INTHE USE OF ICT TOOLS",
     "content_standard": "B8.1.3.1. Demonstrate How to Apply Health and Safety measures in Using ICT Tools",
     "indicator_code": "B8.1.3.1.2",
     "indicator_description": "Discuss safety measures in risk reduction at workstations",
-    "examplars": "1. Demonstrate the use of appropriate volumes when using speakers and earpieces.\n2. Demonstrate the use of screen protectors/spectacles to control the amount of light received by our eyes.\n3. Illustrate how not to overload electric sockets but use trailing multi-socket units rather than plug adapters.",
+    "examplars": "1. Demonstrate the use of appropriate volumes when using speakers and earpieces. [cite: 686]\n2. Demonstrate the use of screen protectors/spectacles to control the amount of light received by our eyes. [cite: 686]\n3. Illustrate how not to overload electric sockets but use trailing multi-socket units rather than plug adapters. [cite: 686]",
     "core_competencies": "PL 5.6"
   },
   {
-    "subject": "Computing",
+    "subject": "COMPUTING",
     "grade": "B8",
     "strand": "PRODUCTIVITY SOFTWARE",
     "sub_strand": "INTRODUCTION TO WORD PROCESSING",
-    "content_standard": "B8.2.1.1 Demonstrate How to Use Microsoft Word (tables and hyperlink pages)",
+    "content_standard": "B8.2.1.1 DemonstrateHow to Use Microsoft Word (tables and hyperlink pages)",
     "indicator_code": "B8.2.1.1.1",
     "indicator_description": "Demonstrate how to create a table and hyperlinks",
-    "examplars": "1. Explore the use of the Tables group under the Insert tab\n2. Create tables, columns and resize them in MS-Word\n3. Explore the use of hyperlinks to create non-linear presentations.",
-    "core_competencies": "C15.4, DL 5.1"
+    "examplars": "1. Explore the use of the Tables group under the Insert tab [cite: 691]\n2. Create tables, columns and resize them in MS-Word [cite: 691]\n3. Explore the use of hyperlinks to create non-linear presentations. [cite: 691]",
+    "core_competencies": "CI 15.4, DL 5.1"
   },
   {
-    "subject": "Computing",
+    "subject": "COMPUTING",
     "grade": "B8",
     "strand": "PRODUCTIVITY SOFTWARE",
     "sub_strand": "INTRODUCTION TO WORD PROCESSING",
-    "content_standard": "B8.2.1.1 Demonstrate How to Use Microsoft Word (tables and hyperlink pages)",
+    "content_standard": "B8.2.1.1 DemonstrateHow to Use Microsoft Word (tables and hyperlink pages)",
     "indicator_code": "B8.2.1.1.2",
     "indicator_description": "Demonstrate how to merge, split, add formula, borders and shades",
-    "examplars": "1. Explore merging, splitting, adding formulas, borders and shades in MS-Wordunder the Insert tab.\n2. Explore the use of the bullets; decrease and increase indentation under the Home tab.\n3. Explore the use of the Border Button and set line spacing (e.g. explore theuse of the dialogue Box Launcher button under the Home tab)",
+    "examplars": "1. Explore merging, splitting, adding formulas, borders and shades in MS-Wordunder the Insert tab. [cite: 691]\n2. Explore the use of the bullets; decrease and increase indentation under the Home tab. [cite: 691]\n3. Explore the use of the Border Button and set line spacing. [cite: 691]",
     "core_competencies": "DL 5.1"
   },
   {
-    "subject": "Computing",
+    "subject": "COMPUTING",
     "grade": "B8",
     "strand": "PRODUCTIVITY SOFTWARE",
     "sub_strand": "INTRODUCTION TO WORD PROCESSING",
-    "content_standard": "B8.2.1.1 Demonstrate How to Use Microsoft Word (tables and hyperlink pages)",
+    "content_standard": "B8.2.1.1 DemonstrateHow to Use Microsoft Word (tables and hyperlink pages)",
     "indicator_code": "B8.2.1.1.3",
     "indicator_description": "Demonstrate how to format a page (e.g. page adjustment, inserting header and footer, page numbers, breaks and orientations)",
-    "examplars": "1. Demonstrate how to format pages by adjusting the header, footer, pagenumbers, and page orientation\nNB. This is to help the learners with software knowledge in office applications (word processing) to grasp the concept better.",
+    "examplars": "1. Demonstrate how to format pages by adjusting the header, footer, pagenumbers, and page orientation [cite: 691]",
     "core_competencies": "DL 5.1"
   },
   {
-    "subject": "Computing",
+    "subject": "COMPUTING",
     "grade": "B8",
     "strand": "PRODUCTIVITY SOFTWARE",
     "sub_strand": "INTRODUCTION TO PRESENTATION",
     "content_standard": "B82.2.1 Demonstrate how to use Microsoft PowerPoint (Multimedia)",
     "indicator_code": "B8.2.2.1.1",
     "indicator_description": "Demonstrate how to add pictures, screenshot and edit and format pictures",
-    "examplars": "1. Explore the use of the Images Group under the Insert tab\n2. Demonstrate the use of ClipArt, Photo Album and Screenshot\n3. Project examples of the PowerPoint interface to learners with the aid of a projector or pictures.",
+    "examplars": "1. Explore the use of the Images Group under the Insert tab [cite: 695]\n2. Demonstrate the use of ClipArt, Photo Album and Screenshot [cite: 695]\n3. Project examples of the PowerPoint interface to learners with the aid of a projector or pictures. [cite: 695]",
     "core_competencies": "DL 5.1, CC 9.6"
   },
   {
-    "subject": "Computing",
+    "subject": "COMPUTING",
     "grade": "B8",
     "strand": "PRODUCTIVITY SOFTWARE",
     "sub_strand": "INTRODUCTION TO PRESENTATION",
     "content_standard": "B82.2.1 Demonstrate how to use Microsoft PowerPoint (Multimedia)",
     "indicator_code": "B8.2.2.1.2",
-    "indicator_description": "Demonstrate how to add a drawing canvas, shapes, and also edit, format and add text to shapes",
-    "examplars": "1. Explore the use of the Illustrations group under the Insert tab\n2. Illustrate the use of Shapes and SmartArt\n3. Explore the use of the drawing canvas to group shapes.",
-    "core_competencies": "C15.4, DL 5.1"
+    "indicator_description": "Demonstrate how to add a drawing canvas, shapes, andalso edit, format and add text to shapes",
+    "examplars": "1. Explore the use of the Illustrations group under the Insert tab [cite: 695]\n2. Illustrate the use of Shapes and SmartArt [cite: 695]\n3. Explore the use of the drawing canvas to group shapes. [cite: 695]",
+    "core_competencies": "CI 15.4, DL 5.1"
   },
   {
-    "subject": "Computing",
+    "subject": "COMPUTING",
     "grade": "B8",
     "strand": "PRODUCTIVITY SOFTWARE",
     "sub_strand": "INTRODUCTION TO PRESENTATION",
     "content_standard": "B82.2.1 Demonstrate how to use Microsoft PowerPoint (Multimedia)",
     "indicator_code": "B8.2.2.1.3",
     "indicator_description": "Demonstrate how to add text to shapes and arrangeshapes.",
-    "examplars": "1. Explore the use of the Format Ribbon once a shape is selected\n2. Explore the editing features of the Insert Shapes and Shape Styles.\n3. Present a prepared project or exercise using what has been studied in Indicator I and 2.\nNB: This is to help the learners with software knowledge in MS PowerPoint, Office Applications to grasp the concept well.",
+    "examplars": "1. Explore the use of the Format Ribbon once a shape is selected [cite: 695]\n2. Explore the editing features of the Insert Shapes and Shape Styles. [cite: 695]\n3. Present a prepared project or exercise using what has been studied. [cite: 695]",
     "core_competencies": "CC 9.6, DL 5.1"
   },
   {
-    "subject": "Computing",
+    "subject": "COMPUTING",
     "grade": "B8",
     "strand": "PRODUCTIVITY SOFTWARE",
     "sub_strand": "INTRODUCTION TO DESKTOP PUBLISHING",
     "content_standard": "B8.2.3.1. Demonstrate how to use MS-Publisher",
     "indicator_code": "B8.2.3.1.1",
     "indicator_description": "Explain the importance of desktop publishing software (DTP)",
-    "examplars": "1. Discuss the meaning of desktop publishing software.\n2. Brainstorm to elicit the importance of DTP.\n3. Brainstorm to elicit responses of some DTP packages. (e.g. MS-Publisher, Adobe InDesign, LibreOffice Draw, QuarkXpress etc.)",
-    "core_competencies": "C15.4, DL 5.1"
+    "examplars": "1. Discuss the meaning of desktop publishing software. [cite: 700]\n2. Brainstorm to elicit the importance of DTP. [cite: 700]\n3. Brainstorm to elicit responses of some DTP packages. [cite: 700]",
+    "core_competencies": "CI 15.4, DL 5.1"
   },
   {
-    "subject": "Computing",
+    "subject": "COMPUTING",
     "grade": "B8",
     "strand": "PRODUCTIVITY SOFTWARE",
     "sub_strand": "INTRODUCTION TO DESKTOP PUBLISHING",
     "content_standard": "B8.2.3.1. Demonstrate how to use MS-Publisher",
     "indicator_code": "B8.2.3.1.2",
     "indicator_description": "Create and save a new document from a blank or pre-designed template",
-    "examplars": "1. Open a desktop publishing software (e.g. MS-Publisher).\n2. Create a new document from a blank publication\n3. Create a new document from a pre-designed template.\n4. Save the document with the appropriate name.",
-    "core_competencies": "C15.4, DL 5.1"
+    "examplars": "1. Open a desktop publishing software (e.g. MS-Publisher). [cite: 700]\n2. Create a new document from a blank publication [cite: 700]\n3. Create a new document from a pre-designed template. [cite: 700]\n4. Save the document with the appropriate name. [cite: 700]",
+    "core_competencies": "CI 15.4, DL 5.1"
   },
   {
-    "subject": "Computing",
+    "subject": "COMPUTING",
     "grade": "B8",
     "strand": "PRODUCTIVITY SOFTWARE",
     "sub_strand": "INTRODUCTION TO DESKTOP PUBLISHING",
     "content_standard": "B8.2.3.1. Demonstrate how to use MS-Publisher",
     "indicator_code": "B8.2.3.1.3",
-    "indicator_description": "Demonstrate the use of the commands in MS-Publisher ribbons",
-    "examplars": "1. Working in pairs, explore the use of the commands in a desktop publishingsoftware (e.g. MS-Publisher ribbons: Home, Page Design, Mailings, Review, View)",
+    "indicator_description": "Demonstrate the use of the commands in MS-Publisher ribbons under each tab (Home, Page Design, Mailings, Review, View)",
+    "examplars": "1. Working in pairs, explore the use of the commands in a desktop publishingsoftware (e.g. MS-Publisher ribbons: Home, Page Design, Mailings, Review, [cite: 700]",
     "core_competencies": "CC 9.6, DL 5.1"
   },
   {
-    "subject": "Computing",
+    "subject": "COMPUTING",
     "grade": "B8",
     "strand": "PRODUCTIVITY SOFTWARE",
     "sub_strand": "INTRODUCTION TO DESKTOP PUBLISHING",
     "content_standard": "B8.2.3.1. Demonstrate how to use MS-Publisher",
     "indicator_code": "B8.2.3.1.4",
     "indicator_description": "Change the orientation and margins of a document",
-    "examplars": "1. Explore and change the orientation and margins of your document by working pairs.",
+    "examplars": "1. Explore and change the orientation and margins of your document by working pairs. [cite: 704]",
     "core_competencies": "CC 9.6, DL 5.1"
   },
   {
-    "subject": "Computing",
+    "subject": "COMPUTING",
     "grade": "B8",
     "strand": "PRODUCTIVITY SOFTWARE",
     "sub_strand": "INTRODUCTION TO DESKTOP PUBLISHING",
     "content_standard": "B8.2.3.1. Demonstrate how to use MS-Publisher",
     "indicator_code": "B8.2.3.1.5",
     "indicator_description": "Add and modify pictures from different sources",
-    "examplars": "1. Explore addition and modification of pictures from different sources to your document by working in pairs.",
-    "core_competencies": "C15.4, DL 5.1"
+    "examplars": "1. Explore addition and modification of pictures from different sources to your document by working in pairs. [cite: 704]",
+    "core_competencies": "CI 15.4, DL 5.1"
   },
   {
-    "subject": "Computing",
+    "subject": "COMPUTING",
     "grade": "B8",
     "strand": "PRODUCTIVITY SOFTWARE",
     "sub_strand": "INTRODUCTION TO DESKTOP PUBLISHING",
     "content_standard": "B8.2.3.1. Demonstrate how to use MS-Publisher",
     "indicator_code": "B8.2.3.1.6",
     "indicator_description": "Add and modify text",
-    "examplars": "1. Explore addition and modification of text using different font types in your document.",
+    "examplars": "1. Explore addition and modification of text using different font types in your document. [cite: 704]",
     "core_competencies": "DL 5.1"
   },
   {
-    "subject": "Computing",
+    "subject": "COMPUTING",
     "grade": "B8",
     "strand": "PRODUCTIVITY SOFTWARE",
     "sub_strand": "INTRODUCTION TO DESKTOP PUBLISHING",
     "content_standard": "B8.2.3.1. Demonstrate how to use MS-Publisher",
-    "indicator_code": "B9.2.3.1.7",
+    "indicator_code": "B8.2.3.1.7",
     "indicator_description": "Create and present a Publisher document (flyer, advertisement, invitation cards, business cards)",
-    "examplars": "1. Create a one-page Publisher document e.g. flyer, advertisement, invitationcards, business cards, etc.\n2. Present documents to demonstrate creative abilities.",
-    "core_competencies": "CC 9.6, C15.4, DL 5.1"
+    "examplars": "1. Create a one-page Publisher document e.g. flyer, advertisement, invitationcards, business cards, etc. [cite: 704]\n2. Present documents to demonstrate creative abilities. [cite: 704]",
+    "core_competencies": "CC 9.6, CI 15.4, DL 5.1"
   },
   {
-    "subject": "Computing",
+    "subject": "COMPUTING",
     "grade": "B8",
     "strand": "PRODUCTIVITY SOFTWARE",
     "sub_strand": "INTRODUCTION TO ELECTRONIC SPREADSHEET",
-    "content_standard": "B8.2.4.1. Demonstrate How to Use the Spreadsheet (using functions and complexformulas)",
+    "content_standard": "B8.2.4.1. DemonstrateHow to Use the Spreadsheet (using functions and complexformulas)",
     "indicator_code": "B8.2.4.1.1",
     "indicator_description": "Perform operations using functions and Built-in functions",
-    "examplars": "1. Enumerate the difference between formulas and functions.\n2. Access built-in functions to perform operations on sample data.\n3. Demonstrate the use of common spreadsheet functions such as SUM, AVERAGE, COUNT, COUNTA, COUNTIF, MAX and MIN.",
+    "examplars": "1. Enumerate the difference between formulas and functions. [cite: 707]\n2. Access built-in functions to perform operations on sample data. [cite: 707]\n3. Demonstrate the use of common spreadsheet functions such as SUM, AVERAGE, COUNT, COUNTA, COUNTIF, MAX and MIN. [cite: 707]",
     "core_competencies": "DL 5.1"
   },
   {
-    "subject": "Computing",
+    "subject": "COMPUTING",
     "grade": "B8",
     "strand": "PRODUCTIVITY SOFTWARE",
     "sub_strand": "INTRODUCTION TO ELECTRONIC SPREADSHEET",
-    "content_standard": "B8.2.4.1. Demonstrate How to Use the Spreadsheet (using functions and complexformulas)",
+    "content_standard": "B8.2.4.1. DemonstrateHow to Use the Spreadsheet (using functions and complexformulas)",
     "indicator_code": "B8.2.4.1.2",
     "indicator_description": "Demonstrate how to create complex formulas",
-    "examplars": "1. Create complex formulas (e.g. finding percentages, commissions, interestrates, etc.).",
+    "examplars": "1. Create complex formulas (e.g. finding percentages, commissions, interestrates, etc.). [cite: 707]",
     "core_competencies": "DL 5.1, CP 5.1"
   },
   {
-    "subject": "Computing",
+    "subject": "COMPUTING",
     "grade": "B8",
     "strand": "PRODUCTIVITY SOFTWARE",
     "sub_strand": "INTRODUCTION TO ELECTRONIC SPREADSHEET",
-    "content_standard": "B8.2.4.1. Demonstrate how to use the Spreadsheet. (using functions and complex formulas)",
+    "content_standard": "B8.2.4.1. DemonstrateHow to Use the Spreadsheet (using functions and complexformulas)",
     "indicator_code": "B8.2.4.1.3",
     "indicator_description": "Demonstrate how to copy formulas and references",
-    "examplars": "1. Demonstrate the procedure for copying and pasting formulas in a worksheet.\n2. Explore how to reference cells and ranges in a worksheet.\n3. Demonstrate the use of relative and absolute cell referencing in creating formulas.\n4. Explore how to correct common formula errors.\n5. Complete a project that involves creating a set of formulas with common functions (e.g. simple interest formula)",
+    "examplars": "1. Demonstrate the procedure for copying and pasting formulas in a worksheet. [cite: 707]\n2. Explore how to reference cells and ranges in a worksheet. [cite: 707]\n3. Demonstrate the use of relative and absolute cell referencing in creating formulas. [cite: 707]\n4. Explore how to correct common formula errors. [cite: 707]\n5. Complete a project that involves creating a set of formulas with common functions (e.g. simple interest formula) [cite: 707]",
     "core_competencies": "DL 5.1, CP 5.1"
   },
   {
-    "subject": "Computing",
+    "subject": "COMPUTING",
     "grade": "B8",
     "strand": "COMMUNICATION NETWORKS",
     "sub_strand": "COMPUTER NETWORKS",
     "content_standard": "B8.3.1.1. Identify the concept of computer networking for global communication",
     "indicator_code": "B8.3.1.1.1",
     "indicator_description": "Describe the data communication models for networks.",
-    "examplars": "1. Explain the Open System Interconnection (OSI) model\n2. Identify the different layers in the OSI model.\n3. Discuss the purpose or benefits of the layers in ensuring interoperability of different hardware devices.",
+    "examplars": "1. Explain the Open System Interconnection (OSI) model [cite: 712]\n2. Identify the different layers in the OSI model. [cite: 712]\n3. Discuss the purpose or benefits of the layers in ensuring interoperability of different hardware devices. [cite: 712]",
     "core_competencies": "CC 9.1"
   },
   {
-    "subject": "Computing",
+    "subject": "COMPUTING",
     "grade": "B8",
     "strand": "COMMUNICATION NETWORKS",
     "sub_strand": "COMPUTER NETWORKS",
     "content_standard": "B8.3.1.1. Identify the concept of computer networking for global communication",
     "indicator_code": "B8.3.1.1.2",
     "indicator_description": "Describe the Internet, world wide web (www) and Internet Protocol (IP) addresses",
-    "examplars": "1. Describe the Internet and the classes of internet addresses.\n2. Explain the internet Domain Name Server (DNS), which is equivalent to the function of a phonebook.\n3. Distinguish between IPv4 and IPv6 addresses.\n4. Explore the difference between internet and world wide web (www).",
+    "examplars": "1. Describe the Internet and the classes of internet addresses. [cite: 712]\n2. Explain the internet Domain Name Server (DNS), which is equivalent to the function of a phonebook. [cite: 712]\n3. Distinguish between IPv4 and IPv6 addresses. [cite: 712]\n4. Explore the difference between internet and world wide web (www). [cite: 712]",
     "core_competencies": "CC 7.5"
   },
   {
-    "subject": "Computing",
+    "subject": "COMPUTING",
     "grade": "B8",
     "strand": "COMMUNICATION NETWORKS",
     "sub_strand": "INTERNET AND SOCIAL MEDIA",
     "content_standard": "B8.3.2.1 Demonstrate the use of Social Networking and Electronic Mail",
     "indicator_code": "B8.3.2.1.1",
-    "indicator_description": "Identify the various types of Social Media sites such as Photo sharing and Video sharing",
-    "examplars": "1. Discuss the use of Photo sharing sites such as Instagram, Snapchat, Pinterest etc.\n2. Demonstrate the use of video sharing platforms such as YouTube, Facebook Live, Periscope, Vimeo etc.\n3. Illustrate the steps involved in attaching a document to an email.\n4. Explore the use of the address book as a feature of email.",
-    "core_competencies": "CC 8.2, DL 6.5"
+    "indicator_description": "Identify the various types of Social Media sites such as Photo sharing (Instagram, Snapchat, Pinterest) and Video sharing (YouTube, Facebook Live, Periscope, Vimeo)",
+    "examplars": "1. Discuss the use of Photo sharing sites such as Instagram, Snapchat, Pinterest etc. [cite: 718]\n2. Demonstrate the use of video sharing platforms such as YouTube, Facebook Live, Periscope, Vimeo etc. [cite: 718]\n3. Illustrate the steps involved in attaching a document to an email. [cite: 718]\n4. Explore the use of the address book as a feature of email. [cite: 718]",
+    "core_competencies": "DL, CC"
   },
   {
-    "subject": "Computing",
+    "subject": "COMPUTING",
     "grade": "B8",
     "strand": "COMMUNICATION NETWORKS",
     "sub_strand": "INFORMATION SECURITY",
     "content_standard": "B8.3.3.1. Recognise data threats and security protections",
     "indicator_code": "B8.3.3.1.1",
     "indicator_description": "Describe the nature of four major data threats (Interruption, Interception, Modification, Fabrication)",
-    "examplars": "1. Watch a video on threats to data security.\n2. Discuss the threats that can prevent information from reaching its destination.\n3. Discuss the threats that can cause data corruption.\n4. Describe the nature of the four major data threats.",
+    "examplars": "1. Watch a video on threats to data security. [cite: 721]\n2. Discuss the threats that can prevent information from reaching its destination. [cite: 721]\n3. Discuss the threats that can cause data corruption. [cite: 721]\n4. Describe the nature of the four major data threats. [cite: 721]",
     "core_competencies": "CC 8.2, DL 6.5"
   },
   {
-    "subject": "Computing",
+    "subject": "COMPUTING",
     "grade": "B8",
     "strand": "COMMUNICATION NETWORKS",
     "sub_strand": "INFORMATION SECURITY",
     "content_standard": "B8.3.3.1. Recognise data threats and security protections",
     "indicator_code": "B8.3.3.1.2",
-    "indicator_description": "Map the protection methods to each of the four identified data threats",
-    "examplars": "1. Brainstorm the methods of protecting data against the four main threats.\n2. Describe the threats to data security and the methods of preventing each threat.",
+    "indicator_description": "Map the protection methods to each of the four identified data threats (Authorisation, Authentications, Encryption and Decryption)",
+    "examplars": "1. Brainstorm the methods of protecting data against the four main threats. [cite: 721]\n2. Describe the threats to data security and the methods of preventing each threat. [cite: 721]",
     "core_competencies": "CC 9.1, CP 5.5"
   },
   {
-    "subject": "Computing",
+    "subject": "COMPUTING",
     "grade": "B8",
     "strand": "COMMUNICATION NETWORKS",
     "sub_strand": "WEB TECHNOLOGIES",
     "content_standard": "B8.3.4.1. Demonstrate the use of a web browser (Search engine)",
     "indicator_code": "B8.3.4.1.1",
     "indicator_description": "Demonstrate how to effectively search from a web browser.",
-    "examplars": "1. Identify effective search techniques (e.g. using search phrases with exactspelling, use of AND, OR, NOT, etc.\n2. Demonstrate how to search with any of the techniques or a combination of techniques.",
+    "examplars": "1. Identify effective search techniques (e.g. using search phrases with exactspelling, use of AND, OR, NOT, etc. [cite: 726]\n2. Demonstrate how to search with any of the techniques or a combination of techniques. [cite: 726]",
     "core_competencies": "CP 5.5, CP 6.5"
   },
   {
-    "subject": "Computing",
+    "subject": "COMPUTING",
     "grade": "B8",
     "strand": "COMMUNICATION NETWORKS",
     "sub_strand": "WEB TECHNOLOGIES",
     "content_standard": "B8.3.4.1. Demonstrate the use of a web browser (Search engine)",
     "indicator_code": "B8.3.4.1.2",
     "indicator_description": "Explore the use of more than one search engine",
-    "examplars": "1. Investigate the use of more than one search engine e.g. Ask, Google, yahoo!\n2. Explore different search engines with the same search string/terms and observe the outcome\n3. Discuss the results of your findings in Exemplar(s): 2 above.",
+    "examplars": "1. Investigate the use of more than one search engine e.g. Ask, Google, yahoo! [cite: 726]\n2. Explore different search engines with the same search string/terms and observe the outcome [cite: 726]\n3. Discuss the results of your findings in Exemplar(s): 2 above. [cite: 726]",
     "core_competencies": "DL 5.1, CP 5.1"
   },
   {
-    "subject": "Computing",
+    "subject": "COMPUTING",
     "grade": "B8",
     "strand": "COMPUTATIONAL THINKING",
     "sub_strand": "INTRODUCTION TO PROGRAMMING",
     "content_standard": "B8.4.1.1. Show an understanding of the concept of programming",
     "indicator_code": "B8.4.1.1.1",
-    "indicator_description": "Describe the basic concepts in programming (Constants, Variables, Expressions, Statements /Instructions, logical and arithmetic operators, Operator precedence, etc.)",
-    "examplars": "1. Create a table to compare how the same arithmetic notations arerepresented in coding and in classroom mathematics.",
+    "indicator_description": "Describe the basic concepts in programming (Constants, Variables, Expressions, Statements/Instructions, logical and arithmetic operators, Operator precedence, etc.)",
+    "examplars": "1. Create a table to compare how the same arithmetic notations arerepresented in coding and in classroom mathematics. [cite: 729]",
     "core_competencies": "CP 5.1"
   },
   {
-    "subject": "Computing",
+    "subject": "COMPUTING",
     "grade": "B8",
     "strand": "COMPUTATIONAL THINKING",
-    "sub_strand": "ALGORITHM",
-    "content_standard": "B8.4.2.1. Analyse the correct step-by-step procedure in solving any real-world problem",
+    "sub_strand": "STRAND 2:ALGORITHM",
+    "content_standard": "B8.4.2.1.Analyse the correct step-by-step procedure in solving any real-world problem",
     "indicator_code": "B8.4.2.1.1",
-    "indicator_description": "Apply variables, expressions, assignment statements and operator precedence order (BODMAS rule)",
-    "examplars": "1. Compute an expression following the operator precedence order (BODMAS) to exemplify how computers process input data to print out ananswer.",
+    "indicator_description": "Apply variables, expressions, assignment statements and operator precedence order (BODMAS rule) to process and store numbers and text in a programme",
+    "examplars": "1. Compute an expression following the operator precedence order (BODMAS) to exemplify how computers process input data to print out ananswer. [cite: 733]",
     "core_competencies": "CP 5.5"
   },
   {
-    "subject": "Computing",
+    "subject": "COMPUTING",
     "grade": "B8",
     "strand": "COMPUTATIONAL THINKING",
-    "sub_strand": "ALGORITHM",
-    "content_standard": "B8.4.2.1. Analyse the correct step-by-step procedure in solving any real-world problem",
+    "sub_strand": "STRAND 2:ALGORITHM",
+    "content_standard": "B8.4.2.1.Analyse the correct step-by-step procedure in solving any real-world problem",
     "indicator_code": "B8.4.2.1.2",
-    "indicator_description": "Describe and use sequence, selection and iteration statements in a programme.",
-    "examplars": "1. Draw the four basic symbols representing programme start-stop, input-output, process and decision.\n2. Identify a real case problem in the environment and arrange the symbols to represent a logical step-by-step sequence in solving that problem.",
+    "indicator_description": "Describe and use sequence, selection and iteration statements in a programme. Understand the difference between variables and constants and be able to choose appropriate namingconventions when writing statements.",
+    "examplars": "1. Draw the four basic symbols representing programme start-stop, input- output, process and decision. [cite: 733]\n2. Identify a real case problem in the environment and arrange the symbols to represent a logical step-by-step sequence in solving that problem. [cite: 733]",
     "core_competencies": "CP 6.5, CP 5.5"
   },
   {
-    "subject": "Computing",
+    "subject": "COMPUTING",
     "grade": "B8",
     "strand": "COMPUTATIONAL THINKING",
     "sub_strand": "ROBOTICS",
     "content_standard": "B8.4.3.1. Discuss Robot Intelligence Concepts",
     "indicator_code": "B8.4.3.1.1",
     "indicator_description": "Describe the principles underlying the operation of the components of a robot (Controller Mechanical, Sensors)",
-    "examplars": "1. Explain the controller as the \"brain\" of the robot.\n2. Demonstrate understanding of mechanical parts such as motors, pistons, grippers, wheels and gears that make the robot move, grab, turn around orlift (Actuators).\n3. Watch video/pictures of the various parts of the robot.\n4. Describe how a range of sensors can be used to input data into a computer system\n5. Describe how these sensors are used in real-life scenarios",
+    "examplars": "1. Explain the controller as the \"brain\" of the robot. [cite: 738]\n2. Demonstrate understanding of mechanical parts such as motors, pistons, grippers, wheels and gears that make the robot move, grab, turn around orlift (Actuators). [cite: 738]\n3. Watch video/pictures of the various parts of the robot. [cite: 738]\n4. Describe how a range of sensors can be used to input data into a computer system, including light, temperature, magnetic field, gas, pressure, moisture, humidity, pH and motion [cite: 738]\n5. Describe how these sensors are used in real-life scenarios, for example: street lights, security devices, pollution control, games, and household andindustrial applications [cite: 738]",
     "core_competencies": "CC 8.2, CP 5.2"
   },
   {
-    "subject": "Computing",
+    "subject": "COMPUTING",
     "grade": "B8",
     "strand": "COMPUTATIONAL THINKING",
     "sub_strand": "ARTIFICIAL INTELLIGENCE",
     "content_standard": "B8.4.4.1 Discuss Artificial Intelligence Concepts",
     "indicator_code": "B8.4.4.1.1",
     "indicator_description": "Discuss Artificial Neural Networks (ANN) and compareintelligence in humans, animals and machines",
-    "examplars": "1. Compare intelligence in humans, animals and machines.\n2. Compare the limitations and capabilities of the three intelligences in processing information\n3. Discuss the difference between strong and weak artificial intelligence.\n4. Discuss hologram science basics and link the application in creating a3-Dimension mixed reality (MR) intelligence.",
+    "examplars": "1. Compare intelligence in humans, animals and machines. [cite: 745]\n2. Compare the limitations and capabilities of the three intelligences in processing information [cite: 745]\n3. Discuss the difference between strong and weak artificial intelligence. [cite: 745]\n4. Discuss hologram science basics and link the application in creating a3- Dimension mixed reality (MR) intelligence. [cite: 745]",
     "core_competencies": "CC 9.3"
   },
   {
-    "subject": "Computing",
+    "subject": "COMPUTING",
     "grade": "B9",
     "strand": "INTRODUCTION TO COMPUTING",
     "sub_strand": "COMPONENTS OF COMPUTERS AND COMPUTER SYSTEMS",
     "content_standard": "B9.1.1.1 Identify parts of a Computer and Technology Tools",
-    "indicator_code": "B91.1.1.1",
+    "indicator_code": "B9.1.1.1.1",
     "indicator_description": "Discuss the trends in the next generation of computers",
     "examplars": "1. Identify features expected to be seen in the next generation of computers.\n2. Describe Google quantum computer (sycamore) and compare its processing power with other supercomputers (focus on processor).",
-    "core_competencies": "CC, CC 7.5, CC 7.3"
+    "core_competencies": "CC 7.5, CC 7.3"
   },
   {
-    "subject": "Computing",
+    "subject": "COMPUTING",
     "grade": "B9",
     "strand": "INTRODUCTION TO COMPUTING",
     "sub_strand": "COMPONENTS OF COMPUTERS AND COMPUTER SYSTEMS",
@@ -1056,7 +1056,7 @@
     "core_competencies": "CC 7.5, CC 7.3"
   },
   {
-    "subject": "Computing",
+    "subject": "COMPUTING",
     "grade": "B9",
     "strand": "INTRODUCTION TO COMPUTING",
     "sub_strand": "COMPONENTS OF COMPUTERS AND COMPUTER SYSTEMS",
@@ -1067,29 +1067,29 @@
     "core_competencies": "CC, DL, CC 7.5"
   },
   {
-    "subject": "Computing",
+    "subject": "COMPUTING",
     "grade": "B9",
     "strand": "INTRODUCTION TO COMPUTING",
     "sub_strand": "COMPONENTS OF COMPUTERS AND COMPUTER SYSTEMS",
     "content_standard": "B9.1.1.1 Identify parts of a Computer and Technology Tools",
     "indicator_code": "B9.1.1.1.4",
-    "indicator_description": "Describe Storage Systems: Network and Cloud Storage Systems, Smart Cards, Holographic Storage",
+    "indicator_description": "Describe Storage Systems: Network and Cloud Storage Systems, Smart Cards, Holographic Storage, Storage Systems for Large Computer Systems (home servers or media servers)",
     "examplars": "1. Discuss Network and Cloud Storage Systems, Smart Cards, Holographic Storage, Storage Systems for Large Computer Systems (home servers or media servers).\n2. Explore common cloud storage examples such as Google Drive, One Drive, etc.\n3. Discuss the pros and cons of using cloud storage.",
     "core_competencies": "DL 5.3, CC 7.5"
   },
   {
-    "subject": "Computing",
+    "subject": "COMPUTING",
     "grade": "B9",
     "strand": "INTRODUCTION TO COMPUTING",
     "sub_strand": "COMPONENTS OF COMPUTERS AND COMPUTER SYSTEMS",
     "content_standard": "B9.1.1.2. Demonstrate the Use of the Desktop",
-    "indicator_code": "B91.1.2.1",
+    "indicator_code": "B9.1.1.2.1",
     "indicator_description": "Explore personalisation of the computer",
     "examplars": "1. Change desktop icons.\n2. Change mouse pointers.",
     "core_competencies": "CC, DL, DL 5.1"
   },
   {
-    "subject": "Computing",
+    "subject": "COMPUTING",
     "grade": "B9",
     "strand": "INTRODUCTION TO COMPUTING",
     "sub_strand": "COMPONENTS OF COMPUTERS AND COMPUTER SYSTEMS",
@@ -1100,62 +1100,62 @@
     "core_competencies": "CC 7.5, DL 5.3"
   },
   {
-    "subject": "Computing",
+    "subject": "COMPUTING",
     "grade": "B9",
     "strand": "INTRODUCTION TO COMPUTING",
-    "sub_strand": "TECHNOLOGY IN THE COMMUNITY (COMMUNICATION)",
+    "sub_strand": "TECHNOLOGY INTHE COMMUNITY (COMMUNICATION)",
     "content_standard": "B9.1.2.1. Demonstrate the Use of Technology in the Community",
     "indicator_code": "B9.1.2.1.1",
     "indicator_description": "Evaluate problems in the community that can be solvedwith technology",
-    "examplars": "1. Discuss problems in the community that can be solved using technology. Work in pairs.",
+    "examplars": "1. Discuss problems in the community that can be solved using technology Work in pairs.",
     "core_competencies": "CI, CC, CP, CC 8.1, CC 9.2, CP 5.1"
   },
   {
-    "subject": "Computing",
+    "subject": "COMPUTING",
     "grade": "B9",
     "strand": "INTRODUCTION TO COMPUTING",
-    "sub_strand": "TECHNOLOGY IN THE COMMUNITY (COMMUNICATION)",
+    "sub_strand": "TECHNOLOGY INTHE COMMUNITY (COMMUNICATION)",
     "content_standard": "B9.1.2.1. Demonstrate the Use of Technology in the Community",
     "indicator_code": "B9.1.2.1.2",
     "indicator_description": "Propose solutions to the problems identified",
     "examplars": "1. Present technological solutions to the problems identified in B9.1.2.1.1.",
-    "core_competencies": "CC 8.1, CP 5.1"
+    "core_competencies": "CC 8.1"
   },
   {
-    "subject": "Computing",
+    "subject": "COMPUTING",
     "grade": "B9",
     "strand": "INTRODUCTION TO COMPUTING",
-    "sub_strand": "TECHNOLOGY IN THE COMMUNITY (COMMUNICATION)",
+    "sub_strand": "TECHNOLOGY INTHE COMMUNITY (COMMUNICATION)",
     "content_standard": "B9.1.2.1. Demonstrate the Use of Technology in the Community",
     "indicator_code": "B9.1.2.1.3",
     "indicator_description": "Design the solution selected",
-    "examplars": "1. Design the solution selected.\n2. Present the solution designed.\nNB: Tasks in B9.1.2.1 is to be done as a project work",
-    "core_competencies": "CI 5.7, CC 8.1"
+    "examplars": "1. Design the solution selected.\n2. Present the solution designed.",
+    "core_competencies": "CP 5.1, CI 5.7, CC 8.1"
   },
   {
-    "subject": "Computing",
+    "subject": "COMPUTING",
     "grade": "B9",
     "strand": "INTRODUCTION TO COMPUTING",
     "sub_strand": "HEALTH AND SAFETY IN THE USE OF ICT TOOLS",
     "content_standard": "B9.1.3.1. Demonstrate How to Apply Health and Safety Measures in the Use ICT Tools",
     "indicator_code": "B9.1.3.1.1",
     "indicator_description": "Evaluate health issues at workstations",
-    "examplars": "1. Discuss the use of ergonomic tools such as ergonomic keyboard and paperstand.\n2. Demonstrate the appropriateness of the lighting system while working withthe computer.",
+    "examplars": "1. Discuss the use of ergonomic tools such as ergonomic keyboard and paper stand.\n2. Demonstrate the appropriateness of the lighting system while working with the computer.",
     "core_competencies": "CC 8.1"
   },
   {
-    "subject": "Computing",
+    "subject": "COMPUTING",
     "grade": "B9",
     "strand": "INTRODUCTION TO COMPUTING",
     "sub_strand": "HEALTH AND SAFETY IN THE USE OF ICT TOOLS",
     "content_standard": "B9.1.3.1. Demonstrate How to Apply Health and Safety Measures in the Use ICT Tools",
     "indicator_code": "B9.1.3.1.2",
     "indicator_description": "Evaluate Safety Risk Reduction at issues at workstations",
-    "examplars": "1. Discuss the heat generated by machines (e.g. computers, printers etc.) andhow to reduce excess heat.",
+    "examplars": "1. Discuss the heat generated by machines (e.g. computers, printers etc.) and how to reduce excess heat.",
     "core_competencies": "CC 8.1"
   },
   {
-    "subject": "Computing",
+    "subject": "COMPUTING",
     "grade": "B9",
     "strand": "PRODUCTIVITY SOFTWARE",
     "sub_strand": "INTRODUCTION TO WORD PROCESSING",
@@ -1163,10 +1163,10 @@
     "indicator_code": "B9.2.1.1.1",
     "indicator_description": "Demonstrate how to add pictures, insert a screenshot and screen clipping and print screen",
     "examplars": "1. Explore the use of the clip art, screenshot and screen clipping in the Insert Ribbon.\n2. Demonstrate the use of the print screen key in capturing and inserting pictures.",
-    "core_competencies": "CI, DL, C15.4, DL 5.1"
+    "core_competencies": "CI, DL, CI 15.4, DL 5.1"
   },
   {
-    "subject": "Computing",
+    "subject": "COMPUTING",
     "grade": "B9",
     "strand": "PRODUCTIVITY SOFTWARE",
     "sub_strand": "INTRODUCTION TO WORD PROCESSING",
@@ -1174,10 +1174,10 @@
     "indicator_code": "B9.2.1.1.2",
     "indicator_description": "Demonstrate the use of SmartArt",
     "examplars": "1. Illustrate the use of SmartArt in the Illustrations group of the Insert Ribbon.",
-    "core_competencies": "C15.4, DL 5.1"
+    "core_competencies": "CI 15.4, DL 5.1"
   },
   {
-    "subject": "Computing",
+    "subject": "COMPUTING",
     "grade": "B9",
     "strand": "PRODUCTIVITY SOFTWARE",
     "sub_strand": "INTRODUCTION TO WORD PROCESSING",
@@ -1185,10 +1185,10 @@
     "indicator_code": "B9.2.1.1.3",
     "indicator_description": "Demonstrate how to add Multimedia (audios, videos, animations), Charts and Hyperlinks",
     "examplars": "1. Explore the use of the clip art and screenshot in the Insert Ribbon.",
-    "core_competencies": "C15.4, DL 5.1"
+    "core_competencies": "CI 15.4, DL 5.1"
   },
   {
-    "subject": "Computing",
+    "subject": "COMPUTING",
     "grade": "B9",
     "strand": "PRODUCTIVITY SOFTWARE",
     "sub_strand": "INTRODUCTION TO PRESENTATION",
@@ -1196,10 +1196,10 @@
     "indicator_code": "B9.2.2.1.1",
     "indicator_description": "Demonstrate how to add pictures and insert screenshots",
     "examplars": "1. Explore the use of the clip art and screenshot in the Insert Ribbon.",
-    "core_competencies": "CI, DL, C15.4, DL 5.1"
+    "core_competencies": "CI, DL, CI 15.4, DL 5.1"
   },
   {
-    "subject": "Computing",
+    "subject": "COMPUTING",
     "grade": "B9",
     "strand": "PRODUCTIVITY SOFTWARE",
     "sub_strand": "INTRODUCTION TO PRESENTATION",
@@ -1207,10 +1207,10 @@
     "indicator_code": "B9.2.2.1.2",
     "indicator_description": "Demonstrate how to animate slides in a presentation",
     "examplars": "1. Demonstrate the use of transitions and animations.\n2. Create a seven-slide presentation with animations and transitions.",
-    "core_competencies": "C15.4, DL 5.1"
+    "core_competencies": "CI 15.4, DL 5.1"
   },
   {
-    "subject": "Computing",
+    "subject": "COMPUTING",
     "grade": "B9",
     "strand": "PRODUCTIVITY SOFTWARE",
     "sub_strand": "INTRODUCTION TO PRESENTATION",
@@ -1218,10 +1218,10 @@
     "indicator_code": "B9.2.2.1.3",
     "indicator_description": "Demonstrate how to add Multimedia (audios, videos etc.), tables and charts",
     "examplars": "1. Explore the use of the Insert Ribbon tab to add multimedia (e.g. audios, videos, etc.).\n2. Demonstrate the use of tables and charts in slides.",
-    "core_competencies": "C15.4, DL 5.1"
+    "core_competencies": "CI 15.4, DL 5.1"
   },
   {
-    "subject": "Computing",
+    "subject": "COMPUTING",
     "grade": "B9",
     "strand": "PRODUCTIVITY SOFTWARE",
     "sub_strand": "INTRODUCTION TO DESKTOP PUBLISHING",
@@ -1229,10 +1229,10 @@
     "indicator_code": "B9.2.3.1.1",
     "indicator_description": "Create and present a desktop published document (flyer, advertisement, invitation cards, business cards)",
     "examplars": "1. Create and present a four-page document with images and overflow e.g.flyer, advertisement, storybook.",
-    "core_competencies": "CI, CC, DL, CP, C15.4, DL 5.1, CC 9.6"
+    "core_competencies": "CI, CC, DL, CP, CI 15.4, DL 5.1, CC 9.6"
   },
   {
-    "subject": "Computing",
+    "subject": "COMPUTING",
     "grade": "B9",
     "strand": "PRODUCTIVITY SOFTWARE",
     "sub_strand": "INTRODUCTION TO DESKTOP PUBLISHING",
@@ -1243,95 +1243,95 @@
     "core_competencies": "DL 5.1, CP 5.1, CC 9.6"
   },
   {
-    "subject": "Computing",
+    "subject": "COMPUTING",
     "grade": "B9",
     "strand": "PRODUCTIVITY SOFTWARE",
     "sub_strand": "INTRODUCTION TO DESKTOP PUBLISHING",
     "content_standard": "B9.2.3.1. Critique a Desktop Published Document",
     "indicator_code": "B9.2.3.1.3",
     "indicator_description": "Evaluate a desktop published document",
-    "examplars": "1. Evaluate the assigned document using, but not limited to the following criteria: position of text and images, general layout of the document, use of colour, mechanics (punctuation, spelling, italics, capitalisation, etc.), andappropriateness of the design for the intended purpose.",
+    "examplars": "1. Evaluate the assigned document using, but not limited to criteria: position of text and images, layout, colour, mechanics, and appropriateness.",
     "core_competencies": "CC 9.6, CP 5.1"
   },
   {
-    "subject": "Computing",
+    "subject": "COMPUTING",
     "grade": "B9",
     "strand": "PRODUCTIVITY SOFTWARE",
     "sub_strand": "INTRODUCTION TO ELECTRONIC SPREADSHEET",
     "content_standard": "B9.2.4.1. Demonstrate How to Use Spreadsheet (Advanced Operations)",
     "indicator_code": "B9.2.4.1.1",
     "indicator_description": "Perform data filtering, sorting and validation",
-    "examplars": "1. Describe Fields (columns), Records (rows) and Tables (structured/ unstructured).\n2. Illustrate examples of structured and unstructured tables.\n3. Construct a structured data table of class members (e.g. data table may havethe following fields: Surname, First name, Date of Birth, Sex, Home Town, Region, etc).\n4. Apply validation rules to check for errors.\n5. Convert data tables to a list in MS Excel.\n6. Demonstrate the process of entering data to a list.\n7. Demonstrate the use of validation list in the Sex column (in Exemplar(s): 3)to provide options in a drop-down for data entry.\n8. Demonstrate how to sort data in alphabetical order (ascending/descending)and filter data to display only selected data.",
+    "examplars": "1. Describe Fields (columns), Records (rows) and Tables (structured/ unstructured).\n2. Illustrate examples of structured and unstructured tables.\n3. Construct a structured data table of class members.\n4. Apply validation rules to check for errors.\n5. Convert data tables to a list in MS Excel.\n6. Demonstrate the process of entering data to a list.\n7. Demonstrate the use of validation list in the Sex column.\n8. Demonstrate how to sort and filter data.",
     "core_competencies": "CC, DL, CP, DL 5.1, CP 5.1, CC 9.6"
   },
   {
-    "subject": "Computing",
+    "subject": "COMPUTING",
     "grade": "B9",
     "strand": "PRODUCTIVITY SOFTWARE",
     "sub_strand": "INTRODUCTION TO ELECTRONIC SPREADSHEET",
-    "content_standard": "B9.2.4.1. Demonstrate how to use spreadsheet (Advanced Operations)",
+    "content_standard": "B9.2.4.1. Demonstrate How to Use Spreadsheet (Advanced Operations)",
     "indicator_code": "B9.2.4.1.2",
     "indicator_description": "Demonstrate how to use styles, themes, templates and macros",
     "examplars": "1. Describe the difference between templates and macros.\n2. Create new spreadsheet documents from predefined templates in MS Excel.\n3. Demonstrate the use of styles and themes on sample worksheets.\n4. Do a project on formatting a dataset by applying styles and themes.\n5. Explore the use of macros.",
-    "core_competencies": "CI, CC, DL, CP, C15.4, DL 5.1, CC 9.6"
+    "core_competencies": "CI, CC, DL, CP, CI 15.4, DL 5.1, CC 9.6"
   },
   {
-    "subject": "Computing",
+    "subject": "COMPUTING",
     "grade": "B9",
     "strand": "PRODUCTIVITY SOFTWARE",
     "sub_strand": "INTRODUCTION TO ELECTRONIC SPREADSHEET",
-    "content_standard": "B9.2.4.1. Demonstrate how to use spreadsheet (Advanced Operations)",
+    "content_standard": "B9.2.4.1. Demonstrate How to Use Spreadsheet (Advanced Operations)",
     "indicator_code": "B9.2.4.1.3",
     "indicator_description": "Demonstrate the use of data tables, pivot tables, charts and pivot charts",
-    "examplars": "1. Explore pivot tables and charts.\n2. Explore the use of a pivot table to display a summary of the dataset (referto indicator B9.2.4.1.1).\n3. Insert a pivot chart to display the number of males and females in the class.\n4. Demonstrate the use of the sort and filter features of the pivot table.",
+    "examplars": "1. Explore pivot tables and charts.\n2. Explore the use of a pivot table to display a summary of the dataset.\n3. Insert a pivot chart to display the number of males and females in the class.\n4. Demonstrate the use of the sort and filter features of the pivot table.",
     "core_competencies": "CC 9.6, CP 5.1"
   },
   {
-    "subject": "Computing",
+    "subject": "COMPUTING",
     "grade": "B9",
     "strand": "COMMUNICATION NETWORKS",
     "sub_strand": "COMPUTER NETWORKS",
     "content_standard": "B9.3.1.1. Know the Concept of Computer Networking for Global Communications",
     "indicator_code": "B9.3.1.1.1",
-    "indicator_description": "Discuss types of e-commerce and the cashless society",
-    "examplars": "1. Explore the use of the Internet to engage in online business: selling, buyingand paying for products online.\n2. Discuss the use of online banking systems (e.g. using mobile money, bitcoin, the use of MasterCard, Visa card, QR code payment system, etc.).",
+    "indicator_description": "Discuss types of e-commerce and the cashless society (Bitcoin, Transaction cards, Quick Response code (QR) payment system)",
+    "examplars": "1. Explore the use of the Internet to engage in online business: selling, buying and paying for products online.\n2. Discuss the use of online banking systems (e.g. using mobile money, bitcoin, MasterCard, Visa, QR code, etc.).",
     "core_competencies": "DL, CC, DL 5.3, CC 8.5"
   },
   {
-    "subject": "Computing",
+    "subject": "COMPUTING",
     "grade": "B9",
     "strand": "COMMUNICATION NETWORKS",
     "sub_strand": "COMPUTER NETWORKS",
     "content_standard": "B9.3.1.1. Know the Concept of Computer Networking for Global Communications",
     "indicator_code": "B9.3.1.1.2",
     "indicator_description": "Justify eLearning potentials",
-    "examplars": "1. Explain the concept of eLearning, its benefits and disadvantages.\n2. Discuss projects on a collaborative platform (e.g. iBox network, the use ofad hoc network to share resources, Wikis, Google Docs] etc.)",
+    "examplars": "1. Explain the concept of eLearning, its benefits and disadvantages.\n2. Discuss projects on a collaborative platform (e.g. iBox network, ad hoc network, Wikis, Google Docs, etc.)",
     "core_competencies": "CC 8.1, DL 5.1"
   },
   {
-    "subject": "Computing",
+    "subject": "COMPUTING",
     "grade": "B9",
     "strand": "COMMUNICATION NETWORKS",
     "sub_strand": "INTERNET AND SOCIAL MEDIA",
     "content_standard": "B9.3.2.1 Demonstrate the Use of Social Networking and Electronic Mail",
     "indicator_code": "B9.3.2.1.1",
     "indicator_description": "Identify the advantages and risks in the use of social media platforms",
-    "examplars": "1. Illustrate the benefits of using social media sites\n2. Discuss the issues and risks surrounding the usage of social media platformsand how to avoid them.\n3. Explore reply, reply all, forward and forward all features in the use of emails",
+    "examplars": "1. Illustrate the benefits of using social media sites\n2. Discuss the issues and risks surrounding the usage of social media platforms and how to avoid them.\n3. Explore reply, reply all, forward and forward all features in the use of emails",
     "core_competencies": "DL 5.1"
   },
   {
-    "subject": "Computing",
+    "subject": "COMPUTING",
     "grade": "B9",
     "strand": "COMMUNICATION NETWORKS",
     "sub_strand": "INFORMATION SECURITY",
     "content_standard": "B9.3.3.1. Recognise data threats and the means of protection",
     "indicator_code": "B9.3.3.1.1",
-    "indicator_description": "Discuss cyberbullying, cyberstalking, digital footprint anddigital shadow on the Internet",
+    "indicator_description": "Discuss cyberbullying, cyberstalking, digital footprint and digital shadow on the Internet",
     "examplars": "1. Watch a film or do a reading on cyberbullying, cyberstalking, digital footprint, digital shadows.\n2. Discuss the nature of cyberbullying, cyberstalking, digital footprint and digital shadows.\n3. Identify examples of cyberbullying, cyberstalking, digital footprint and digital shadows.\n4. Discuss the effects on cyberbullying on individuals",
-    "core_competencies": "CI, DI, CP, CC, DL 6.1, CP 6.4, CC 8.5"
+    "core_competencies": "CI, DL, CP, CC, DL 6.1, CP 6.4, CC 8.5"
   },
   {
-    "subject": "Computing",
+    "subject": "COMPUTING",
     "grade": "B9",
     "strand": "COMMUNICATION NETWORKS",
     "sub_strand": "INFORMATION SECURITY",
@@ -1342,91 +1342,102 @@
     "core_competencies": "DL 5.1"
   },
   {
-    "subject": "Computing",
+    "subject": "COMPUTING",
     "grade": "B9",
     "strand": "COMMUNICATION NETWORKS",
     "sub_strand": "WEB TECHNOLOGIES",
-    "content_standard": "B9.3.4.1 Demonstratethe Use of a Web Browser (Blogging)",
+    "content_standard": "B9.3.4.1 Demonstrate the Use of a Web Browser (Blogging)",
     "indicator_code": "B9.3.4.1.1",
     "indicator_description": "Examine the importance of creating blogs",
     "examplars": "1. Discuss the importance of creating blogs.",
     "core_competencies": "CI, DL, CI 6.6, DL 5.3"
   },
   {
-    "subject": "Computing",
+    "subject": "COMPUTING",
     "grade": "B9",
     "strand": "COMMUNICATION NETWORKS",
     "sub_strand": "WEB TECHNOLOGIES",
-    "content_standard": "B9.3.4.1 Demonstratethe Use of a Web Browser (Blogging)",
+    "content_standard": "B9.3.4.1 Demonstrate the Use of a Web Browser (Blogging)",
     "indicator_code": "B9.3.4.1.2",
     "indicator_description": "Develop a blog for the school or a social club",
     "examplars": "1. Investigate the items to include in a school or social club blog.\n2. Develop a blog for the school or a social club.",
     "core_competencies": "DL 6.3"
   },
   {
-    "subject": "Computing",
+    "subject": "COMPUTING",
+    "grade": "B9",
+    "strand": "COMMUNICATION NETWORKS",
+    "sub_strand": "WEB TECHNOLOGIES",
+    "content_standard": "B9.3.4.1 Demonstrate the Use of a Web Browser (Blogging)",
+    "indicator_code": "B9.3.4.1.3",
+    "indicator_description": "Explore the steps in publishing a blog",
+    "examplars": "1. Identify steps in publishing a blog.\n2. Demonstrate the procedure for publishing a blog and invite others to comment.",
+    "core_competencies": "DL 6.3"
+  },
+  {
+    "subject": "COMPUTING",
     "grade": "B9",
     "strand": "COMPUTATIONAL THINKING",
     "sub_strand": "INTRODUCTION TO PROGRAMMING",
     "content_standard": "B9.4.1.1. Show an Understanding of the Concept of Programming",
     "indicator_code": "B9.4.1.1.1",
-    "indicator_description": "Describe the conversion of decimal into binary data typefor computer to recognise the meaning, process and store",
-    "examplars": "1. Convert decimal, binary and hexadecimal data from one format to another.\n2. Show the results of calculating two or more binary numbers using the mathematical notation or operators in the number base two rule.",
+    "indicator_description": "Describe the conversion of decimal into binary data type for computer to recognise the meaning, process and store",
+    "examplars": "1. Convert decimal, binary and hexadecimal data from one format to another.\n2. Show the results of calculating two or more binary numbers.",
     "core_competencies": "CI, CP, CP 5.5"
   },
   {
-    "subject": "Computing",
+    "subject": "COMPUTING",
     "grade": "B9",
     "strand": "COMPUTATIONAL THINKING",
     "sub_strand": "INTRODUCTION TO PROGRAMMING",
     "content_standard": "B9.4.1.1. Show an Understanding of the Concept of Programming",
     "indicator_code": "B9.4.1.1.2",
-    "indicator_description": "Identify the different tools which are accessible in Integrated Development Environment (IDE)",
-    "examplars": "1. Explore programming languages such as Snap, Scratch and Python to explainthe key terminologies (variables, operators, controls, events, etc.) around the coding environment.\n2. Explore a web development programme to create a simple website.",
+    "indicator_description": "Identify the different tools which are accessible in Integrated Development Environment (IDE) to aid the development of codes",
+    "examplars": "1. Explore programming languages such as Snap, Scratch and Python to explain key terminologies around the coding environment.\n2. Explore a web development programme to create a simple website.",
     "core_competencies": "CI 5.5, CP 6.6"
   },
   {
-    "subject": "Computing",
+    "subject": "COMPUTING",
     "grade": "B9",
     "strand": "COMPUTATIONAL THINKING",
     "sub_strand": "ALGORITHM",
     "content_standard": "B9.4.2.1. Analyse the Correct Step-by-step Procedure in Solving any Real-world Problem",
     "indicator_code": "B9.4.2.1.1",
-    "indicator_description": "Write a programme using flowchart and Pseudocode algorithm",
-    "examplars": "1. Discuss at least three ways to do proper hand-washing and prepare beverages with or without sugar and/or milk.\n2. Write an algorithm for Exemplar(s): I that focuses on procedure correctness and shortest time to execute.",
-    "core_competencies": "CI, CP, C16.1, CP 6.4, C15.4"
+    "indicator_description": "Write a programme using flowchart and Pseudocode algorithm that includes sequence, selection and iteration choices in problem-solving",
+    "examplars": "1. Discuss at least three ways to do proper hand-washing and prepare beverages.\n2. Write an algorithm that focuses on procedure correctness and shortest time to execute.",
+    "core_competencies": "CI, CP, CI 6.1, CP 6.4"
   },
   {
-    "subject": "Computing",
+    "subject": "COMPUTING",
     "grade": "B9",
     "strand": "COMPUTATIONAL THINKING",
     "sub_strand": "ALGORITHM",
     "content_standard": "B9.4.2.1. Analyse the Correct Step-by-step Procedure in Solving any Real-world Problem",
     "indicator_code": "B9.4.2.1.2",
-    "indicator_description": "Translate a Flowchart algorithm to Pseudocode format andvice versa",
+    "indicator_description": "Translate a Flowchart algorithm to Pseudocode format and vice versa",
     "examplars": "1. Write an algorithm using flowchart format. Convert or translate the same flowchart algorithm into a Pseudocode format.",
-    "core_competencies": "CI, CP, C16.1, CP 6.4, C15.4"
+    "core_competencies": "CI 15.4"
   },
   {
-    "subject": "Computing",
+    "subject": "COMPUTING",
     "grade": "B9",
     "strand": "COMPUTATIONAL THINKING",
     "sub_strand": "ROBOTICS",
     "content_standard": "B9.4.3.1. Discuss Robot Intelligence Concepts",
     "indicator_code": "B9.4.3.1.1",
-    "indicator_description": "Construct a robot artefact using available lab componentsand tools",
-    "examplars": "1. Explain the three basic laws of robotics by Isaac Asimov i.e. Asimov's science fiction laws of robotics.\n2. Demonstrate how a robot is assembled using real robots' toolkit/video/ pictures.\n3. Explore a robotic software pack, e.g. Scratch, Webot, Snap, Mbot software, EV3 and Mobile Applications such as lightbot",
+    "indicator_description": "Construct a robot artefact using available lab components and tools or emulator/simulator software pack.",
+    "examplars": "1. Explain the three basic laws of robotics by Isaac Asimov.\n2. Demonstrate how a robot is assembled using real robots' toolkit/video/ pictures.\n3. Explore a robotic software pack, e.g. Scratch, Webot, Snap, Mbot software, EV3 and Mobile Applications such as lightbot",
     "core_competencies": "CI, CP, CI 6.3, CP 5.4"
   },
   {
-    "subject": "Computing",
+    "subject": "COMPUTING",
     "grade": "B9",
     "strand": "COMPUTATIONAL THINKING",
     "sub_strand": "ARTIFICIAL INTELLIGENCE",
     "content_standard": "B9.4.4.1 Discuss Artificial intelligence Concepts",
     "indicator_code": "B9.4.4.1.1",
-    "indicator_description": "Describe the knowledge-based systems (Expert systems) as the classical Artificial intelligence",
-    "examplars": "1. Illustrate the use of IF-THEN control structure for querying an expert system\n2. Demonstrate how to input a request in any knowledge-based system to generate an output or result (e.g. Telemedicine system)\n3. Demonstrate how to go onto the web and use Google's Teachable Machine demo",
+    "indicator_description": "Describe the knowledge-based systems (Expert systems)as the classical Artificial intelligence",
+    "examplars": "1. Illustrate the use of IF-THEN control structure for querying an expert system\n2. Demonstrate how to input a request in any knowledge-based system to generate an output or result.\n3. Demonstrate how to go onto the web and use Google's Teachable Machine demo.",
     "core_competencies": "CC, CP, CC 8.2, CP 6.6"
   }
 ]

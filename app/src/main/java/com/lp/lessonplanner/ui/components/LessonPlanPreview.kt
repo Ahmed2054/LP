@@ -31,6 +31,7 @@ import com.lp.lessonplanner.data.remote.LessonPlanHeader
 import com.lp.lessonplanner.data.remote.LessonPlanPhase
 import com.lp.lessonplanner.data.remote.NotePlan
 import com.lp.lessonplanner.data.remote.QuestionsPlan
+import com.lp.lessonplanner.viewmodel.sanitizeJson
 import java.util.Calendar
 import java.util.Locale
 
@@ -72,10 +73,11 @@ fun LessonPlanPreview(
     }
 
     val gson = Gson()
+    val sanitizedJson = generatedPlanJson.sanitizeJson()
     
     // Parse as map first to check plan_type
     val rawMap = try {
-        gson.fromJson(generatedPlanJson, Map::class.java)
+        gson.fromJson(sanitizedJson, Map::class.java)
     } catch (_: Exception) {
         null
     }
@@ -83,15 +85,15 @@ fun LessonPlanPreview(
     val planType = rawMap?.get("plan_type") as? String
 
     val lessonPlan = if (planType == "Lesson Plan" || planType == null) {
-        try { gson.fromJson(generatedPlanJson, LessonPlan::class.java) } catch (_: Exception) { null }
+        try { gson.fromJson(sanitizedJson, LessonPlan::class.java) } catch (_: Exception) { null }
     } else null
 
     val notePlan = if (planType == "Full Note") {
-        try { gson.fromJson(generatedPlanJson, NotePlan::class.java) } catch (_: Exception) { null }
+        try { gson.fromJson(sanitizedJson, NotePlan::class.java) } catch (_: Exception) { null }
     } else null
 
     val questionsPlan = if (planType == "Questions") {
-        try { gson.fromJson(generatedPlanJson, QuestionsPlan::class.java) } catch (_: Exception) { null }
+        try { gson.fromJson(sanitizedJson, QuestionsPlan::class.java) } catch (_: Exception) { null }
     } else null
 
     val headerToEdit: LessonPlanHeader? = when {
@@ -179,6 +181,28 @@ fun HeaderEditSection(
         calendar.get(Calendar.DAY_OF_MONTH)
     )
 
+    val weekEndingCalendar = Calendar.getInstance()
+    try {
+        header.weekEnding?.split("/")?.let { parts ->
+            if (parts.size == 3) {
+                weekEndingCalendar.set(Calendar.DAY_OF_MONTH, parts[0].toInt())
+                weekEndingCalendar.set(Calendar.MONTH, parts[1].toInt() - 1)
+                weekEndingCalendar.set(Calendar.YEAR, parts[2].toInt())
+            }
+        }
+    } catch (_: Exception) {}
+
+    val weekEndingDatePickerDialog = DatePickerDialog(
+        context,
+        { _, year, month, day ->
+            val formattedDate = String.format(Locale.getDefault(), "%02d/%02d/%04d", day, month + 1, year)
+            onUpdateHeaderField("weekEnding", formattedDate)
+        },
+        weekEndingCalendar.get(Calendar.YEAR),
+        weekEndingCalendar.get(Calendar.MONTH),
+        weekEndingCalendar.get(Calendar.DAY_OF_MONTH)
+    )
+
     Card(
         modifier = Modifier.fillMaxWidth(),
         colors = CardDefaults.cardColors(containerColor = Color(0xFFF1F3F4)),
@@ -186,9 +210,17 @@ fun HeaderEditSection(
     ) {
         Column(modifier = Modifier.padding(12.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
             Text("Edit Header Information", fontWeight = FontWeight.Bold, fontSize = 14.sp)
+
+            OutlinedTextField(
+                value = header.week ?: "",
+                onValueChange = { onUpdateHeaderField("week", it) },
+                label = { Text("Week") },
+                placeholder = { Text("Optional") },
+                modifier = Modifier.fillMaxWidth()
+            )
             
             OutlinedTextField(
-                value = header.date ?: "",
+                value = formatToDDMMYYYY(header.date),
                 onValueChange = { },
                 label = { Text("Date") },
                 placeholder = { Text("Optional") },
@@ -217,39 +249,47 @@ fun HeaderEditSection(
 
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 OutlinedTextField(
-                    value = header.week ?: "",
-                    onValueChange = { onUpdateHeaderField("week", it) },
-                    label = { Text("Week") },
+                    value = formatToDDMMYYYY(header.weekEnding),
+                    onValueChange = { },
+                    label = { Text("Week Ending") },
                     placeholder = { Text("Optional") },
-                    modifier = Modifier.weight(0.5f)
+                    modifier = Modifier.weight(0.65f),
+                    readOnly = true,
+                    trailingIcon = {
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            if (!header.weekEnding.isNullOrBlank()) {
+                                IconButton(onClick = { onUpdateHeaderField("weekEnding", "") }) {
+                                    Icon(
+                                        Icons.Default.Close,
+                                        contentDescription = "Clear week ending",
+                                        tint = Color.Gray
+                                    )
+                                }
+                            }
+                            IconButton(onClick = { weekEndingDatePickerDialog.show() }) {
+                                Icon(
+                                    Icons.Default.CalendarMonth,
+                                    contentDescription = "Pick week ending"
+                                )
+                            }
+                        }
+                    }
                 )
                 OutlinedTextField(
                     value = header.lesson ?: "",
                     onValueChange = { onUpdateHeaderField("lesson", it) },
                     label = { Text("Lesson") },
                     placeholder = { Text("Optional") },
-                    modifier = Modifier.weight(0.5f)
+                    modifier = Modifier.weight(0.35f)
                 )
             }
             
-            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                OutlinedTextField(
-                    value = header.duration ?: "",
-                    onValueChange = { onUpdateHeaderField("duration", it) },
-                    label = { Text("Duration") },
-                    placeholder = { Text("Optional") },
-                    modifier = Modifier.weight(1f)
-                )
-                OutlinedTextField(
-                    value = header.classSize ?: "",
-                    onValueChange = { onUpdateHeaderField("classSize", it) },
-                    label = { Text("Class Size") },
-                    modifier = Modifier.weight(1f)
-                )
-            }
-
             OutlinedTextField(
-                value = header.keywords ?: "",
+                value = when (val k = header.keywords) {
+                    is List<*> -> k.joinToString(", ")
+                    is String -> k
+                    else -> ""
+                },
                 onValueChange = { onUpdateHeaderField("keywords", it) },
                 label = { Text("Keywords") },
                 modifier = Modifier.fillMaxWidth()
@@ -479,5 +519,18 @@ private fun ContentSection(title: String, content: String, icon: ImageVector) {
             modifier = Modifier.fillMaxWidth()
         )
     }
+}
+
+private fun formatToDDMMYYYY(dateStr: String?): String {
+    if (dateStr.isNullOrBlank()) return ""
+    val partsDash = dateStr.split("-")
+    if (partsDash.size == 3 && partsDash[0].length == 4) {
+        return "${partsDash[2]}/${partsDash[1]}/${partsDash[0]}"
+    }
+    val partsSlash = dateStr.split("/")
+    if (partsSlash.size == 3 && partsSlash[0].length == 4) {
+        return "${partsSlash[2]}/${partsSlash[1]}/${partsSlash[0]}"
+    }
+    return dateStr
 }
 

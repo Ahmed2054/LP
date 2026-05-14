@@ -7,6 +7,8 @@ import com.google.gson.Gson
 import com.lp.lessonplanner.data.remote.LessonPlan
 import com.lp.lessonplanner.data.remote.NotePlan
 import com.lp.lessonplanner.data.remote.QuestionsPlan
+import com.lp.lessonplanner.viewmodel.detectPlanType
+import com.lp.lessonplanner.viewmodel.sanitizeJson
 import org.apache.poi.xwpf.usermodel.ParagraphAlignment
 import org.apache.poi.xwpf.usermodel.TableRowAlign
 import org.apache.poi.xwpf.usermodel.TableWidthType
@@ -33,6 +35,7 @@ class DocxGenerator(private val context: Context) {
         const val HEADER_GRID_COLUMNS = 300
         const val BODY_FONT_SIZE = 10
         const val TITLE_FONT_SIZE = 14
+        const val OUTPUT_HEADER_FONT_SIZE = 13
         const val LINE_SPACING = 1.5
     }
 
@@ -54,16 +57,17 @@ class DocxGenerator(private val context: Context) {
         pgMar.bottom = BigInteger.valueOf(PAGE_MARGIN_TWIPS.toLong())
 
         jsonContents.forEach { jsonContent ->
+            val sanitizedJson = jsonContent.sanitizeJson()
             val jsonMap = try {
-                gson.fromJson(jsonContent, Map::class.java)
+                gson.fromJson(sanitizedJson, Map::class.java)
             } catch (_: Exception) {
                 null
             }
-            val planType = jsonMap?.get("plan_type") as? String
+            val planType = sanitizedJson.detectPlanType()
 
             val lessonPlan = if (planType == "Lesson Plan") {
                 try {
-                    gson.fromJson(jsonContent, LessonPlan::class.java)
+                    gson.fromJson(sanitizedJson, LessonPlan::class.java)
                 } catch (_: Exception) {
                     null
                 }
@@ -72,7 +76,7 @@ class DocxGenerator(private val context: Context) {
             }
             val notePlan = if (planType == "Full Note") {
                 try {
-                    gson.fromJson(jsonContent, NotePlan::class.java)
+                    gson.fromJson(sanitizedJson, NotePlan::class.java)
                 } catch (_: Exception) {
                     null
                 }
@@ -81,7 +85,7 @@ class DocxGenerator(private val context: Context) {
             }
             val questionsPlan = if (planType == "Questions") {
                 try {
-                    gson.fromJson(jsonContent, QuestionsPlan::class.java)
+                    gson.fromJson(sanitizedJson, QuestionsPlan::class.java)
                 } catch (_: Exception) {
                     null
                 }
@@ -125,20 +129,26 @@ class DocxGenerator(private val context: Context) {
     }
 
     private fun generateLessonPlanDocx(document: XWPFDocument, plan: LessonPlan) {
-        addCenteredTitle(document, "LESSON PLAN RECORD")
+        addCenteredTitle(document, "LESSON PLAN RECORD", spacingAfter = 100)
 
         val header = plan.header ?: return
+        addOutputHeaderDetails(document, header.school, header.facilitatorName, header.term, header.week)
         val table = document.createTable()
         applyHeaderTableStyle(table)
         table.removeRow(0)
 
-        addHeaderRow(table, listOf("DATE" to (header.date ?: ""), "WEEK" to (header.week ?: ""), "DURATION" to (header.duration ?: "")))
+        addHeaderRow(table, listOf("DATE" to formatToDDMMYYYY(header.date), "WEEK ENDING" to formatToDDMMYYYY(header.weekEnding), "DURATION" to (header.duration ?: "")))
         addHeaderRow(table, listOf("SUBJECT" to (header.subject ?: ""), "CLASS" to (header.`class` ?: ""), "CLASS SIZE" to (header.classSize ?: "")))
         addHeaderRow(table, listOf("STRAND" to (header.strand ?: ""), "SUB STRAND" to (header.subStrand ?: "")))
         addHeaderRow(table, listOf("CONTENT STANDARD" to (header.contentStandard ?: "")))
         addHeaderRow(table, listOf("INDICATOR" to (header.indicator ?: ""), "LESSON" to (header.lesson ?: "")), floatArrayOf(0.7f, 0.3f))
         addHeaderRow(table, listOf("PERFORMANCE INDICATOR" to (header.performanceIndicator ?: ""), "CORE COMPETENCIES" to (header.coreCompetencies ?: "")), floatArrayOf(0.7f, 0.3f))
-        addHeaderRow(table, listOf("KEYWORDS" to (header.keywords ?: "")))
+        val keywordsStr = when (val k = header.keywords) {
+            is List<*> -> k.joinToString(", ")
+            is String -> k
+            else -> ""
+        }
+        addHeaderRow(table, listOf("KEYWORDS" to keywordsStr))
 
         val colWeights = floatArrayOf(0.18f, 0.62f, 0.20f)
         val phaseGridSpans = getGridSpans(colWeights.size, colWeights, HEADER_GRID_COLUMNS)
@@ -204,7 +214,7 @@ class DocxGenerator(private val context: Context) {
         applyHeaderTableStyle(table)
         table.removeRow(0)
 
-        addHeaderRow(table, listOf("DATE" to (header.date ?: ""), "WEEK" to (header.week ?: ""), "DURATION" to (header.duration ?: "")))
+        addHeaderRow(table, listOf("DATE" to formatToDDMMYYYY(header.date), "WEEK ENDING" to formatToDDMMYYYY(header.weekEnding), "DURATION" to (header.duration ?: "")))
         addHeaderRow(table, listOf("SUBJECT" to (header.subject ?: ""), "CLASS" to (header.`class` ?: ""), "CLASS SIZE" to (header.classSize ?: "")))
         addHeaderRow(table, listOf("STRAND" to (header.strand ?: ""), "SUB STRAND" to (header.subStrand ?: "")))
         addHeaderRow(table, listOf("CONTENT STANDARD" to (header.contentStandard ?: "")))
@@ -223,7 +233,7 @@ class DocxGenerator(private val context: Context) {
         applyHeaderTableStyle(table)
         table.removeRow(0)
 
-        addHeaderRow(table, listOf("DATE" to (header.date ?: ""), "WEEK" to (header.week ?: ""), "DURATION" to (header.duration ?: "")))
+        addHeaderRow(table, listOf("DATE" to formatToDDMMYYYY(header.date), "WEEK ENDING" to formatToDDMMYYYY(header.weekEnding), "DURATION" to (header.duration ?: "")))
         addHeaderRow(table, listOf("SUBJECT" to (header.subject ?: ""), "CLASS" to (header.`class` ?: ""), "CLASS SIZE" to (header.classSize ?: "")))
         addHeaderRow(table, listOf("STRAND" to (header.strand ?: ""), "SUB STRAND" to (header.subStrand ?: "")))
         addHeaderRow(table, listOf("CONTENT STANDARD" to (header.contentStandard ?: "")))
@@ -263,16 +273,54 @@ class DocxGenerator(private val context: Context) {
         }
     }
 
-    private fun addCenteredTitle(document: XWPFDocument, title: String) {
+    private fun addCenteredTitle(document: XWPFDocument, title: String, spacingAfter: Int = 400) {
         val titlePara = document.createParagraph()
         titlePara.alignment = ParagraphAlignment.CENTER
         titlePara.spacingBefore = 200
-        titlePara.spacingAfter = 400
+        titlePara.spacingAfter = spacingAfter
         val titleRun = titlePara.createRun()
         titleRun.isBold = true
         titleRun.fontFamily = "Times New Roman"
         titleRun.fontSize = TITLE_FONT_SIZE
         titleRun.setText(title)
+    }
+
+    private fun addOutputHeaderDetails(
+        document: XWPFDocument,
+        school: String?,
+        facilitatorName: String?,
+        term: String?,
+        week: String?
+    ) {
+        val details = listOfNotNull(
+            school?.takeIf { it.isNotBlank() }?.let { "SCHOOL: " to it },
+            facilitatorName?.takeIf { it.isNotBlank() }?.let { "FACILITATOR: " to it },
+            term?.takeIf { it.isNotBlank() }?.let { "TERM: " to it },
+            week?.takeIf { it.isNotBlank() }?.let { "WEEK: " to it }
+        )
+
+        if (details.isEmpty()) {
+            document.createParagraph().spacingAfter = 300
+            return
+        }
+
+        details.forEachIndexed { index, (label, value) ->
+            val paragraph = document.createParagraph()
+            paragraph.alignment = ParagraphAlignment.CENTER
+            paragraph.spacingBefore = 0
+            paragraph.spacingAfter = if (index == details.lastIndex) 300 else 20
+
+            val labelRun = paragraph.createRun()
+            labelRun.isBold = true
+            labelRun.fontFamily = "Times New Roman"
+            labelRun.fontSize = OUTPUT_HEADER_FONT_SIZE
+            labelRun.setText(label)
+
+            val valueRun = paragraph.createRun()
+            valueRun.fontFamily = "Times New Roman"
+            valueRun.fontSize = OUTPUT_HEADER_FONT_SIZE
+            valueRun.setText(value)
+        }
     }
 
     private fun addHeaderRow(table: XWPFTable, items: List<Pair<String, String>>, weights: FloatArray? = null) {
@@ -572,5 +620,18 @@ class DocxGenerator(private val context: Context) {
             )
         }
         return processedHtml
+    }
+
+    private fun formatToDDMMYYYY(dateStr: String?): String {
+        if (dateStr.isNullOrBlank()) return ""
+        val partsDash = dateStr.split("-")
+        if (partsDash.size == 3 && partsDash[0].length == 4) {
+            return "${partsDash[2]}/${partsDash[1]}/${partsDash[0]}"
+        }
+        val partsSlash = dateStr.split("/")
+        if (partsSlash.size == 3 && partsSlash[0].length == 4) {
+            return "${partsSlash[2]}/${partsSlash[1]}/${partsSlash[0]}"
+        }
+        return dateStr
     }
 }

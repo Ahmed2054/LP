@@ -20,7 +20,7 @@ import androidx.navigation.compose.rememberNavController
 import com.google.firebase.FirebaseApp
 import com.google.firebase.FirebaseOptions
 import com.lp.lessonplanner.ui.screens.*
-import com.lp.lessonplanner.viewmodel.LessonPlanViewModel
+import com.lp.lessonplanner.viewmodel.*
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -125,8 +125,7 @@ fun MainApp() {
                 if (isLoggedIn) {
                     HistoryScreen(
                         viewModel = viewModel,
-                        onPlanClick = { plan -> 
-                            viewModel.selectHistoryPlan(plan)
+                        onNavigateToPreview = {
                             navController.navigate("view_plan")
                         }
                     ) 
@@ -134,14 +133,14 @@ fun MainApp() {
             }
             composable("view_plan") {
                 if (isLoggedIn) {
-                    val plan by viewModel.selectedHistoryPlan.collectAsState()
-                    plan?.let {
+                    val plans by viewModel.selectedHistoryPlans.collectAsState()
+                    if (plans.isNotEmpty()) {
                         ViewPlanScreen(
-                            plan = it,
+                            plans = plans,
                             viewModel = viewModel,
                             onBack = { navController.popBackStack() },
                             onDelete = { 
-                                viewModel.deletePlan(it)
+                                viewModel.deleteMultiplePlans(plans)
                                 navController.popBackStack()
                             }
                         )

@@ -25,19 +25,22 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import com.lp.lessonplanner.ui.utils.FormatAction
+import com.lp.lessonplanner.ui.utils.formatToDDMMYYYY
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.lp.lessonplanner.viewmodel.LessonPlanViewModel
+import com.lp.lessonplanner.viewmodel.*
 import com.lp.lessonplanner.data.local.SubjectEntity
 import com.lp.lessonplanner.data.local.CurriculumEntity
 import com.lp.lessonplanner.ui.components.LessonPlanPreview
@@ -172,133 +175,112 @@ fun SetupStep(viewModel: LessonPlanViewModel) {
         contentPadding = PaddingValues(bottom = 24.dp)
     ) {
         item {
-            SetupSectionCard(
-                icon = Icons.Default.Event,
-                title = "Schedule",
-                subtitle = "Keep the timing details together so the lesson is easy to organize.",
-                accentColor = Color(0xFF2E7D32)
+            Surface(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 8.dp),
+                color = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.4f),
+                shape = RoundedCornerShape(24.dp)
             ) {
-                OutlinedTextField(
-                    value = uiState.date,
-                    onValueChange = { },
-                    modifier = Modifier.fillMaxWidth(),
-                    label = { Text("Date") },
-                    placeholder = { Text("Optional") },
-                    readOnly = true,
-                    trailingIcon = {
-                        Row(verticalAlignment = Alignment.CenterVertically) {
-                            if (uiState.date.isNotBlank()) {
-                                IconButton(onClick = { viewModel.updateDate("") }) {
-                                    Icon(
-                                        Icons.Default.Close,
-                                        contentDescription = "Clear date",
-                                        tint = Color.Gray
+                Column {
+                    // Modern Header Image Area
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(160.dp)
+                            .background(
+                                brush = androidx.compose.ui.graphics.Brush.verticalGradient(
+                                    colors = listOf(
+                                        MaterialTheme.colorScheme.primary,
+                                        MaterialTheme.colorScheme.secondary
                                     )
-                                }
-                            }
-                            IconButton(
-                                onClick = {
-                                    val calendar = Calendar.getInstance()
-                                    try {
-                                        uiState.date.split("/").let { parts ->
-                                            if (parts.size == 3) {
-                                                calendar.set(Calendar.DAY_OF_MONTH, parts[0].toInt())
-                                                calendar.set(Calendar.MONTH, parts[1].toInt() - 1)
-                                                calendar.set(Calendar.YEAR, parts[2].toInt())
-                                            }
-                                        }
-                                    } catch (_: Exception) {}
-
-                                    DatePickerDialog(context, { _, y, m, d ->
-                                        val formattedDate = String.format(Locale.US, "%02d/%02d/%d", d, m + 1, y)
-                                        viewModel.updateDate(formattedDate)
-                                    }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show()
-                                }
+                                )
+                            ),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        // Decorative pattern or icon
+                        Icon(
+                            imageVector = Icons.Default.AutoAwesome,
+                            contentDescription = null,
+                            modifier = Modifier
+                                .size(120.dp)
+                                .alpha(0.15f)
+                                .align(Alignment.CenterEnd)
+                                .padding(end = 16.dp),
+                            tint = Color.White
+                        )
+                        
+                        Column(
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            modifier = Modifier.padding(16.dp)
+                        ) {
+                            Surface(
+                                shape = CircleShape,
+                                color = Color.White.copy(alpha = 0.2f),
+                                modifier = Modifier.size(56.dp)
                             ) {
                                 Icon(
-                                    Icons.Default.CalendarMonth,
-                                    contentDescription = "Pick date",
-                                    tint = Color(0xFF2E7D32)
+                                    Icons.Default.School,
+                                    contentDescription = null,
+                                    modifier = Modifier.padding(12.dp),
+                                    tint = Color.White
+                                )
+                            }
+                            Spacer(Modifier.height(12.dp))
+                            Text(
+                                "Welcome to Lesson Planner",
+                                style = MaterialTheme.typography.headlineSmall,
+                                fontWeight = FontWeight.ExtraBold,
+                                color = Color.White,
+                                textAlign = TextAlign.Center
+                            )
+                        }
+                    }
+
+                    Column(modifier = Modifier.padding(20.dp)) {
+                        Text(
+                            "Effortlessly generate comprehensive lesson plans tailored to the Ghanaian Basic Education curriculum obtained from NaCCA.",
+                            style = MaterialTheme.typography.bodyLarge,
+                            lineHeight = 24.sp,
+                            fontWeight = FontWeight.Medium,
+                            color = MaterialTheme.colorScheme.onSurface
+                        )
+                        
+                        Spacer(Modifier.height(16.dp))
+
+                        Surface(
+                            color = Color(0xFFFFF3E0),
+                            shape = RoundedCornerShape(12.dp),
+                            border = androidx.compose.foundation.BorderStroke(1.dp, Color(0xFFFFE0B2))
+                        ) {
+                            Row(
+                                modifier = Modifier.padding(12.dp),
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Icon(
+                                    Icons.Default.Warning,
+                                    contentDescription = null,
+                                    tint = Color(0xFFE65100),
+                                    modifier = Modifier.size(20.dp)
+                                )
+                                Spacer(Modifier.width(12.dp))
+                                Text(
+                                    "AI-generated content. Please verify all details before use.",
+                                    style = MaterialTheme.typography.bodySmall,
+                                    color = Color(0xFFE65100),
+                                    fontWeight = FontWeight.Bold
                                 )
                             }
                         }
-                    },
-                    colors = OutlinedTextFieldDefaults.colors(
-                        focusedBorderColor = Color(0xFFB8C4D6),
-                        unfocusedBorderColor = Color(0xFFD8E0EA)
-                    ),
-                    shape = RoundedCornerShape(14.dp),
-                    singleLine = true
-                )
 
-                Spacer(Modifier.height(12.dp))
+                        Spacer(Modifier.height(16.dp))
 
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(12.dp)
-                ) {
-                    OutlinedTextField(
-                        value = uiState.week,
-                        onValueChange = { viewModel.updateWeek(it) },
-                        modifier = Modifier.weight(0.75f),
-                        label = { Text("Week") },
-                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                        shape = RoundedCornerShape(14.dp),
-                        singleLine = true,
-                        colors = OutlinedTextFieldDefaults.colors(
-                            focusedBorderColor = Color(0xFFB8C4D6),
-                            unfocusedBorderColor = Color(0xFFD8E0EA)
+                        Text(
+                            "Start by choosing your class and subject below to begin your journey.",
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
-                    )
-
-                    OutlinedTextField(
-                        value = uiState.lessonNumber,
-                        onValueChange = { viewModel.updateLessonNumber(it) },
-                        modifier = Modifier.weight(1f),
-                        label = { Text("Lesson Number") },
-                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                        shape = RoundedCornerShape(14.dp),
-                        singleLine = true,
-                        colors = OutlinedTextFieldDefaults.colors(
-                            focusedBorderColor = Color(0xFFB8C4D6),
-                            unfocusedBorderColor = Color(0xFFD8E0EA)
-                        )
-                    )
-
-                }
-
-                Spacer(Modifier.height(12.dp))
-
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(12.dp)
-                ) {
-                    OutlinedTextField(
-                        value = uiState.duration,
-                        onValueChange = { viewModel.updateDuration(it) },
-                        modifier = Modifier.weight(1f),
-                        label = { Text("Duration") },
-                        shape = RoundedCornerShape(14.dp),
-                        singleLine = true,
-                        colors = OutlinedTextFieldDefaults.colors(
-                            focusedBorderColor = Color(0xFFB8C4D6),
-                            unfocusedBorderColor = Color(0xFFD8E0EA)
-                        )
-                    )
-
-                    OutlinedTextField(
-                        value = uiState.classSize,
-                        onValueChange = { viewModel.updateClassSize(it) },
-                        modifier = Modifier.weight(1f),
-                        label = { Text("Class Size") },
-                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                        shape = RoundedCornerShape(14.dp),
-                        singleLine = true,
-                        colors = OutlinedTextFieldDefaults.colors(
-                            focusedBorderColor = Color(0xFFB8C4D6),
-                            unfocusedBorderColor = Color(0xFFD8E0EA)
-                        )
-                    )
+                    }
                 }
             }
         }
@@ -475,6 +457,7 @@ fun FlowRow(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun IndicatorStep(viewModel: LessonPlanViewModel) {
     val uiState by viewModel.uiState.collectAsState()
@@ -668,13 +651,31 @@ fun IndicatorStep(viewModel: LessonPlanViewModel) {
             }
         }
 
-        Text(
-            "${indicators.size} indicators · ${uiState.selectedIndicatorIds.size} selected",
-            fontSize = 11.sp,
-            fontWeight = FontWeight.Bold,
-            color = if (uiState.selectedIndicatorIds.isNotEmpty()) Color(0xFF2196F3) else Color.Gray,
-            modifier = Modifier.padding(vertical = 8.dp)
-        )
+        Row(
+            modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                "${indicators.size} indicators · ${uiState.selectedIndicatorIds.size} selected",
+                fontSize = 11.sp,
+                fontWeight = FontWeight.Bold,
+                color = if (uiState.selectedIndicatorIds.isNotEmpty()) Color(0xFF2196F3) else Color.Gray
+            )
+
+            if (uiState.selectedIndicatorIds.isNotEmpty()) {
+                Text(
+                    text = "Clear All",
+                    fontSize = 11.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = Color.Red,
+                    modifier = Modifier
+                        .clip(RoundedCornerShape(4.dp))
+                        .clickable { viewModel.clearAllIndicators() }
+                        .padding(horizontal = 8.dp, vertical = 4.dp)
+                )
+            }
+        }
 
         if (uiState.isLoading) {
             Spacer(Modifier.height(4.dp))
@@ -692,9 +693,12 @@ fun IndicatorStep(viewModel: LessonPlanViewModel) {
         ) {
             items(filteredIndicators) { indicator ->
                 val isSelected = uiState.selectedIndicatorIds.contains(indicator.id)
+                val metadata = uiState.indicatorMetadata[indicator.id] ?: com.lp.lessonplanner.viewmodel.IndicatorMetadata()
                 IndicatorItem(
                     indicator = indicator,
                     isSelected = isSelected,
+                    metadata = metadata,
+                    onMetadataChange = { field, value -> viewModel.updateIndicatorMetadata(indicator.id, field, value) },
                     onClick = { viewModel.updateIndicator(indicator.id) },
                     onDetailClick = { selectedIndicatorForDetail = indicator }
                 )
@@ -867,8 +871,37 @@ fun DetailRow(label: String, value: String?) {
 }
 
 @Composable
-fun IndicatorItem(indicator: CurriculumEntity, isSelected: Boolean, onClick: () -> Unit, onDetailClick: () -> Unit) {
+fun IndicatorItem(
+    indicator: CurriculumEntity,
+    isSelected: Boolean,
+    metadata: com.lp.lessonplanner.viewmodel.IndicatorMetadata,
+    onMetadataChange: (String, String) -> Unit,
+    onClick: () -> Unit,
+    onDetailClick: () -> Unit
+) {
     val primaryColor = Color(0xFF2196F3)
+    val context = LocalContext.current
+    val calendar = Calendar.getInstance()
+
+    val datePickerDialog = DatePickerDialog(
+        context,
+        { _, year, month, dayOfMonth ->
+            onMetadataChange("date", "$year-${month + 1}-$dayOfMonth")
+        },
+        calendar.get(Calendar.YEAR),
+        calendar.get(Calendar.MONTH),
+        calendar.get(Calendar.DAY_OF_MONTH)
+    )
+
+    val weekEndingDatePickerDialog = DatePickerDialog(
+        context,
+        { _, year, month, dayOfMonth ->
+            onMetadataChange("weekEnding", "$year-${month + 1}-$dayOfMonth")
+        },
+        calendar.get(Calendar.YEAR),
+        calendar.get(Calendar.MONTH),
+        calendar.get(Calendar.DAY_OF_MONTH)
+    )
     
     Box(
         modifier = Modifier
@@ -924,7 +957,8 @@ fun IndicatorItem(indicator: CurriculumEntity, isSelected: Boolean, onClick: () 
                 color = Color.DarkGray,
                 lineHeight = 18.sp,
                 modifier = Modifier.padding(top = 6.dp),
-                maxLines = 3
+                maxLines = 2,
+                overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis
             )
 
             if (!indicator.strand.isNullOrEmpty()) {
@@ -939,10 +973,116 @@ fun IndicatorItem(indicator: CurriculumEntity, isSelected: Boolean, onClick: () 
                     )
                 }
             }
+
+            androidx.compose.animation.AnimatedVisibility(visible = isSelected) {
+                Column(modifier = Modifier.padding(top = 16.dp).clickable(enabled = false) { }) {
+                    HorizontalDivider(modifier = Modifier.padding(bottom = 12.dp), color = primaryColor.copy(alpha = 0.2f))
+                    
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
+                        OutlinedTextField(
+                            value = metadata.week,
+                            onValueChange = { onMetadataChange("week", it) },
+                            modifier = Modifier.weight(0.7f).height(60.dp),
+                            label = { Text("Week", fontSize = 10.sp, maxLines = 1) },
+                            shape = RoundedCornerShape(8.dp),
+                            singleLine = true,
+                            textStyle = LocalTextStyle.current.copy(fontSize = 14.sp, color = Color.Black),
+                            colors = OutlinedTextFieldDefaults.colors(
+                                focusedTextColor = Color.Black,
+                                unfocusedTextColor = Color.Black,
+                                focusedContainerColor = Color.White,
+                                unfocusedContainerColor = Color.White,
+                                focusedBorderColor = primaryColor,
+                                unfocusedBorderColor = Color(0xFFE8EAED),
+                                focusedLabelColor = primaryColor,
+                                unfocusedLabelColor = Color.Gray
+                            )
+                        )
+                        OutlinedTextField(
+                            value = formatToDDMMYYYY(metadata.weekEnding),
+                            onValueChange = { },
+                            modifier = Modifier.weight(1.3f).height(60.dp).clickable { weekEndingDatePickerDialog.show() },
+                            label = { Text("W/E", fontSize = 10.sp, maxLines = 1) },
+                            placeholder = { Text("W/E", fontSize = 10.sp) },
+                            readOnly = true,
+                            enabled = false,
+                            shape = RoundedCornerShape(8.dp),
+                            textStyle = LocalTextStyle.current.copy(fontSize = 13.sp, color = Color.Black),
+                            trailingIcon = {
+                                IconButton(onClick = { weekEndingDatePickerDialog.show() }, modifier = Modifier.size(20.dp)) {
+                                    Icon(Icons.Default.CalendarMonth, contentDescription = null, modifier = Modifier.size(14.dp))
+                                }
+                            },
+                            colors = OutlinedTextFieldDefaults.colors(
+                                disabledTextColor = Color.Black,
+                                disabledBorderColor = Color(0xFFE8EAED),
+                                disabledContainerColor = Color.White,
+                                disabledLabelColor = Color.Gray,
+                                disabledTrailingIconColor = primaryColor
+                            )
+                        )
+                    }
+
+                    Spacer(modifier = Modifier.height(8.dp))
+
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
+                        OutlinedTextField(
+                            value = metadata.lessonNumber,
+                            onValueChange = { onMetadataChange("lessonNumber", it) },
+                            modifier = Modifier.weight(0.7f).height(60.dp),
+                            label = { Text("Lesson", fontSize = 10.sp, maxLines = 1) },
+                            shape = RoundedCornerShape(8.dp),
+                            singleLine = true,
+                            textStyle = LocalTextStyle.current.copy(fontSize = 14.sp, color = Color.Black),
+                            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                            colors = OutlinedTextFieldDefaults.colors(
+                                focusedTextColor = Color.Black,
+                                unfocusedTextColor = Color.Black,
+                                focusedContainerColor = Color.White,
+                                unfocusedContainerColor = Color.White,
+                                focusedBorderColor = primaryColor,
+                                unfocusedBorderColor = Color(0xFFE8EAED),
+                                focusedLabelColor = primaryColor,
+                                unfocusedLabelColor = Color.Gray
+                            )
+                        )
+                        OutlinedTextField(
+                            value = formatToDDMMYYYY(metadata.date),
+                            onValueChange = { },
+                            modifier = Modifier.weight(1.3f).height(60.dp).clickable { datePickerDialog.show() },
+                            label = { Text("Date", fontSize = 10.sp, maxLines = 1) },
+                            placeholder = { Text("Date", fontSize = 10.sp) },
+                            readOnly = true,
+                            enabled = false,
+                            shape = RoundedCornerShape(8.dp),
+                            textStyle = LocalTextStyle.current.copy(fontSize = 13.sp, color = Color.Black),
+                            trailingIcon = {
+                                IconButton(onClick = { datePickerDialog.show() }, modifier = Modifier.size(20.dp)) {
+                                    Icon(Icons.Default.CalendarToday, contentDescription = null, modifier = Modifier.size(14.dp))
+                                }
+                            },
+                            colors = OutlinedTextFieldDefaults.colors(
+                                disabledTextColor = Color.Black,
+                                disabledBorderColor = Color(0xFFE8EAED),
+                                disabledContainerColor = Color.White,
+                                disabledLabelColor = Color.Gray,
+                                disabledTrailingIconColor = primaryColor
+                            )
+                        )
+                    }
+                }
+            }
         }
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PreviewStep(viewModel: LessonPlanViewModel) {
     val uiState by viewModel.uiState.collectAsState()
@@ -981,6 +1121,36 @@ fun PreviewStep(viewModel: LessonPlanViewModel) {
             confirmButton = {
                 TextButton(onClick = { selectedIndicatorForDetail = null }) {
                     Text("Close")
+                }
+            },
+            shape = RoundedCornerShape(16.dp),
+            containerColor = Color.White
+        )
+    }
+
+    var planToDelete by remember { mutableStateOf<Int?>(null) }
+
+    if (planToDelete != null) {
+        AlertDialog(
+            onDismissRequest = { planToDelete = null },
+            title = { Text("Delete Lesson Plan", fontWeight = FontWeight.Bold) },
+            text = { Text("Are you sure you want to delete this generated lesson plan?") },
+            confirmButton = {
+                TextButton(
+                    onClick = {
+                        planToDelete?.let { viewModel.deleteGeneratedPlan(it) }
+                        planToDelete = null
+                        if (uiState.generatedPlanJsons.size <= 1) {
+                            viewModel.updateStep(2)
+                        }
+                    }
+                ) {
+                    Text("Delete", color = Color.Red, fontWeight = FontWeight.Bold)
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { planToDelete = null }) {
+                    Text("Cancel")
                 }
             },
             shape = RoundedCornerShape(16.dp),
@@ -1083,6 +1253,31 @@ fun PreviewStep(viewModel: LessonPlanViewModel) {
                         }
                     }
                     Spacer(Modifier.height(12.dp))
+                    Surface(
+                        color = Color(0xFFFFF3E0),
+                        shape = RoundedCornerShape(8.dp),
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        Row(
+                            modifier = Modifier.padding(8.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Icon(
+                                Icons.Default.Warning,
+                                contentDescription = null,
+                                tint = Color(0xFFE65100),
+                                modifier = Modifier.size(16.dp)
+                            )
+                            Spacer(Modifier.width(8.dp))
+                            Text(
+                                "AI-generated content. Please cross-check for accuracy.",
+                                style = MaterialTheme.typography.bodySmall,
+                                color = Color(0xFFE65100),
+                                fontWeight = FontWeight.Medium
+                            )
+                        }
+                    }
+                    Spacer(Modifier.height(8.dp))
                     Row(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.spacedBy(8.dp)
@@ -1140,6 +1335,85 @@ fun PreviewStep(viewModel: LessonPlanViewModel) {
 
             Spacer(Modifier.height(16.dp))
 
+            // Shared Info Card
+            var commonInfoExpanded by remember { mutableStateOf(false) }
+            Card(
+                modifier = Modifier.fillMaxWidth(),
+                colors = CardDefaults.cardColors(containerColor = Color(0xFFF8F9FA)),
+                shape = RoundedCornerShape(12.dp),
+                border = androidx.compose.foundation.BorderStroke(1.dp, Color(0xFFE9ECEF))
+            ) {
+                Column(modifier = Modifier.padding(12.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clickable { commonInfoExpanded = !commonInfoExpanded },
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text("Common Information", fontWeight = FontWeight.Bold, fontSize = 14.sp, color = Color(0xFF1A73E8))
+                        Icon(
+                            imageVector = if (commonInfoExpanded) Icons.Default.ExpandLess else Icons.Default.ExpandMore,
+                            contentDescription = if (commonInfoExpanded) "Collapse" else "Expand",
+                            tint = Color(0xFF1A73E8)
+                        )
+                    }
+                    
+                    if (commonInfoExpanded) {
+                        OutlinedTextField(
+                            value = uiState.school,
+                            onValueChange = { viewModel.updateSchool(it) },
+                            label = { Text("School") },
+                            modifier = Modifier.fillMaxWidth(),
+                            shape = RoundedCornerShape(8.dp),
+                            singleLine = true
+                        )
+
+                        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                            OutlinedTextField(
+                                value = uiState.facilitatorName,
+                                onValueChange = { viewModel.updateFacilitatorName(it) },
+                                label = { Text("Facilitator") },
+                                modifier = Modifier.weight(1f),
+                                shape = RoundedCornerShape(8.dp),
+                                singleLine = true
+                            )
+
+                            OutlinedTextField(
+                                value = uiState.term,
+                                onValueChange = { viewModel.updateTerm(it) },
+                                label = { Text("Term") },
+                                modifier = Modifier.weight(0.4f),
+                                shape = RoundedCornerShape(8.dp),
+                                singleLine = true
+                            )
+                        }
+
+                        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                            OutlinedTextField(
+                                value = uiState.classSize,
+                                onValueChange = { viewModel.updateClassSize(it) },
+                                label = { Text("Class Size") },
+                                modifier = Modifier.weight(1f),
+                                shape = RoundedCornerShape(8.dp),
+                                singleLine = true
+                            )
+
+                            OutlinedTextField(
+                                value = uiState.duration,
+                                onValueChange = { viewModel.updateDuration(it) },
+                                label = { Text("Duration") },
+                                modifier = Modifier.weight(1f),
+                                shape = RoundedCornerShape(8.dp),
+                                singleLine = true
+                            )
+                        }
+                    }
+                }
+            }
+
+            Spacer(Modifier.height(12.dp))
+
             if (uiState.isLoading) {
                 Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
@@ -1154,65 +1428,163 @@ fun PreviewStep(viewModel: LessonPlanViewModel) {
                     contentPadding = PaddingValues(bottom = 24.dp),
                     verticalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
-                    itemsIndexed(uiState.generatedPlanJsons) { planIndex, planJson ->
-                        val planMap = remember(planJson) { 
-                            try { Gson().fromJson(planJson, Map::class.java) } catch(e: Exception) { null } 
+                    itemsIndexed(
+                        items = uiState.generatedPlanJsons,
+                        key = { index, _ -> index }
+                    ) { planIndex, planJson ->
+                        val planMap = remember(planJson) {
+                            try { Gson().fromJson(planJson, Map::class.java) } catch (e: Exception) { null }
                         }
                         val header = planMap?.get("header") as? Map<*, *>
                         val grade = header?.get("class") as? String ?: uiState.selectedGrade
-                        val subjectName = header?.get("subject") as? String ?: subjects.find { it.id == uiState.selectedSubjectId }?.actualName ?: ""
+                        val subjectName = header?.get("subject") as? String
+                            ?: subjects.find { it.id == uiState.selectedSubjectId }?.actualName ?: ""
                         val indicatorLabel = header?.get("indicator") as? String ?: ""
+                        val indicatorCode = indicatorLabel.split(" - ").firstOrNull()?.trim() ?: ""
 
+                        // Each plan is collapsed by default
+                        var expanded by remember { mutableStateOf(false) }
+                        val totalPlans = uiState.generatedPlanJsons.size
+
+                        // ── Label / header row ──────────────────────────────────────────
                         Surface(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(bottom = 8.dp)
-                                .clip(RoundedCornerShape(12.dp))
-                                .clickable {
-                                    val code = indicatorLabel.split(" - ").firstOrNull()?.trim()
-                                    selectedIndicatorForDetail = indicators.find { it.indicatorCode == code }
-                                },
+                            modifier = Modifier.fillMaxWidth(),
                             color = Color(0xFFE3F2FD),
                             shape = RoundedCornerShape(12.dp),
                             border = androidx.compose.foundation.BorderStroke(1.dp, Color(0xFFBBDEFB))
                         ) {
-                            Row(
-                                modifier = Modifier.padding(horizontal = 14.dp, vertical = 10.dp),
-                                verticalAlignment = Alignment.CenterVertically
-                            ) {
-                                Icon(Icons.Default.Info, contentDescription = null, tint = Color(0xFF2196F3), modifier = Modifier.size(16.dp))
-                                Spacer(Modifier.width(10.dp))
-                                Text(
-                                    text = "$grade · $subjectName · ${indicatorLabel.split(" - ").firstOrNull() ?: ""}",
-                                    fontSize = 13.sp,
-                                    fontWeight = FontWeight.Bold,
-                                    color = Color(0xFF1976D2)
-                                )
-                                Spacer(Modifier.weight(1f))
-                                Icon(Icons.Default.ChevronRight, contentDescription = null, tint = Color(0xFF2196F3), modifier = Modifier.size(18.dp))
+                            Column {
+                                Row(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .clickable { expanded = !expanded }
+                                        .padding(horizontal = 12.dp, vertical = 10.dp),
+                                    verticalAlignment = Alignment.CenterVertically
+                                ) {
+                                    // Collapse / expand chevron
+                                    Icon(
+                                        imageVector = if (expanded) Icons.Default.ExpandLess else Icons.Default.ExpandMore,
+                                        contentDescription = if (expanded) "Collapse" else "Expand",
+                                        tint = Color(0xFF2196F3),
+                                        modifier = Modifier.size(18.dp)
+                                    )
+                                    Spacer(Modifier.width(6.dp))
+                                    Column(modifier = Modifier.weight(1f)) {
+                                        Text(
+                                            text = "$indicatorCode · $subjectName",
+                                            fontSize = 13.sp,
+                                            fontWeight = FontWeight.Bold,
+                                            color = Color(0xFF1976D2),
+                                            maxLines = 1,
+                                            overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis
+                                        )
+                                        val weekNumber = header?.get("week") as? String ?: ""
+                                        if (weekNumber.isNotBlank()) {
+                                            Text(
+                                                text = "Week $weekNumber",
+                                                fontSize = 11.sp,
+                                                fontWeight = FontWeight.Medium,
+                                                color = Color(0xFF1976D2).copy(alpha = 0.8f)
+                                            )
+                                        }
+                                    }
+                                    // ── Action buttons ─────────────────────────────────
+                                    // Reorder up
+                                    IconButton(
+                                        onClick = { viewModel.moveGeneratedPlan(planIndex, -1) },
+                                        enabled = planIndex > 0,
+                                        modifier = Modifier.size(28.dp)
+                                    ) {
+                                        Icon(
+                                            Icons.Default.KeyboardArrowUp,
+                                            contentDescription = "Move Up",
+                                            modifier = Modifier.size(18.dp),
+                                            tint = if (planIndex > 0) Color(0xFF1976D2) else Color.LightGray
+                                        )
+                                    }
+                                    // Reorder down
+                                    IconButton(
+                                        onClick = { viewModel.moveGeneratedPlan(planIndex, 1) },
+                                        enabled = planIndex < totalPlans - 1,
+                                        modifier = Modifier.size(28.dp)
+                                    ) {
+                                        Icon(
+                                            Icons.Default.KeyboardArrowDown,
+                                            contentDescription = "Move Down",
+                                            modifier = Modifier.size(18.dp),
+                                            tint = if (planIndex < totalPlans - 1) Color(0xFF1976D2) else Color.LightGray
+                                        )
+                                    }
+                                    // Duplicate
+                                    IconButton(
+                                        onClick = { viewModel.duplicateGeneratedPlan(planIndex) },
+                                        modifier = Modifier.size(28.dp)
+                                    ) {
+                                        Icon(
+                                            Icons.Default.ContentCopy,
+                                            contentDescription = "Duplicate Plan",
+                                            modifier = Modifier.size(16.dp),
+                                            tint = Color(0xFF4CAF50)
+                                        )
+                                    }
+                                    // Regenerate
+                                    IconButton(
+                                        onClick = { viewModel.regeneratePlan(planIndex, apiKey, model) },
+                                        modifier = Modifier.size(28.dp)
+                                    ) {
+                                        Icon(
+                                            Icons.Default.Refresh,
+                                            contentDescription = "Regenerate Plan",
+                                            modifier = Modifier.size(16.dp),
+                                            tint = Color(0xFFFF9800)
+                                        )
+                                    }
+                                    // Delete
+                                    IconButton(
+                                        onClick = { planToDelete = planIndex },
+                                        modifier = Modifier.size(28.dp)
+                                    ) {
+                                        Icon(
+                                            Icons.Default.Delete,
+                                            contentDescription = "Delete Plan",
+                                            modifier = Modifier.size(16.dp),
+                                            tint = Color.Red
+                                        )
+                                    }
+                                }
                             }
                         }
 
-                        LessonPlanPreview(
-                            generatedPlanJson = planJson,
-                            editingPhaseIndex = if (uiState.editingPhaseIndex?.first == planIndex) uiState.editingPhaseIndex?.second else null,
-                            regeneratingPhaseIndex = if (uiState.regeneratingPhaseIndex?.first == planIndex) uiState.regeneratingPhaseIndex?.second else null,
-                            onEditPhase = { phaseIndex -> 
-                                viewModel.updateEditingPhase(if (phaseIndex == null) null else planIndex to phaseIndex) 
-                            },
-                            onUpdatePhaseField = { phaseIndex, field, value ->
-                                viewModel.updatePhaseField(planIndex, phaseIndex, field, value)
-                            },
-                            onRegeneratePhase = { phaseIndex, name ->
-                                viewModel.regeneratePhase(planIndex, phaseIndex, name, apiKey, model)
-                            },
-                            onUpdateHeaderField = { field, value ->
-                                viewModel.updateHeaderField(planIndex, field, value)
+                        // ── Expandable plan content ─────────────────────────────────────
+                        androidx.compose.animation.AnimatedVisibility(visible = expanded) {
+                            Column {
+                                Spacer(Modifier.height(8.dp))
+                                LessonPlanPreview(
+                                    generatedPlanJson = planJson,
+                                    editingPhaseIndex = if (uiState.editingPhaseIndex?.first == planIndex) uiState.editingPhaseIndex?.second else null,
+                                    regeneratingPhaseIndex = if (uiState.regeneratingPhaseIndex?.first == planIndex) uiState.regeneratingPhaseIndex?.second else null,
+                                    onEditPhase = { phaseIndex ->
+                                        viewModel.updateEditingPhase(if (phaseIndex == null) null else planIndex to phaseIndex)
+                                    },
+                                    onUpdatePhaseField = { phaseIndex, field, value ->
+                                        viewModel.updatePhaseField(planIndex, phaseIndex, field, value)
+                                    },
+                                    onRegeneratePhase = { phaseIndex, name ->
+                                        viewModel.regeneratePhase(planIndex, phaseIndex, name, apiKey, model)
+                                    },
+                                    onUpdateHeaderField = { field, value ->
+                                        viewModel.updateHeaderField(planIndex, field, value)
+                                    }
+                                )
                             }
-                        )
-                        
-                        if (planIndex < uiState.generatedPlanJsons.size - 1) {
-                            HorizontalDivider(modifier = Modifier.padding(vertical = 16.dp), thickness = 2.dp, color = Color.LightGray)
+                        }
+
+                        if (planIndex < totalPlans - 1) {
+                            HorizontalDivider(
+                                modifier = Modifier.padding(vertical = 12.dp),
+                                thickness = 1.dp,
+                                color = Color(0xFFE0E0E0)
+                            )
                         }
                     }
                 }

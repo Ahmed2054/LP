@@ -15,6 +15,8 @@ import com.google.gson.Gson
 import com.lp.lessonplanner.data.remote.LessonPlan
 import com.lp.lessonplanner.data.remote.NotePlan
 import com.lp.lessonplanner.data.remote.QuestionsPlan
+import com.lp.lessonplanner.viewmodel.detectPlanType
+import com.lp.lessonplanner.viewmodel.sanitizeJson
 import java.io.File
 import java.io.FileOutputStream
 
@@ -55,6 +57,18 @@ class PdfGenerator(private val context: Context) {
             typeface = Typeface.create(Typeface.SERIF, Typeface.BOLD)
         }
 
+        val outputHeaderPaint = TextPaint().apply {
+            color = Color.BLACK
+            textSize = 13f
+            typeface = Typeface.create(Typeface.SERIF, Typeface.NORMAL)
+        }
+
+        val outputHeaderLabelPaint = TextPaint().apply {
+            color = Color.BLACK
+            textSize = 13f
+            typeface = Typeface.create(Typeface.SERIF, Typeface.BOLD)
+        }
+
         val margin = 30f
 
         jsonContents.forEachIndexed { _, jsonContent ->
@@ -63,31 +77,52 @@ class PdfGenerator(private val context: Context) {
             var y = margin
             val contentWidth = pageWidth - (margin * 2)
 
-            val jsonMap = try { gson.fromJson(jsonContent, Map::class.java) } catch (e: Exception) { null }
-            val planType = jsonMap?.get("plan_type") as? String
+            val sanitizedJson = jsonContent.sanitizeJson()
+            val jsonMap = try { gson.fromJson(sanitizedJson, Map::class.java) } catch (e: Exception) { null }
+            val planType = sanitizedJson.detectPlanType()
 
-            val lessonPlan = if (planType == "Lesson Plan") try { gson.fromJson(jsonContent, LessonPlan::class.java) } catch (e: Exception) { null } else null
-            val notePlan = if (planType == "Full Note") try { gson.fromJson(jsonContent, NotePlan::class.java) } catch (e: Exception) { null } else null
-            val questionsPlan = if (planType == "Questions") try { gson.fromJson(jsonContent, QuestionsPlan::class.java) } catch (e: Exception) { null } else null
+            val lessonPlan = if (planType == "Lesson Plan") try { gson.fromJson(sanitizedJson, LessonPlan::class.java) } catch (e: Exception) { null } else null
+            val notePlan = if (planType == "Full Note") try { gson.fromJson(sanitizedJson, NotePlan::class.java) } catch (e: Exception) { null } else null
+            val questionsPlan = if (planType == "Questions") try { gson.fromJson(sanitizedJson, QuestionsPlan::class.java) } catch (e: Exception) { null } else null
 
             if (lessonPlan != null) {
                 // Draw Title
                 y += 10f
                 val title = "LESSON PLAN RECORD"
                 canvas.drawText(title, (pageWidth / 2f) - (titlePaint.measureText(title) / 2f), y, titlePaint)
-                y += 20f
 
                 val header = lessonPlan.header
+                val outputHeaderLines = listOfNotNull(
+                    header?.school?.takeIf { it.isNotBlank() }?.let { "SCHOOL: " to it },
+                    header?.facilitatorName?.takeIf { it.isNotBlank() }?.let { "FACILITATOR: " to it },
+                    header?.term?.takeIf { it.isNotBlank() }?.let { "TERM: " to it },
+                    header?.week?.takeIf { it.isNotBlank() }?.let { "WEEK: " to it }
+                )
+                outputHeaderLines.forEach { (label, value) ->
+                    y += 16f
+                    val labelWidth = outputHeaderLabelPaint.measureText(label)
+                    val valueWidth = outputHeaderPaint.measureText(value)
+                    val startX = (pageWidth / 2f) - ((labelWidth + valueWidth) / 2f)
+                    canvas.drawText(label, startX, y, outputHeaderLabelPaint)
+                    canvas.drawText(value, startX + labelWidth, y, outputHeaderPaint)
+                }
+                y += 20f
+                
+                val keywordsStr = when (val k = header?.keywords) {
+                    is List<*> -> k.joinToString(", ")
+                    is String -> k
+                    else -> ""
+                }
                 
                 // Header Table
                 val headerRows = listOf(
-                    listOf("DATE" to (header?.date ?: ""), "WEEK" to (header?.week ?: ""), "DURATION" to (header?.duration ?: "")),
+                    listOf("DATE" to formatToDDMMYYYY(header?.date), "WEEK ENDING" to formatToDDMMYYYY(header?.weekEnding), "DURATION" to (header?.duration ?: "")),
                     listOf("SUBJECT" to (header?.subject ?: ""), "CLASS" to (header?.`class` ?: ""), "CLASS SIZE" to (header?.classSize ?: "")),
                     listOf("STRAND" to (header?.strand ?: ""), "SUB STRAND" to (header?.subStrand ?: "")),
                     listOf("CONTENT STANDARD" to (header?.contentStandard ?: "")),
                     listOf("INDICATOR" to (header?.indicator ?: ""), "LESSON" to (header?.lesson ?: "")),
                     listOf("PERFORMANCE INDICATOR" to (header?.performanceIndicator ?: ""), "CORE COMPETENCIES" to (header?.coreCompetencies ?: "")),
-                    listOf("KEYWORDS" to (header?.keywords ?: ""))
+                    listOf("KEYWORDS" to keywordsStr)
                 )
 
                 headerRows.forEachIndexed { index, rowItems ->
@@ -190,7 +225,7 @@ class PdfGenerator(private val context: Context) {
 
                 val header = notePlan.header
                 val headerRows = listOf(
-                    listOf("DATE" to (header?.date ?: ""), "WEEK" to (header?.week ?: ""), "DURATION" to (header?.duration ?: "")),
+                    listOf("DATE" to formatToDDMMYYYY(header?.date), "WEEK ENDING" to formatToDDMMYYYY(header?.weekEnding), "DURATION" to (header?.duration ?: "")),
                     listOf("SUBJECT" to (header?.subject ?: ""), "CLASS" to (header?.`class` ?: ""), "CLASS SIZE" to (header?.classSize ?: "")),
                     listOf("STRAND" to (header?.strand ?: ""), "SUB STRAND" to (header?.subStrand ?: "")),
                     listOf("CONTENT STANDARD" to (header?.contentStandard ?: "")),
@@ -224,7 +259,7 @@ class PdfGenerator(private val context: Context) {
 
                 val header = questionsPlan.header
                 val headerRows = listOf(
-                    listOf("DATE" to (header?.date ?: ""), "WEEK" to (header?.week ?: ""), "DURATION" to (header?.duration ?: "")),
+                    listOf("DATE" to formatToDDMMYYYY(header?.date), "WEEK ENDING" to formatToDDMMYYYY(header?.weekEnding), "DURATION" to (header?.duration ?: "")),
                     listOf("SUBJECT" to (header?.subject ?: ""), "CLASS" to (header?.`class` ?: ""), "CLASS SIZE" to (header?.classSize ?: "")),
                     listOf("STRAND" to (header?.strand ?: ""), "SUB STRAND" to (header?.subStrand ?: "")),
                     listOf("CONTENT STANDARD" to (header?.contentStandard ?: "")),
@@ -511,5 +546,18 @@ class PdfGenerator(private val context: Context) {
             currentX += colWidths[i]
         }
         return maxHeight
+    }
+
+    private fun formatToDDMMYYYY(dateStr: String?): String {
+        if (dateStr.isNullOrBlank()) return ""
+        val partsDash = dateStr.split("-")
+        if (partsDash.size == 3 && partsDash[0].length == 4) {
+            return "${partsDash[2]}/${partsDash[1]}/${partsDash[0]}"
+        }
+        val partsSlash = dateStr.split("/")
+        if (partsSlash.size == 3 && partsSlash[0].length == 4) {
+            return "${partsSlash[2]}/${partsSlash[1]}/${partsSlash[0]}"
+        }
+        return dateStr
     }
 }

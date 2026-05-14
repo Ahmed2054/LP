@@ -82,8 +82,30 @@ interface CurriculumDao {
 
 @Dao
 interface SavedPlanDao {
-    @Query("SELECT * FROM saved_plans ORDER BY createdAt DESC")
+    @Query("SELECT * FROM saved_plans ORDER BY createdAt DESC, id ASC")
     fun getAllSavedPlans(): Flow<List<SavedPlanEntity>>
+
+    @Query("SELECT * FROM saved_plans ORDER BY createdAt DESC, id ASC LIMIT :limit OFFSET :offset")
+    suspend fun getSavedPlansPaginated(limit: Int, offset: Int): List<SavedPlanEntity>
+
+    @Query("""
+        SELECT * FROM saved_plans 
+        WHERE (indicatorCode LIKE '%' || :query || '%' OR content LIKE '%' || :query || '%' OR date LIKE '%' || :query || '%' OR planType LIKE '%' || :query || '%')
+        AND (:planType IS NULL OR planType = :planType)
+        ORDER BY createdAt DESC, id ASC 
+        LIMIT :limit OFFSET :offset
+    """)
+    suspend fun getFilteredSavedPlansPaginated(query: String, planType: String?, limit: Int, offset: Int): List<SavedPlanEntity>
+
+    @Query("SELECT COUNT(*) FROM saved_plans")
+    suspend fun getSavedPlanCount(): Int
+
+    @Query("""
+        SELECT COUNT(*) FROM saved_plans 
+        WHERE (indicatorCode LIKE '%' || :query || '%' OR content LIKE '%' || :query || '%' OR date LIKE '%' || :query || '%' OR planType LIKE '%' || :query || '%')
+        AND (:planType IS NULL OR planType = :planType)
+    """)
+    suspend fun getFilteredSavedPlanCount(query: String, planType: String?): Int
 
     @Insert
     suspend fun insertPlan(plan: SavedPlanEntity): Long

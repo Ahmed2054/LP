@@ -26,8 +26,12 @@ data class LessonPlan(
 )
 
 data class LessonPlanHeader(
-    val date: String? = "",
+    val school: String? = "",
+    val facilitatorName: String? = "",
+    val term: String? = "",
     val week: String? = "",
+    val date: String? = "",
+    val weekEnding: String? = "",
     val subject: String? = "",
     val duration: String? = "",
     val strand: String? = "",
@@ -39,7 +43,7 @@ data class LessonPlanHeader(
     val lesson: String? = "",
     val performanceIndicator: String? = "",
     val coreCompetencies: String? = "",
-    val keywords: String? = "",
+    val keywords: Any? = "",
     val type: String? = null,
     val count: Int? = null
 )

@@ -59,7 +59,8 @@ data class AuthRequest(
 data class AuthResponse(
     val apiKey: String? = null,
     val credits: Int = 0,
-    val error: String? = null
+    val error: String? = null,
+    val createdAt: Long? = null
 )
 
 data class UpdateResponse(

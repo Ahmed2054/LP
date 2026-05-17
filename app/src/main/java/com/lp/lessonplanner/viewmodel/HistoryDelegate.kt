@@ -205,15 +205,16 @@ fun LessonPlanViewModel.savePlans() {
         if (contents.isEmpty()) return@launch
 
         contents.forEach { content ->
+            val cleanedContent = content.sanitizeJson()
             var indicatorCodeStr = ""
             var weekStr = ""
             var dateStr = ""
             var lessonStr = ""
 
             try {
-                val planType = content.detectPlanType()
-                val header = content.parsePlanHeader(gson, planType)
-                indicatorCodeStr = content.extractIndicatorCodeFromRaw().ifBlank {
+                val planType = cleanedContent.detectPlanType()
+                val header = cleanedContent.parsePlanHeader(gson, planType)
+                indicatorCodeStr = cleanedContent.extractIndicatorCodeFromRaw().ifBlank {
                     header?.extractIndicatorCode() ?: ""
                 }
                 header?.week?.takeIf { it.isNotBlank() }?.let { weekStr = it }
@@ -227,7 +228,7 @@ fun LessonPlanViewModel.savePlans() {
                     week = weekStr,
                     lessonNumber = lessonStr,
                     indicatorCode = indicatorCodeStr,
-                    content = content,
+                    content = cleanedContent,
                     planType = state.generationType
                 )
             )

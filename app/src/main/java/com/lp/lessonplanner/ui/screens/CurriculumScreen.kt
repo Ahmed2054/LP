@@ -14,6 +14,7 @@ import androidx.compose.material.icons.filled.Book
 import androidx.compose.material.icons.filled.ChevronRight
 import androidx.compose.material.icons.filled.School
 import androidx.compose.material.icons.filled.Warning
+import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -69,13 +70,10 @@ fun CurriculumScreen(viewModel: LessonPlanViewModel) {
                 Text("Manage subjects and indicators", fontSize = 14.sp, color = Color.Gray)
             }
             
-            Button(
-                onClick = { showAddDialog = true },
-                shape = RoundedCornerShape(12.dp)
+            IconButton(
+                onClick = { viewModel.refreshCurriculum() }
             ) {
-                Icon(Icons.Default.Add, contentDescription = null, modifier = Modifier.size(18.dp))
-                Spacer(Modifier.width(4.dp))
-                Text("Add")
+                Icon(Icons.Default.Refresh, contentDescription = "Refresh Curriculum", tint = MaterialTheme.colorScheme.primary)
             }
         }
 

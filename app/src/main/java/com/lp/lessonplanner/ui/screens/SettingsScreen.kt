@@ -625,7 +625,7 @@ fun SettingsScreen(viewModel: LessonPlanViewModel) {
             Spacer(Modifier.height(48.dp))
             
             Text(
-                "Lesson Planner v1.0.5\nDeveloped for Teachers",
+                "Lesson Planner v1.0.6\nDeveloped for Teachers",
                 modifier = Modifier.fillMaxWidth(),
                 textAlign = TextAlign.Center,
                 fontSize = 12.sp,

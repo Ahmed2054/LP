@@ -48,7 +48,7 @@ fun String.sanitizeJson(): String {
     // 4. Fix trailing commas before closing braces/brackets
     s = s.replace(Regex(",\\s*([}\\]])"), "$1")
 
-    return s
+    return s.removeCitationMarkers()
 }
 
 fun String.detectPlanType(): String = when {

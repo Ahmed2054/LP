@@ -473,6 +473,10 @@ fun IndicatorStep(viewModel: LessonPlanViewModel) {
         it.indicatorDescription?.contains(searchQuery, ignoreCase = true) == true ||
         it.strand?.contains(searchQuery, ignoreCase = true) == true
     }
+    val isShsSelection = uiState.selectedGrade.isShsGrade()
+    val hasMissingDokSelection = isShsSelection && uiState.selectedIndicatorIds.any {
+        uiState.indicatorMetadata[it]?.dokLevels.isNullOrEmpty()
+    }
 
     if (showGenerationDialog) {
         AlertDialog(
@@ -503,15 +507,23 @@ fun IndicatorStep(viewModel: LessonPlanViewModel) {
                     if (uiState.generationType == "Questions") {
                         HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
                         Text("Question Details", fontWeight = FontWeight.Bold, fontSize = 14.sp)
-                        
-                        Text("Number of questions", fontSize = 12.sp, color = Color.Gray)
-                        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                            listOf(5, 10, 15, 20).forEach { count ->
-                                FilterChip(
-                                    selected = uiState.questionCount == count,
-                                    onClick = { viewModel.updateQuestionCount(count) },
-                                    label = { Text(count.toString()) }
-                                )
+
+                        if (isShsSelection) {
+                            Text(
+                                "SHS assessment uses exactly 3 questions based on the selected DoK level(s).",
+                                fontSize = 12.sp,
+                                color = Color.Gray
+                            )
+                        } else {
+                            Text("Number of questions", fontSize = 12.sp, color = Color.Gray)
+                            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                                listOf(5, 10, 15, 20).forEach { count ->
+                                    FilterChip(
+                                        selected = uiState.questionCount == count,
+                                        onClick = { viewModel.updateQuestionCount(count) },
+                                        label = { Text(count.toString()) }
+                                    )
+                                }
                             }
                         }
 
@@ -539,9 +551,14 @@ fun IndicatorStep(viewModel: LessonPlanViewModel) {
             confirmButton = {
                 Button(
                     onClick = {
-                        showGenerationDialog = false
-                        viewModel.generateLessonPlans(apiKey, model)
+                        if (hasMissingDokSelection) {
+                            viewModel.showError("Select at least one DoK level for each selected SHS indicator.")
+                        } else {
+                            showGenerationDialog = false
+                            viewModel.generateLessonPlans(apiKey, model)
+                        }
                     },
+                    enabled = !hasMissingDokSelection,
                     colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF2196F3))
                 ) {
                     Text("Generate")
@@ -621,6 +638,8 @@ fun IndicatorStep(viewModel: LessonPlanViewModel) {
                         onClick = {
                             if (uiState.isLoading) {
                                 viewModel.cancelLessonPlanGeneration()
+                            } else if (hasMissingDokSelection) {
+                                viewModel.showError("Select at least one DoK level for each selected SHS indicator.")
                             } else {
                                 showGenerationDialog = true
                             }
@@ -697,8 +716,10 @@ fun IndicatorStep(viewModel: LessonPlanViewModel) {
                 IndicatorItem(
                     indicator = indicator,
                     isSelected = isSelected,
+                    isShs = isShsSelection,
                     metadata = metadata,
                     onMetadataChange = { field, value -> viewModel.updateIndicatorMetadata(indicator.id, field, value) },
+                    onDokToggle = { dokLevel -> viewModel.toggleIndicatorDokLevel(indicator.id, dokLevel) },
                     onClick = { viewModel.updateIndicator(indicator.id) },
                     onDetailClick = { selectedIndicatorForDetail = indicator }
                 )
@@ -871,11 +892,73 @@ fun DetailRow(label: String, value: String?) {
 }
 
 @Composable
+private fun ShsDokSelector(
+    selectedLevels: List<String>,
+    onToggle: (String) -> Unit,
+    primaryColor: Color
+) {
+    val dokOptions = listOf(
+        "DoK L1" to "Level 1 Recall",
+        "DoK L2" to "Level 2 Skills of conceptual understanding",
+        "DoK L3" to "Level 3 Strategic reasoning",
+        "DoK L4" to "Level 4 Extended critical thinking and reasoning"
+    )
+
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(Color.White, RoundedCornerShape(10.dp))
+            .border(1.dp, primaryColor.copy(alpha = 0.18f), RoundedCornerShape(10.dp))
+            .padding(10.dp),
+        verticalArrangement = Arrangement.spacedBy(6.dp)
+    ) {
+        Text(
+            text = "Assessment DoK level",
+            fontSize = 11.sp,
+            fontWeight = FontWeight.Bold,
+            color = primaryColor
+        )
+
+        dokOptions.forEach { (level, description) ->
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clip(RoundedCornerShape(8.dp))
+                    .clickable { onToggle(level) }
+                    .padding(vertical = 2.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Checkbox(
+                    checked = selectedLevels.contains(level),
+                    onCheckedChange = { onToggle(level) },
+                    colors = CheckboxDefaults.colors(checkedColor = primaryColor)
+                )
+                Column {
+                    Text(level, fontSize = 13.sp, fontWeight = FontWeight.Bold, color = Color.Black)
+                    Text(description, fontSize = 11.sp, color = Color.Gray)
+                }
+            }
+        }
+
+        if (selectedLevels.isEmpty()) {
+            Text(
+                text = "Select at least one DoK level.",
+                fontSize = 11.sp,
+                fontWeight = FontWeight.Medium,
+                color = Color(0xFFD32F2F)
+            )
+        }
+    }
+}
+
+@Composable
 fun IndicatorItem(
     indicator: CurriculumEntity,
     isSelected: Boolean,
+    isShs: Boolean,
     metadata: com.lp.lessonplanner.viewmodel.IndicatorMetadata,
     onMetadataChange: (String, String) -> Unit,
+    onDokToggle: (String) -> Unit,
     onClick: () -> Unit,
     onDetailClick: () -> Unit
 ) {
@@ -977,6 +1060,16 @@ fun IndicatorItem(
             androidx.compose.animation.AnimatedVisibility(visible = isSelected) {
                 Column(modifier = Modifier.padding(top = 16.dp).clickable(enabled = false) { }) {
                     HorizontalDivider(modifier = Modifier.padding(bottom = 12.dp), color = primaryColor.copy(alpha = 0.2f))
+
+                    if (isShs) {
+                        ShsDokSelector(
+                            selectedLevels = metadata.dokLevels,
+                            onToggle = onDokToggle,
+                            primaryColor = primaryColor
+                        )
+
+                        Spacer(modifier = Modifier.height(12.dp))
+                    }
                     
                     Row(
                         modifier = Modifier.fillMaxWidth(),
@@ -1253,81 +1346,84 @@ fun PreviewStep(viewModel: LessonPlanViewModel) {
                         }
                     }
                     Spacer(Modifier.height(12.dp))
-                    Surface(
-                        color = Color(0xFFFFF3E0),
-                        shape = RoundedCornerShape(8.dp),
-                        modifier = Modifier.fillMaxWidth()
+                    Row(
+                        modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.Center
                     ) {
-                        Row(
-                            modifier = Modifier.padding(8.dp),
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            Icon(
-                                Icons.Default.Warning,
-                                contentDescription = null,
-                                tint = Color(0xFFE65100),
-                                modifier = Modifier.size(16.dp)
-                            )
-                            Spacer(Modifier.width(8.dp))
-                            Text(
-                                "AI-generated content. Please cross-check for accuracy.",
-                                style = MaterialTheme.typography.bodySmall,
-                                color = Color(0xFFE65100),
-                                fontWeight = FontWeight.Medium
-                            )
-                        }
+                        Icon(
+                            Icons.Default.Info,
+                            contentDescription = null,
+                            tint = Color(0xFFE65100),
+                            modifier = Modifier.size(12.dp)
+                        )
+                        Spacer(Modifier.width(4.dp))
+                        Text(
+                            "AI-generated content. Please cross-check for accuracy.",
+                            style = MaterialTheme.typography.labelSmall,
+                            color = Color(0xFFE65100)
+                        )
                     }
                     Spacer(Modifier.height(8.dp))
                     Row(
                         modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.spacedBy(8.dp)
+                        horizontalArrangement = Arrangement.spacedBy(8.dp),
+                        verticalAlignment = Alignment.CenterVertically
                     ) {
                         Button(
                             onClick = { viewModel.savePlans() },
                             modifier = Modifier.weight(1f),
                             shape = RoundedCornerShape(12.dp),
                             colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF4CAF50)),
-                            contentPadding = PaddingValues(horizontal = 4.dp)
+                            contentPadding = PaddingValues(vertical = 12.dp)
                         ) {
-                            Icon(Icons.Default.Save, contentDescription = null, modifier = Modifier.size(16.dp))
-                            Spacer(Modifier.width(4.dp))
-                            Text("Save All", fontSize = 12.sp)
+                            Icon(Icons.Default.Save, contentDescription = null, modifier = Modifier.size(20.dp))
+                            Spacer(Modifier.width(8.dp))
+                            Text("Save All Plans", fontWeight = FontWeight.Bold)
                         }
 
-                        OutlinedButton(
-                            onClick = { showFormatDialog = FormatAction.Download },
-                            modifier = Modifier.weight(1.1f),
-                            shape = RoundedCornerShape(12.dp),
-                            border = androidx.compose.foundation.BorderStroke(1.dp, Color(0xFF673AB7)),
-                            contentPadding = PaddingValues(horizontal = 4.dp)
-                        ) {
-                            Icon(Icons.Default.Download, contentDescription = null, modifier = Modifier.size(16.dp), tint = Color(0xFF673AB7))
-                            Spacer(Modifier.width(4.dp))
-                        Text("Download", color = Color(0xFF673AB7), fontSize = 12.sp)
-                    }
-
-                        OutlinedButton(
-                            onClick = { showFormatDialog = FormatAction.Export },
-                            modifier = Modifier.weight(1.1f),
-                            shape = RoundedCornerShape(12.dp),
-                            border = androidx.compose.foundation.BorderStroke(1.dp, Color(0xFF2196F3)),
-                            contentPadding = PaddingValues(horizontal = 4.dp)
-                        ) {
-                            Icon(Icons.Default.Share, contentDescription = null, modifier = Modifier.size(16.dp), tint = Color(0xFF2196F3))
-                            Spacer(Modifier.width(4.dp))
-                            Text("Share", color = Color(0xFF2196F3), fontSize = 12.sp)
-                        }
-
-                        OutlinedButton(
-                            onClick = { viewModel.previewCurrentPlansAsPdf() },
-                            modifier = Modifier.weight(1f),
-                            shape = RoundedCornerShape(12.dp),
-                            border = androidx.compose.foundation.BorderStroke(1.dp, Color(0xFFFF9800)),
-                            contentPadding = PaddingValues(horizontal = 4.dp)
-                        ) {
-                            Icon(Icons.Default.Visibility, contentDescription = null, modifier = Modifier.size(16.dp), tint = Color(0xFFFF9800))
-                            Spacer(Modifier.width(4.dp))
-                            Text("Preview", color = Color(0xFFFF9800), fontSize = 12.sp)
+                        var showMenu by remember { mutableStateOf(false) }
+                        Box {
+                            OutlinedButton(
+                                onClick = { showMenu = true },
+                                shape = RoundedCornerShape(12.dp),
+                                contentPadding = PaddingValues(horizontal = 12.dp, vertical = 12.dp),
+                                border = androidx.compose.foundation.BorderStroke(1.dp, Color.LightGray)
+                            ) {
+                                Icon(Icons.Default.MoreVert, contentDescription = null, tint = Color.Gray)
+                                Spacer(Modifier.width(4.dp))
+                                Text("Options", color = Color.DarkGray)
+                            }
+                            DropdownMenu(
+                                expanded = showMenu,
+                                onDismissRequest = { showMenu = false },
+                                modifier = Modifier.background(Color.White)
+                            ) {
+                                DropdownMenuItem(
+                                    text = { Text("Preview PDF") },
+                                    leadingIcon = { Icon(Icons.Default.Visibility, contentDescription = null, modifier = Modifier.size(20.dp), tint = Color(0xFFFF9800)) },
+                                    onClick = {
+                                        showMenu = false
+                                        viewModel.previewCurrentPlansAsPdf()
+                                    }
+                                )
+                                DropdownMenuItem(
+                                    text = { Text("Download") },
+                                    leadingIcon = { Icon(Icons.Default.Download, contentDescription = null, modifier = Modifier.size(20.dp), tint = Color(0xFF673AB7)) },
+                                    onClick = {
+                                        showMenu = false
+                                        showFormatDialog = FormatAction.Download
+                                    }
+                                )
+                                DropdownMenuItem(
+                                    text = { Text("Share") },
+                                    leadingIcon = { Icon(Icons.Default.Share, contentDescription = null, modifier = Modifier.size(20.dp), tint = Color(0xFF2196F3)) },
+                                    onClick = {
+                                        showMenu = false
+                                        showFormatDialog = FormatAction.Export
+                                    }
+                                )
+                            }
                         }
                     }
                 }
@@ -1444,7 +1540,10 @@ fun PreviewStep(viewModel: LessonPlanViewModel) {
 
                         // Each plan is collapsed by default
                         var expanded by remember { mutableStateOf(false) }
+                        var showMenu by remember { mutableStateOf(false) }
                         val totalPlans = uiState.generatedPlanJsons.size
+                        val isPlanRegenerating = uiState.regeneratingPhaseIndex?.first == planIndex &&
+                            uiState.regeneratingPhaseIndex?.second == -1
 
                         // ── Label / header row ──────────────────────────────────────────
                         Surface(
@@ -1479,7 +1578,9 @@ fun PreviewStep(viewModel: LessonPlanViewModel) {
                                             overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis
                                         )
                                         val weekNumber = header?.get("week") as? String ?: ""
-                                        if (weekNumber.isNotBlank()) {
+                                        if (isPlanRegenerating) {
+                                            RegeneratingPlanLabel()
+                                        } else if (weekNumber.isNotBlank()) {
                                             Text(
                                                 text = "Week $weekNumber",
                                                 fontSize = 11.sp,
@@ -1492,7 +1593,9 @@ fun PreviewStep(viewModel: LessonPlanViewModel) {
                                     // Info
                                     IconButton(
                                         onClick = {
-                                            selectedIndicatorForDetail = indicators.find { it.indicatorCode == indicatorCode }
+                                            val selectedIndicatorId = uiState.selectedIndicatorIds.getOrNull(planIndex)
+                                            selectedIndicatorForDetail = indicators.find { it.id == selectedIndicatorId }
+                                                ?: indicators.find { it.indicatorCode == indicatorCode }
                                         },
                                         modifier = Modifier.size(28.dp)
                                     ) {
@@ -1529,42 +1632,76 @@ fun PreviewStep(viewModel: LessonPlanViewModel) {
                                             tint = if (planIndex < totalPlans - 1) Color(0xFF1976D2) else Color.LightGray
                                         )
                                     }
-                                    // Duplicate
-                                    IconButton(
-                                        onClick = { viewModel.duplicateGeneratedPlan(planIndex) },
-                                        modifier = Modifier.size(28.dp)
-                                    ) {
-                                        Icon(
-                                            Icons.Default.ContentCopy,
-                                            contentDescription = "Duplicate Plan",
-                                            modifier = Modifier.size(16.dp),
-                                            tint = Color(0xFF4CAF50)
-                                        )
-                                    }
-                                    // Regenerate
-                                    IconButton(
-                                        onClick = { viewModel.regeneratePlan(planIndex, apiKey, model) },
-                                        modifier = Modifier.size(28.dp)
-                                    ) {
-                                        Icon(
-                                            Icons.Default.Refresh,
-                                            contentDescription = "Regenerate Plan",
-                                            modifier = Modifier.size(16.dp),
-                                            tint = Color(0xFFFF9800)
-                                        )
-                                    }
 
-                                    // Delete
-                                    IconButton(
-                                        onClick = { planToDelete = planIndex },
-                                        modifier = Modifier.size(28.dp)
-                                    ) {
-                                        Icon(
-                                            Icons.Default.Delete,
-                                            contentDescription = "Delete Plan",
-                                            modifier = Modifier.size(16.dp),
-                                            tint = Color.Red
-                                        )
+                                    // Overflow Menu
+                                    Box {
+                                        IconButton(
+                                            onClick = { showMenu = true },
+                                            modifier = Modifier.size(28.dp)
+                                        ) {
+                                            Icon(
+                                                Icons.Default.MoreVert,
+                                                contentDescription = "More options",
+                                                modifier = Modifier.size(18.dp),
+                                                tint = Color(0xFF1976D2)
+                                            )
+                                        }
+                                        DropdownMenu(
+                                            expanded = showMenu,
+                                            onDismissRequest = { showMenu = false }
+                                        ) {
+                                            DropdownMenuItem(
+                                                text = {
+                                                    if (isPlanRegenerating) RegeneratingPlanLabel()
+                                                    else Text("Regenerate")
+                                                },
+                                                onClick = {
+                                                    showMenu = false
+                                                    viewModel.regeneratePlan(planIndex, apiKey, model)
+                                                },
+                                                leadingIcon = {
+                                                    if (isPlanRegenerating) {
+                                                        CircularProgressIndicator(
+                                                            modifier = Modifier.size(18.dp),
+                                                            strokeWidth = 2.dp,
+                                                            color = Color(0xFF2196F3)
+                                                        )
+                                                    } else {
+                                                        Icon(
+                                                            Icons.Default.Refresh,
+                                                            contentDescription = null,
+                                                            modifier = Modifier.size(18.dp),
+                                                            tint = Color(0xFFFF9800)
+                                                        )
+                                                    }
+                                                }
+                                            )
+                                            DropdownMenuItem(
+                                                text = { Text("Duplicate") },
+                                                onClick = {
+                                                    showMenu = false
+                                                    viewModel.duplicateGeneratedPlan(planIndex)
+                                                },
+                                                leadingIcon = {
+                                                    Icon(
+                                                        Icons.Default.ContentCopy,
+                                                        contentDescription = null,
+                                                        modifier = Modifier.size(18.dp),
+                                                        tint = Color(0xFF4CAF50)
+                                                    )
+                                                }
+                                            )
+                                            DropdownMenuItem(
+                                                text = { Text("Delete", color = Color.Red) },
+                                                onClick = {
+                                                    showMenu = false
+                                                    planToDelete = planIndex
+                                                },
+                                                leadingIcon = {
+                                                    Icon(Icons.Default.Delete, contentDescription = null, modifier = Modifier.size(18.dp), tint = Color.Red)
+                                                }
+                                            )
+                                        }
                                     }
                                 }
                             }
@@ -1646,6 +1783,50 @@ fun SectionLabel(icon: ImageVector, label: String, color: Color) {
         Spacer(Modifier.width(12.dp))
         Text(label, fontSize = 12.sp, fontWeight = FontWeight.Bold, color = Color.DarkGray)
     }
+}
+
+@Composable
+private fun RegeneratingPlanLabel() {
+    val transition = rememberInfiniteTransition(label = "plan_regeneration_label")
+    val alpha by transition.animateFloat(
+        initialValue = 0.45f,
+        targetValue = 1f,
+        animationSpec = infiniteRepeatable(
+            animation = tween(700, easing = FastOutSlowInEasing),
+            repeatMode = RepeatMode.Reverse
+        ),
+        label = "alpha"
+    )
+    val scale by transition.animateFloat(
+        initialValue = 0.98f,
+        targetValue = 1.03f,
+        animationSpec = infiniteRepeatable(
+            animation = tween(700, easing = FastOutSlowInEasing),
+            repeatMode = RepeatMode.Reverse
+        ),
+        label = "scale"
+    )
+    val dots by transition.animateFloat(
+        initialValue = 0f,
+        targetValue = 4f,
+        animationSpec = infiniteRepeatable(
+            animation = tween(1000),
+            repeatMode = RepeatMode.Restart
+        ),
+        label = "dots"
+    )
+
+    Text(
+        text = "Regenerating lesson plan${".".repeat(dots.toInt())}",
+        fontSize = 11.sp,
+        fontWeight = FontWeight.Bold,
+        color = Color(0xFF2196F3),
+        modifier = Modifier.graphicsLayer {
+            this.alpha = alpha
+            scaleX = scale
+            scaleY = scale
+        }
+    )
 }
 
 @Composable

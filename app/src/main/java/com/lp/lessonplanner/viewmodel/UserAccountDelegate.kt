@@ -6,6 +6,7 @@ import android.net.Uri
 import androidx.core.net.toUri
 import androidx.lifecycle.viewModelScope
 import com.lp.lessonplanner.data.local.CreditRedemptionEntity
+import com.lp.lessonplanner.data.local.UserEntity
 import com.lp.lessonplanner.data.remote.AuthRequest
 import com.lp.lessonplanner.data.remote.RedeemRequest
 import com.lp.lessonplanner.data.remote.UpdateResponse
@@ -35,13 +36,26 @@ fun LessonPlanViewModel.loginOrRegister(phone: String, pin: String) {
                     response = repository.login(token, AuthRequest(phone, pin))
                 } else {
                     response = regResponse
-                    if (regResponse.isSuccessful) wasRegistration = true
+                    if (regResponse.isSuccessful) {
+                        wasRegistration = true
+                    }
                 }
             }
 
             if (response.isSuccessful) {
                 val body = response.body()
                 if (body != null) {
+                    // Ensure user is cached locally with consistent timestamp
+                    val existingUser = repository.getLocalUser(phone)
+                    val serverCreatedAt = body.createdAt
+                    if (existingUser == null || existingUser.pin != pin || (serverCreatedAt != null && serverCreatedAt != existingUser.createdAt)) {
+                        repository.insertLocalUser(UserEntity(
+                            phone = phone,
+                            pin = pin,
+                            createdAt = serverCreatedAt ?: existingUser?.createdAt ?: System.currentTimeMillis()
+                        ))
+                    }
+                    
                     _phoneNumber.value = phone
                     _pin.value = pin
                     _cloudUserId.value = phone
@@ -128,6 +142,17 @@ fun LessonPlanViewModel.checkBalance() {
             if (response.isSuccessful) {
                 val body = response.body()
                 if (body != null) {
+                    // Refresh local cache and handle potential timestamp updates from server
+                    val existingUser = repository.getLocalUser(phone)
+                    val serverCreatedAt = body.createdAt
+                    if (existingUser == null || existingUser.pin != pin || (serverCreatedAt != null && serverCreatedAt != existingUser.createdAt)) {
+                        repository.insertLocalUser(UserEntity(
+                            phone = phone,
+                            pin = pin,
+                            createdAt = serverCreatedAt ?: existingUser?.createdAt ?: System.currentTimeMillis()
+                        ))
+                    }
+
                     _userCredits.value = body.credits
                     repository.setSetting("user_credits", body.credits.toString())
                     val receivedKey = body.apiKey ?: ""

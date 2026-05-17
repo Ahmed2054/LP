@@ -15,6 +15,7 @@ import com.google.gson.Gson
 import com.lp.lessonplanner.data.remote.LessonPlan
 import com.lp.lessonplanner.data.remote.NotePlan
 import com.lp.lessonplanner.data.remote.QuestionsPlan
+import com.lp.lessonplanner.utils.moveLeadingDokTagsToEnd
 import com.lp.lessonplanner.viewmodel.detectPlanType
 import com.lp.lessonplanner.viewmodel.sanitizeJson
 import java.io.File
@@ -352,7 +353,7 @@ class PdfGenerator(private val context: Context) {
                 }
             } else {
                 // Raw text fallback
-                val layout = createHtmlStaticLayout(jsonContent, textPaint, contentWidth.toInt())
+                val layout = createHtmlStaticLayout(sanitizedJson, textPaint, contentWidth.toInt())
                 drawMultilineText(document, page, canvas, layout, y, margin, contentWidth, pageHeight, pageInfo)
             }
             document.finishPage(page)
@@ -412,6 +413,7 @@ class PdfGenerator(private val context: Context) {
 
     private fun createHtmlStaticLayout(html: String, paint: TextPaint, width: Int, alignment: Layout.Alignment = Layout.Alignment.ALIGN_NORMAL): StaticLayout {
         var processedHtml = html
+            .moveLeadingDokTagsToEnd()
             .replace("\r", "")
             .replace("\n", " ")
             .replace("<li>", "• ")

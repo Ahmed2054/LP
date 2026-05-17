@@ -20,7 +20,7 @@ interface SubjectDao {
     """)
     fun getSubjectsWithCount(): Flow<List<SubjectWithCount>>
 
-    @Query("SELECT * FROM subjects WHERE LOWER(name) = LOWER(:name) LIMIT 1")
+    @Query("SELECT * FROM subjects WHERE LOWER(name) = LOWER(:name) OR LOWER(actualName) = LOWER(:name) LIMIT 1")
     suspend fun getSubjectByName(name: String): SubjectEntity?
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)

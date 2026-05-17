@@ -2,18 +2,7 @@ package com.lp.lessonplanner.ui.screens
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -31,7 +20,10 @@ import androidx.compose.material.icons.filled.ExpandMore
 import androidx.compose.material.icons.filled.ContentCopy
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
+import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
@@ -39,8 +31,10 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.SnackbarHost
@@ -215,39 +209,30 @@ fun ViewPlanScreen(
         ) {
             Spacer(Modifier.height(16.dp))
 
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                IconButton(onClick = onBack) {
-                    Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
-                }
-                Spacer(Modifier.weight(1f))
-                IconButton(onClick = { showDeleteDialog = true }) {
-                    Icon(Icons.Default.Delete, contentDescription = "Delete", tint = Color.Red)
-                }
-            }
-
             Card(
                 modifier = Modifier.fillMaxWidth(),
                 colors = CardDefaults.cardColors(containerColor = Color.White),
                 elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
             ) {
-                Column(modifier = Modifier.padding(16.dp)) {
+                Column(modifier = Modifier.padding(12.dp)) {
                     Row(
                         modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceBetween,
                         verticalAlignment = Alignment.CenterVertically
                     ) {
+                        IconButton(onClick = onBack, modifier = Modifier.size(32.dp)) {
+                            Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back", modifier = Modifier.size(20.dp))
+                        }
+                        Spacer(Modifier.width(8.dp))
                         StepHeaderItem(number = 3, label = "Preview & Edit", color = Color(0xFF4CAF50))
+                        Spacer(Modifier.weight(1f))
                         Surface(
                             color = Color(0xFFE8F5E9),
                             shape = RoundedCornerShape(16.dp)
                         ) {
                             Text(
-                                text = "${plans.size} Plan${if (plans.size > 1) "s" else ""} Generated",
+                                text = "${plans.size} Plan${if (plans.size > 1) "s" else ""}",
                                 modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
-                                fontSize = 12.sp,
+                                fontSize = 10.sp,
                                 fontWeight = FontWeight.Bold,
                                 color = Color(0xFF2E7D32)
                             )
@@ -256,54 +241,71 @@ fun ViewPlanScreen(
                     Spacer(Modifier.height(12.dp))
                     Row(
                         modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.spacedBy(8.dp)
+                        horizontalArrangement = Arrangement.spacedBy(8.dp),
+                        verticalAlignment = Alignment.CenterVertically
                     ) {
                         Button(
                             onClick = { viewModel.saveEditedHistoryPlan() },
-                            modifier = Modifier.weight(1.2f),
-                            shape = RoundedCornerShape(12.dp),
-                            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF4CAF50)),
-                            contentPadding = PaddingValues(horizontal = 4.dp)
-                        ) {
-                            Icon(Icons.Default.Save, contentDescription = null, modifier = Modifier.size(16.dp))
-                            Spacer(Modifier.width(4.dp))
-                            Text("Save Changes", fontSize = 12.sp)
-                        }
-
-                        OutlinedButton(
-                            onClick = { showFormatDialog = FormatAction.Download },
-                            modifier = Modifier.weight(1.1f),
-                            shape = RoundedCornerShape(12.dp),
-                            border = androidx.compose.foundation.BorderStroke(1.dp, Color(0xFF673AB7)),
-                            contentPadding = PaddingValues(horizontal = 4.dp)
-                        ) {
-                            Icon(Icons.Default.Download, contentDescription = null, modifier = Modifier.size(16.dp), tint = Color(0xFF673AB7))
-                            Spacer(Modifier.width(4.dp))
-                            Text("Download", color = Color(0xFF673AB7), fontSize = 12.sp)
-                        }
-
-                        OutlinedButton(
-                            onClick = { showFormatDialog = FormatAction.Export },
-                            modifier = Modifier.weight(1.1f),
-                            shape = RoundedCornerShape(12.dp),
-                            border = androidx.compose.foundation.BorderStroke(1.dp, Color(0xFF2196F3)),
-                            contentPadding = PaddingValues(horizontal = 4.dp)
-                        ) {
-                            Icon(Icons.Default.Share, contentDescription = null, modifier = Modifier.size(16.dp), tint = Color(0xFF2196F3))
-                            Spacer(Modifier.width(4.dp))
-                            Text("Share", color = Color(0xFF2196F3), fontSize = 12.sp)
-                        }
-
-                        OutlinedButton(
-                            onClick = { viewModel.previewPlansAsPdf(plans) },
                             modifier = Modifier.weight(1f),
                             shape = RoundedCornerShape(12.dp),
-                            border = androidx.compose.foundation.BorderStroke(1.dp, Color(0xFFFF9800)),
-                            contentPadding = PaddingValues(horizontal = 4.dp)
+                            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF4CAF50)),
+                            contentPadding = PaddingValues(vertical = 12.dp)
                         ) {
-                            Icon(Icons.Default.Visibility, contentDescription = null, modifier = Modifier.size(16.dp), tint = Color(0xFFFF9800))
-                            Spacer(Modifier.width(4.dp))
-                            Text("Preview", color = Color(0xFFFF9800), fontSize = 12.sp)
+                            Icon(Icons.Default.Save, contentDescription = null, modifier = Modifier.size(20.dp))
+                            Spacer(Modifier.width(8.dp))
+                            Text("Save Changes", fontWeight = FontWeight.Bold)
+                        }
+
+                        var showMenu by remember { mutableStateOf(false) }
+                        Box {
+                            OutlinedButton(
+                                onClick = { showMenu = true },
+                                shape = RoundedCornerShape(12.dp),
+                                contentPadding = PaddingValues(horizontal = 12.dp, vertical = 12.dp),
+                                border = androidx.compose.foundation.BorderStroke(1.dp, Color.LightGray)
+                            ) {
+                                Icon(Icons.Default.MoreVert, contentDescription = null, tint = Color.Gray)
+                                Spacer(Modifier.width(4.dp))
+                                Text("Options", color = Color.DarkGray)
+                            }
+                            DropdownMenu(
+                                expanded = showMenu,
+                                onDismissRequest = { showMenu = false }
+                            ) {
+                                DropdownMenuItem(
+                                    text = { Text("Preview PDF") },
+                                    leadingIcon = { Icon(Icons.Default.Visibility, contentDescription = null, modifier = Modifier.size(20.dp), tint = Color(0xFFFF9800)) },
+                                    onClick = {
+                                        showMenu = false
+                                        viewModel.previewPlansAsPdf(plans)
+                                    }
+                                )
+                                DropdownMenuItem(
+                                    text = { Text("Download") },
+                                    leadingIcon = { Icon(Icons.Default.Download, contentDescription = null, modifier = Modifier.size(20.dp), tint = Color(0xFF673AB7)) },
+                                    onClick = {
+                                        showMenu = false
+                                        showFormatDialog = FormatAction.Download
+                                    }
+                                )
+                                DropdownMenuItem(
+                                    text = { Text("Share") },
+                                    leadingIcon = { Icon(Icons.Default.Share, contentDescription = null, modifier = Modifier.size(20.dp), tint = Color(0xFF2196F3)) },
+                                    onClick = {
+                                        showMenu = false
+                                        showFormatDialog = FormatAction.Export
+                                    }
+                                )
+                                HorizontalDivider(modifier = Modifier.padding(vertical = 4.dp))
+                                DropdownMenuItem(
+                                    text = { Text("Delete Plan", color = Color.Red) },
+                                    leadingIcon = { Icon(Icons.Default.Delete, contentDescription = null, modifier = Modifier.size(20.dp), tint = Color.Red) },
+                                    onClick = {
+                                        showMenu = false
+                                        showDeleteDialog = true
+                                    }
+                                )
+                            }
                         }
                     }
                 }
@@ -511,57 +513,79 @@ fun ViewPlanScreen(
                                             tint = if (planIndex < totalPlans - 1) Color(0xFF1976D2) else Color.LightGray
                                         )
                                     }
-                                    
-                                    // Duplicate
-                                    IconButton(
-                                        onClick = { viewModel.duplicatePlan(currentPlan) },
-                                        modifier = Modifier.size(28.dp)
-                                    ) {
-                                        Icon(
-                                            Icons.Default.ContentCopy,
-                                            contentDescription = "Duplicate Plan",
-                                            modifier = Modifier.size(16.dp),
-                                            tint = Color(0xFF4CAF50)
-                                        )
-                                    }
 
-                                    if (uiState.regeneratingPhaseIndex?.first == planIndex && uiState.regeneratingPhaseIndex?.second == -1) {
-                                        CircularProgressIndicator(
-                                            modifier = Modifier
-                                                .padding(horizontal = 4.dp)
-                                                .size(18.dp),
-                                            strokeWidth = 2.dp,
-                                            color = Color(0xFF2196F3)
-                                        )
-                                    } else {
-                                        // Regenerate
+                                    var showMoreMenu by remember { mutableStateOf(false) }
+                                    Box {
                                         IconButton(
-                                            onClick = { viewModel.regeneratePlan(planIndex, apiKey, model, isHistory = true) },
+                                            onClick = { showMoreMenu = true },
                                             modifier = Modifier.size(28.dp)
                                         ) {
                                             Icon(
-                                                Icons.Default.Refresh,
-                                                contentDescription = "Regenerate Plan",
-                                                modifier = Modifier.size(16.dp),
-                                                tint = Color(0xFFFF9800)
+                                                Icons.Default.MoreVert,
+                                                contentDescription = "More options",
+                                                modifier = Modifier.size(18.dp),
+                                                tint = Color(0xFF1976D2)
                                             )
                                         }
-                                    }
-                                    
-                                    // Delete
-                                    IconButton(
-                                        onClick = {
-                                            viewModel.deletePlan(currentPlan)
-                                            if (plans.size <= 1) onBack()
-                                        },
-                                        modifier = Modifier.size(28.dp)
-                                    ) {
-                                        Icon(
-                                            Icons.Default.Delete,
-                                            contentDescription = "Delete Plan",
-                                            modifier = Modifier.size(16.dp),
-                                            tint = Color.Red
-                                        )
+                                        DropdownMenu(
+                                            expanded = showMoreMenu,
+                                            onDismissRequest = { showMoreMenu = false }
+                                        ) {
+                                            DropdownMenuItem(
+                                                text = { Text("Regenerate") },
+                                                onClick = {
+                                                    showMoreMenu = false
+                                                    viewModel.regeneratePlan(planIndex, apiKey, model, isHistory = true)
+                                                },
+                                                leadingIcon = {
+                                                    if (uiState.regeneratingPhaseIndex?.first == planIndex && uiState.regeneratingPhaseIndex?.second == -1) {
+                                                        CircularProgressIndicator(
+                                                            modifier = Modifier.size(18.dp),
+                                                            strokeWidth = 2.dp,
+                                                            color = Color(0xFF2196F3)
+                                                        )
+                                                    } else {
+                                                        Icon(
+                                                            Icons.Default.Refresh,
+                                                            contentDescription = null,
+                                                            tint = Color(0xFFFF9800),
+                                                            modifier = Modifier.size(18.dp)
+                                                        )
+                                                    }
+                                                }
+                                            )
+                                            DropdownMenuItem(
+                                                text = { Text("Duplicate") },
+                                                onClick = {
+                                                    showMoreMenu = false
+                                                    viewModel.duplicatePlan(currentPlan)
+                                                },
+                                                leadingIcon = {
+                                                    Icon(
+                                                        Icons.Default.ContentCopy,
+                                                        contentDescription = null,
+                                                        tint = Color(0xFF4CAF50),
+                                                        modifier = Modifier.size(18.dp)
+                                                    )
+                                                }
+                                            )
+                                            DropdownMenuItem(
+                                                text = { Text("Delete", color = Color.Red) },
+                                                onClick = {
+                                                    showMoreMenu = false
+                                                    viewModel.deletePlan(currentPlan)
+                                                    if (plans.size <= 1) onBack()
+                                                },
+                                                leadingIcon = {
+                                                    Icon(
+                                                        Icons.Default.Delete,
+                                                        contentDescription = null,
+                                                        tint = Color.Red,
+                                                        modifier = Modifier.size(18.dp)
+                                                    )
+                                                }
+                                            )
+                                        }
                                     }
                                 }
                             }

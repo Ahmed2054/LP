@@ -2,6 +2,7 @@ package com.lp.lessonplanner.ui.components
 
 import android.app.DatePickerDialog
 import android.widget.TextView
+import androidx.compose.animation.core.*
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -16,7 +17,9 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.core.graphics.toColorInt
 import androidx.compose.ui.platform.LocalContext
@@ -103,82 +106,181 @@ fun LessonPlanPreview(
         else -> null
     }
 
-    Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
-        headerToEdit?.let { header ->
-            HeaderEditSection(header, onUpdateHeaderField)
-        }
+    Box(modifier = Modifier.fillMaxWidth()) {
+        Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
+            headerToEdit?.let { header ->
+                HeaderEditSection(header, onUpdateHeaderField)
+            }
 
-        when {
-            lessonPlan != null -> {
-                lessonPlan.phases?.forEachIndexed { index, phase ->
-                    PhaseCard(
-                        index = index,
-                        phase = phase,
-                        isEditing = editingPhaseIndex == index,
-                        isRegenerating = regeneratingPhaseIndex == index,
-                        onRegenerate = { onRegeneratePhase(index, phase.name ?: "") },
-                        onEdit = { onEditPhase(if (editingPhaseIndex == index) null else index) },
-                        onUpdateField = { field, value -> onUpdatePhaseField(index, field, value) }
-                    )
-                }
-            }
-            notePlan != null -> {
-                notePlan.content?.let { content ->
-                    NoteCard(title = "Note", content = content, color = Color(0xFFFF9800), icon = Icons.Outlined.Description)
-                }
-            }
-            questionsPlan != null -> {
-                questionsPlan.questions?.let { questions ->
-                    // Questions
-                    questions.forEachIndexed { index, item ->
-                        QuestionCard(index + 1, item.q ?: "", item.a ?: "", showAnswer = false)
-                        Spacer(Modifier.height(8.dp))
+            when {
+                lessonPlan != null -> {
+                    lessonPlan.phases?.forEachIndexed { index, phase ->
+                        PhaseCard(
+                            index = index,
+                            phase = phase,
+                            isEditing = editingPhaseIndex == index,
+                            isRegenerating = regeneratingPhaseIndex == index,
+                            onRegenerate = { onRegeneratePhase(index, phase.name ?: "") },
+                            onEdit = { onEditPhase(if (editingPhaseIndex == index) null else index) },
+                            onUpdateField = { field, value -> onUpdatePhaseField(index, field, value) }
+                        )
                     }
-                    
-                    Spacer(Modifier.height(16.dp))
-                    
-                    // Answer Key
-                    Card(
-                        modifier = Modifier.fillMaxWidth(),
-                        shape = RoundedCornerShape(12.dp),
-                        colors = CardDefaults.cardColors(containerColor = Color(0xFFE8F5E9)),
-                        border = BorderStroke(1.dp, Color(0xFFC8E6C9))
-                    ) {
-                        Column(modifier = Modifier.padding(16.dp)) {
-                            Text(
-                                "CORRECT ANSWERS",
-                                fontWeight = FontWeight.ExtraBold,
-                                fontSize = 14.sp,
-                                color = Color(0xFF2E7D32),
-                                modifier = Modifier.padding(bottom = 8.dp)
-                            )
-                            questions.forEachIndexed { index, item ->
-                                Row(modifier = Modifier.padding(vertical = 2.dp)) {
-                                    Text("${index + 1}. ", fontWeight = FontWeight.Bold, fontSize = 13.sp)
-                                    Text(item.a ?: "", fontSize = 13.sp)
+                }
+                notePlan != null -> {
+                    notePlan.content?.let { content ->
+                        NoteCard(title = "Note", content = content, color = Color(0xFFFF9800), icon = Icons.Outlined.Description)
+                    }
+                }
+                questionsPlan != null -> {
+                    questionsPlan.questions?.let { questions ->
+                        // Questions
+                        questions.forEachIndexed { index, item ->
+                            QuestionCard(index + 1, item.q ?: "", item.a ?: "", showAnswer = false)
+                            Spacer(Modifier.height(8.dp))
+                        }
+                        
+                        Spacer(Modifier.height(16.dp))
+                        
+                        // Answer Key
+                        Card(
+                            modifier = Modifier.fillMaxWidth(),
+                            shape = RoundedCornerShape(12.dp),
+                            colors = CardDefaults.cardColors(containerColor = Color(0xFFE8F5E9)),
+                            border = BorderStroke(1.dp, Color(0xFFC8E6C9))
+                        ) {
+                            Column(modifier = Modifier.padding(16.dp)) {
+                                Text(
+                                    "CORRECT ANSWERS",
+                                    fontWeight = FontWeight.ExtraBold,
+                                    fontSize = 14.sp,
+                                    color = Color(0xFF2E7D32),
+                                    modifier = Modifier.padding(bottom = 8.dp)
+                                )
+                                questions.forEachIndexed { index, item ->
+                                    Row(modifier = Modifier.padding(vertical = 2.dp)) {
+                                        Text("${index + 1}. ", fontWeight = FontWeight.Bold, fontSize = 13.sp)
+                                        Text(item.a ?: "", fontSize = 13.sp)
+                                    }
                                 }
                             }
                         }
                     }
                 }
+                else -> {
+                    // Raw text fallback
+                    Card(
+                        modifier = Modifier.fillMaxWidth(),
+                        colors = CardDefaults.cardColors(containerColor = Color(0xFFF8F9FA)),
+                        shape = RoundedCornerShape(12.dp)
+                    ) {
+                        Text(
+                            generatedPlanJson,
+                            modifier = Modifier.padding(16.dp),
+                            fontSize = 14.sp,
+                            lineHeight = 22.sp
+                        )
+                    }
+                }
             }
-            else -> {
-                // Raw text fallback
-                Card(
-                    modifier = Modifier.fillMaxWidth(),
-                    colors = CardDefaults.cardColors(containerColor = Color(0xFFF8F9FA)),
-                    shape = RoundedCornerShape(12.dp)
-                ) {
-                    Text(
-                        generatedPlanJson,
-                        modifier = Modifier.padding(16.dp),
-                        fontSize = 14.sp,
-                        lineHeight = 22.sp
-                    )
+        }
+
+        if (regeneratingPhaseIndex == -1) {
+            val infiniteTransition = rememberInfiniteTransition(label = "overlay_regeneration")
+            val alphaState = infiniteTransition.animateFloat(
+                initialValue = 1f,
+                targetValue = 0.5f,
+                animationSpec = infiniteRepeatable(
+                    animation = tween(1000, easing = FastOutSlowInEasing),
+                    repeatMode = RepeatMode.Reverse
+                ),
+                label = "alpha"
+            )
+            val scaleState = infiniteTransition.animateFloat(
+                initialValue = 1f,
+                targetValue = 1.05f,
+                animationSpec = infiniteRepeatable(
+                    animation = tween(1000, easing = FastOutSlowInEasing),
+                    repeatMode = RepeatMode.Reverse
+                ),
+                label = "scale"
+            )
+            val dotsCount by infiniteTransition.animateFloat(
+                initialValue = 0f,
+                targetValue = 4f,
+                animationSpec = infiniteRepeatable(
+                    animation = tween(1200, easing = LinearEasing),
+                    repeatMode = RepeatMode.Restart
+                ),
+                label = "dots"
+            )
+
+            Surface(
+                modifier = Modifier.matchParentSize().clickable(enabled = false) {},
+                color = Color.White.copy(alpha = 0.7f),
+                shape = RoundedCornerShape(12.dp)
+            ) {
+                Box(contentAlignment = Alignment.Center) {
+                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                        CircularProgressIndicator(
+                            color = Color(0xFF2196F3),
+                            strokeWidth = 4.dp,
+                            modifier = Modifier.size(48.dp)
+                        )
+                        Spacer(Modifier.height(16.dp))
+                        Text(
+                            "Regenerating Plan${".".repeat(dotsCount.toInt())}",
+                            color = Color(0xFF2196F3),
+                            fontWeight = FontWeight.ExtraBold,
+                            fontSize = 18.sp,
+                            modifier = Modifier
+                                .graphicsLayer {
+                                    scaleX = scaleState.value
+                                    scaleY = scaleState.value
+                                    alpha = alphaState.value
+                                }
+                        )
+                    }
                 }
             }
         }
     }
+}
+
+@Composable
+private fun RegeneratingLabel(color: Color, alphaState: androidx.compose.runtime.State<Float>) {
+    val infiniteTransition = rememberInfiniteTransition(label = "dots")
+    val dotsCount by infiniteTransition.animateFloat(
+        initialValue = 0f,
+        targetValue = 4f,
+        animationSpec = infiniteRepeatable(
+            animation = tween(1200, easing = LinearEasing),
+            repeatMode = RepeatMode.Restart
+        ),
+        label = "dots"
+    )
+    val scaleState = infiniteTransition.animateFloat(
+        initialValue = 1f,
+        targetValue = 1.1f,
+        animationSpec = infiniteRepeatable(
+            animation = tween(800, easing = FastOutSlowInEasing),
+            repeatMode = RepeatMode.Reverse
+        ),
+        label = "scale"
+    )
+    
+    Text(
+        " • REGENERATING${".".repeat(dotsCount.toInt())}",
+        fontWeight = FontWeight.Black,
+        fontSize = 9.sp,
+        color = color,
+        modifier = Modifier
+            .padding(start = 4.dp)
+            .graphicsLayer { 
+                alpha = alphaState.value 
+                scaleX = scaleState.value
+                scaleY = scaleState.value
+            }
+    )
 }
 
 @Composable
@@ -340,8 +442,21 @@ fun PhaseCard(
 ) {
     val color = PHASE_COLORS[index % PHASE_COLORS.size]
     
+    val infiniteTransition = rememberInfiniteTransition(label = "regeneration")
+    val alphaState = infiniteTransition.animateFloat(
+        initialValue = 1f,
+        targetValue = 0.6f,
+        animationSpec = infiniteRepeatable(
+            animation = tween(1000, easing = LinearOutSlowInEasing),
+            repeatMode = RepeatMode.Reverse
+        ),
+        label = "alpha"
+    )
+
     Card(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .then(if (isRegenerating) Modifier.graphicsLayer { alpha = alphaState.value } else Modifier),
         shape = RoundedCornerShape(16.dp),
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
         colors = CardDefaults.cardColors(containerColor = Color.White)
@@ -373,12 +488,17 @@ fun PhaseCard(
                 Spacer(modifier = Modifier.width(12.dp))
                 
                 Column(modifier = Modifier.weight(1f)) {
-                    Text(
-                        text = phase.name?.uppercase() ?: "",
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 12.sp,
-                        color = color
-                    )
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Text(
+                            text = phase.name?.uppercase() ?: "",
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 12.sp,
+                            color = color
+                        )
+                        if (isRegenerating) {
+                            RegeneratingLabel(color = color, alphaState = alphaState)
+                        }
+                    }
                     Text(
                         text = phase.duration ?: "",
                         fontSize = 11.sp,

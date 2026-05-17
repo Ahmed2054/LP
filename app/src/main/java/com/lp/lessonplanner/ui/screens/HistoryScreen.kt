@@ -462,6 +462,7 @@ fun HistoryItem(
 ) {
     val date = formatToDDMMYYYY(plan.date)
     val elevation = 1.dp
+    var showMenu by remember { mutableStateOf(false) }
 
     Card(
         modifier = Modifier
@@ -567,19 +568,39 @@ fun HistoryItem(
                         Spacer(modifier = Modifier.size(24.dp))
                     }
                 }
-                IconButton(onClick = onDuplicateClick) {
-                    Icon(
-                        Icons.Default.ContentCopy,
-                        contentDescription = "Duplicate",
-                        tint = Color(0xFF4CAF50).copy(alpha = 0.6f)
-                    )
-                }
-                IconButton(onClick = onDeleteClick) {
-                    Icon(
-                        Icons.Default.DeleteOutline,
-                        contentDescription = "Delete",
-                        tint = Color.Gray.copy(alpha = 0.6f)
-                    )
+                Box {
+                    IconButton(onClick = { showMenu = true }) {
+                        Icon(
+                            Icons.Default.MoreVert,
+                            contentDescription = "More options",
+                            tint = Color.Gray
+                        )
+                    }
+                    DropdownMenu(
+                        expanded = showMenu,
+                        onDismissRequest = { showMenu = false }
+                    ) {
+                        DropdownMenuItem(
+                            text = { Text("Duplicate") },
+                            onClick = {
+                                showMenu = false
+                                onDuplicateClick()
+                            },
+                            leadingIcon = {
+                                Icon(Icons.Default.ContentCopy, contentDescription = null)
+                            }
+                        )
+                        DropdownMenuItem(
+                            text = { Text("Delete") },
+                            onClick = {
+                                showMenu = false
+                                onDeleteClick()
+                            },
+                            leadingIcon = {
+                                Icon(Icons.Default.Delete, contentDescription = null)
+                            }
+                        )
+                    }
                 }
             }
         }

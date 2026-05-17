@@ -7,6 +7,7 @@ import com.google.gson.Gson
 import com.lp.lessonplanner.data.remote.LessonPlan
 import com.lp.lessonplanner.data.remote.NotePlan
 import com.lp.lessonplanner.data.remote.QuestionsPlan
+import com.lp.lessonplanner.utils.moveLeadingDokTagsToEnd
 import com.lp.lessonplanner.viewmodel.detectPlanType
 import com.lp.lessonplanner.viewmodel.sanitizeJson
 import org.apache.poi.xwpf.usermodel.ParagraphAlignment
@@ -97,7 +98,7 @@ class DocxGenerator(private val context: Context) {
                     val run = paragraph.createRun()
                     run.fontFamily = "Times New Roman"
                     run.fontSize = BODY_FONT_SIZE
-                    run.setText(jsonContent)
+                    run.setText(sanitizedJson)
                 }
             }
 
@@ -566,6 +567,7 @@ class DocxGenerator(private val context: Context) {
 
     private fun preprocessHtml(html: String): String {
         var processedHtml = html
+            .moveLeadingDokTagsToEnd()
             .replace("&nbsp;", " ")
             .replace("&amp;", "&")
             .replace("&lt;", "<")

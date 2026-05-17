@@ -80,3 +80,11 @@ data class CreditRedemptionEntity(
     val amount: Int,
     val date: Long = System.currentTimeMillis()
 )
+
+@Entity(tableName = "users")
+data class UserEntity(
+    @PrimaryKey val phone: String,
+    val pin: String,
+    @androidx.room.ColumnInfo(name = "created_at")
+    val createdAt: Long = System.currentTimeMillis()
+)

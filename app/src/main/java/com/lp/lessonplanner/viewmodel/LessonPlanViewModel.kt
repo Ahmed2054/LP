@@ -12,6 +12,8 @@ import com.lp.lessonplanner.data.remote.*
 import com.lp.lessonplanner.data.repository.LessonPlanRepository
 import com.lp.lessonplanner.ui.utils.DocxGenerator
 import com.lp.lessonplanner.ui.utils.PdfGenerator
+import com.lp.lessonplanner.utils.cleanCurriculumText
+import com.lp.lessonplanner.utils.removeCitationMarkers
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
@@ -61,6 +63,7 @@ class LessonPlanViewModel(application: Application) : AndroidViewModel(applicati
             db.savedPlanDao(),
             db.settingsDao(),
             db.creditRedemptionDao(),
+            db.userDao(),
             retrofit.create(DeepSeekApi::class.java),
             cloudflareRetrofit.create(CloudflareVaultApi::class.java)
         )
@@ -189,6 +192,8 @@ class LessonPlanViewModel(application: Application) : AndroidViewModel(applicati
 
     fun clearErrorMessage() { _uiState.update { it.copy(errorMessage = null) } }
 
+    fun showError(message: String) { _uiState.update { it.copy(errorMessage = message) } }
+
     fun updateStep(step: Int) { _uiState.update { it.copy(step = step) } }
 
     fun updateGrade(grade: String) {
@@ -210,6 +215,18 @@ class LessonPlanViewModel(application: Application) : AndroidViewModel(applicati
                 else -> current
             }
             state.copy(indicatorMetadata = state.indicatorMetadata + (indicatorId to updated))
+        }
+    }
+
+    fun toggleIndicatorDokLevel(indicatorId: Int, dokLevel: String) {
+        _uiState.update { state ->
+            val current = state.indicatorMetadata[indicatorId] ?: IndicatorMetadata()
+            val updatedLevels = if (current.dokLevels.contains(dokLevel)) {
+                current.dokLevels.filter { it != dokLevel }
+            } else {
+                current.dokLevels + dokLevel
+            }
+            state.copy(indicatorMetadata = state.indicatorMetadata + (indicatorId to current.copy(dokLevels = updatedLevels)))
         }
     }
 
@@ -390,17 +407,20 @@ class LessonPlanViewModel(application: Application) : AndroidViewModel(applicati
         viewModelScope.launch {
             repository.insertIndicator(
                 CurriculumEntity(
-                    subjectId = subjectId, grade = grade, strand = strand,
-                    subStrand = subStrand, contentStandard = contentStandard,
-                    indicatorCode = indicatorCode, indicatorDescription = indicatorDescription,
-                    exemplars = exemplars, coreCompetencies = coreCompetencies
+                    subjectId = subjectId, grade = grade, strand = strand.cleanCurriculumText(),
+                    subStrand = subStrand.cleanCurriculumText(),
+                    contentStandard = contentStandard.cleanCurriculumText(),
+                    indicatorCode = indicatorCode.cleanCurriculumText(),
+                    indicatorDescription = indicatorDescription.cleanCurriculumText(),
+                    exemplars = exemplars.cleanCurriculumText(),
+                    coreCompetencies = coreCompetencies.cleanCurriculumText()
                 )
             )
         }
     }
 
     suspend fun getIndicatorsForSubject(subjectId: Int): List<CurriculumEntity> =
-        repository.getCurriculumBySubjectAndGrade(subjectId, _uiState.value.selectedGrade)
+        repository.getCurriculumBySubject(subjectId)
 
     suspend fun getOrCreateSubject(name: String): Int = withContext(Dispatchers.IO) {
         repository.getSubjectByName(name)?.id
@@ -455,25 +475,45 @@ class LessonPlanViewModel(application: Application) : AndroidViewModel(applicati
 
     private fun checkAndImportDefaultCurriculum() {
         viewModelScope.launch {
-            if (grades.value.isEmpty()) importCurriculumsFromAssets()
+            if (grades.value.isEmpty()) {
+                _uiState.update { it.copy(isLoading = true) }
+                importCurriculumsFromAssets()
+                _uiState.update { it.copy(isLoading = false) }
+            }
         }
     }
 
-    internal fun importCurriculumsFromAssets() {
-        viewModelScope.launch(Dispatchers.IO) {
+    fun refreshCurriculum() {
+        viewModelScope.launch {
             try {
-                val files = getApplication<Application>().assets.list("curriculums") ?: return@launch
+                _uiState.update { it.copy(isLoading = true) }
+                withContext(Dispatchers.IO) {
+                    repository.clearCurriculumData()
+                    importCurriculumsFromAssets()
+                }
+                _uiState.update { it.copy(isLoading = false) }
+            } catch (e: Exception) {
+                Log.e("RefreshCurriculum", "Failed to refresh curriculum", e)
+                _uiState.update { it.copy(isLoading = false, errorMessage = "Failed to refresh curriculum") }
+            }
+        }
+    }
+
+    internal suspend fun importCurriculumsFromAssets() {
+        withContext(Dispatchers.IO) {
+            try {
+                val files = getApplication<Application>().assets.list("curriculums") ?: return@withContext
                 files.forEach { fileName ->
                     if (fileName.endsWith(".json")) {
                         try {
                             importFromInputStream(getApplication<Application>().assets.open("curriculums/$fileName"))
-                        } catch (_: Exception) {
-                            Log.e("ImportDefault", "Error importing $fileName")
+                        } catch (e: Exception) {
+                            Log.e("ImportDefault", "Error importing $fileName", e)
                         }
                     }
                 }
-            } catch (_: Exception) {
-                Log.e("ImportDefault", "Error listing curriculum assets")
+            } catch (e: Exception) {
+                Log.e("ImportDefault", "Error listing curriculum assets", e)
             }
         }
     }
@@ -563,7 +603,7 @@ fun String.sanitizeJson(): String {
     // 4. Fix trailing commas before closing braces/brackets
     s = s.replace(Regex(",\\s*([}\\]])"), "$1")
 
-    return s
+    return s.removeCitationMarkers()
 }
 
 internal fun String.parsePlanHeader(gson: Gson, planType: String): LessonPlanHeader? = try {

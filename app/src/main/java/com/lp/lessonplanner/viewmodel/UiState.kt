@@ -8,7 +8,8 @@ data class IndicatorMetadata(
     val week: String = "",
     val date: String = "",
     val weekEnding: String = "",
-    val lessonNumber: String = "1"
+    val lessonNumber: String = "1",
+    val dokLevels: List<String> = emptyList()
 )
 
 data class LessonPlanUiState(

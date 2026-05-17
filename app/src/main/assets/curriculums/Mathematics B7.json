@@ -533,7 +533,7 @@
     "strand": "STRAND 3: GEOMETRY AND MEASUREMENT",
     "sub_strand": "Shape and Space",
     "content_standard": "B7.3.1.2 Demonstrate how to construct a perpendicular to a line from a given point, bisect a line, bisect angles, and construct angles of the following sizes: 30°, 45°, 60°, 75° and 90°",
-    "indicator_code": "7.3.1.2.4",
+    "indicator_code": "B7.3.1.2.4",
     "indicator_description": "Construct angles of 90° and 45°",
     "examplars": "E.g. 1: Use a pair of compasses and a ruler to construct an angle of 90°.\nE.g.2: Construct an angle of 45° by bisecting an angle of 90°.",
     "core_competencies": "CP"
@@ -544,7 +544,7 @@
     "strand": "STRAND 3: GEOMETRY AND MEASUREMENT",
     "sub_strand": "Shape and Space",
     "content_standard": "B7.3.1.2 Demonstrate how to construct a perpendicular to a line from a given point, bisect a line, bisect angles, and construct angles of the following sizes: 30°, 45°, 60°, 75° and 90°",
-    "indicator_code": "7.3.1.2.5",
+    "indicator_code": "B7.3.1.2.5",
     "indicator_description": "Construct angles of 60° and 30°",
     "examplars": "E.g.1: Use a pair of compasses and a ruler to construct an angle of 60°.\nE.g.2 Construct an angle of 30° by bisecting an angle whose measure is 60°.",
     "core_competencies": "CP"
@@ -555,7 +555,7 @@
     "strand": "STRAND 3: GEOMETRY AND MEASUREMENT",
     "sub_strand": "Shape and Space",
     "content_standard": "B7.3.1.2 Demonstrate how to construct a perpendicular to a line from a given point, bisect a line, bisect angles, and construct angles of the following sizes: 30°, 45°, 60°, 75° and 90°",
-    "indicator_code": "7.3.1.2.6",
+    "indicator_code": "B7.3.1.2.6",
     "indicator_description": "Construct angles whose measures 15° and 75°.",
     "examplars": "E.g.1: Construct an angle of 15° by bisecting an angle of 30°.\nE.g.2 Construct angles like 7.5°, 60°, 30°, 15°.\nE.g.3: Use a pair of compasses and a ruler to construct an angle of 75°.\nE.g.4: Construct and bisect 75°.",
     "core_competencies": "CP, CC"

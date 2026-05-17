@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.lp.lessonplanner.data.local.CurriculumEntity
 import com.lp.lessonplanner.data.local.SubjectEntity
 import com.lp.lessonplanner.data.remote.*
+import com.lp.lessonplanner.utils.cleanCurriculumText
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.update
@@ -18,6 +19,16 @@ fun LessonPlanViewModel.generateLessonPlans(apiKey: String, model: String) {
         val state = _uiState.value
         val selectedIds = state.selectedIndicatorIds
         if (selectedIds.isEmpty()) return@launch
+
+        if (state.selectedGrade.isShsGrade()) {
+            val missingDok = selectedIds.filter { state.indicatorMetadata[it]?.dokLevels.isNullOrEmpty() }
+            if (missingDok.isNotEmpty()) {
+                _uiState.update {
+                    it.copy(errorMessage = "Select at least one DoK level for each selected SHS indicator.")
+                }
+                return@launch
+            }
+        }
 
         if (_userCredits.value < selectedIds.size) {
             _uiState.update {
@@ -119,20 +130,28 @@ fun LessonPlanViewModel.regeneratePlan(planIndex: Int, apiKey: String, model: St
         val indicatorCode = currentJson.extractIndicatorCodeFromRaw().ifBlank {
             header?.extractIndicatorCode() ?: currentPlanEntity?.indicatorCode ?: ""
         }
-        val indicator = when {
-            indicatorCode.isNotBlank() -> repository.getIndicatorByCode(indicatorCode)
-            !isHistory -> currentState.selectedIndicatorIds.getOrNull(planIndex)?.let { repository.getIndicatorById(it) }
-            else -> null
+        val subjectName = header?.subject.orEmpty()
+        val subject = if (subjectName.isNotBlank()) repository.getSubjectByName(subjectName)
+        else currentState.selectedSubjectId?.let { repository.getSubjectById(it) }
+        val grade = header?.`class` ?: currentState.selectedGrade
+        val selectedIndicator = if (!isHistory) {
+            currentState.selectedIndicatorIds.getOrNull(planIndex)?.let { repository.getIndicatorById(it) }
+        } else {
+            null
         }
+        val exactIndicator = if (indicatorCode.isNotBlank() && subject != null && grade.isNotBlank()) {
+            repository.getIndicator(subject.id, grade, indicatorCode)
+        } else {
+            null
+        }
+        val indicator = selectedIndicator
+            ?: exactIndicator
+            ?: indicatorCode.takeIf { it.isNotBlank() }?.let { repository.getIndicatorByCode(it) }
 
         if (indicator == null) {
             _uiState.update { it.copy(errorMessage = "Could not find the indicator for this plan.") }
             return@launch
         }
-
-        val subjectName = header?.subject.orEmpty()
-        val subject = if (subjectName.isNotBlank()) repository.getSubjectByName(subjectName)
-        else currentState.selectedSubjectId?.let { repository.getSubjectById(it) }
 
         val regenerationState = currentState.copy(
             generationType = planType,
@@ -242,19 +261,44 @@ fun LessonPlanViewModel.regeneratePhase(
             val indicatorCode = currentJson.extractIndicatorCodeFromRaw()
             val header = currentPlan.header
 
-            val indicator = (if (!isHistory) repository.getIndicatorByCode(indicatorCode) else null)
-                ?: repository.getIndicatorByCode(indicatorCode)
+            val selectedIndicator = if (!isHistory) {
+                currentState.selectedIndicatorIds.getOrNull(planIndex)?.let { repository.getIndicatorById(it) }
+            } else {
+                null
+            }
+            val subject = header?.subject
+                ?.takeIf { it.isNotBlank() }
+                ?.let { repository.getSubjectByName(it) }
+                ?: currentState.selectedSubjectId?.let { repository.getSubjectById(it) }
+            val grade = header?.`class` ?: currentState.selectedGrade
+            val exactIndicator = if (indicatorCode.isNotBlank() && subject != null && grade.isNotBlank()) {
+                repository.getIndicator(subject.id, grade, indicatorCode)
+            } else {
+                null
+            }
+            val indicator = selectedIndicator
+                ?: exactIndicator
+                ?: indicatorCode.takeIf { it.isNotBlank() }?.let { repository.getIndicatorByCode(it) }
 
-            val exemplars = indicator?.exemplars ?: "N/A"
-            val indicatorDesc = indicator?.indicatorDescription
-                ?: if ((header?.indicator ?: "").contains(" - ")) (header?.indicator ?: "").substringAfter(" - ")
+            val exemplars = (indicator?.exemplars).cleanCurriculumText().ifBlank { "N/A" }
+            val indicatorDesc = (indicator?.indicatorDescription).cleanCurriculumText().ifBlank {
+                if ((header?.indicator ?: "").contains(" - ")) (header?.indicator ?: "").substringAfter(" - ")
                 else (header?.indicator ?: "")
+            }.cleanCurriculumText()
 
             val otherPhasesContext = currentPlan.phases.mapIndexedNotNull { i, phase ->
                 if (i != phaseIndex) "Phase: ${phase.name}\nActivities: ${phase.activities}" else null
             }.joinToString("\n\n")
 
-            val phaseRequirements = buildPhaseRequirements(phaseIndex, phaseName, exemplars)
+            val dokInstruction = if ((header?.`class` ?: currentState.selectedGrade).isShsGrade() || (indicator?.grade ?: "").isShsGrade()) {
+                val selectedDokLevels = currentState.selectedIndicatorIds.getOrNull(planIndex)
+                    ?.let { currentState.indicatorMetadata[it]?.dokLevels }
+                    .orEmpty()
+                buildDokInstruction(selectedDokLevels)
+            } else {
+                ""
+            }
+            val phaseRequirements = buildPhaseRequirements(phaseIndex, phaseName, exemplars, dokInstruction)
             val prompt = """
                 TASK: Regenerate the "$phaseName" phase of a lesson plan.
                 
@@ -341,8 +385,21 @@ internal fun LessonPlanViewModel.buildPrompt(
     metadata: IndicatorMetadata
 ): String {
     val keywordsInstruction = "Keywords: The 'keywords' field in the header MUST be a single string containing at least 5 specific terms relevant to the lesson topic, separated by commas (e.g., 'Numerator, Denominator, Equivalent, Proper, Improper'). DO NOT use a JSON array. DO NOT use generic terms like 'teaching', 'learning', or 'assessment'."
-    val exemplars = indicator?.exemplars ?: "N/A"
+    val exemplars = (indicator?.exemplars).cleanCurriculumText().ifBlank { "N/A" }
+    val indicatorDescription = (indicator?.indicatorDescription).cleanCurriculumText()
+    val indicatorCode = (indicator?.indicatorCode).cleanCurriculumText()
+    val contentStandard = (indicator?.contentStandard).cleanCurriculumText()
+    val strand = (indicator?.strand).cleanCurriculumText()
+    val subStrand = (indicator?.subStrand).cleanCurriculumText()
+    val coreCompetencies = (indicator?.coreCompetencies).cleanCurriculumText()
     val subjectName = subject?.actualName ?: subject?.name ?: ""
+    val isShs = state.selectedGrade.isShsGrade() || (indicator?.grade ?: "").isShsGrade()
+    val dokInstruction = if (isShs) {
+        buildDokInstruction(metadata.dokLevels)
+    } else {
+        ""
+    }
+    val questionCountForPrompt = if (isShs) 3 else state.questionCount
 
     val baseHeader = """
         "header": {
@@ -354,15 +411,15 @@ internal fun LessonPlanViewModel.buildPrompt(
             "weekEnding": "${metadata.weekEnding}",
             "subject": "$subjectName",
             "duration": "${state.duration}",
-            "strand": "${indicator?.strand ?: ""}",
+            "strand": "$strand",
             "class": "${state.selectedGrade}",
             "classSize": "${state.classSize}",
-            "subStrand": "${indicator?.subStrand ?: ""}",
-            "contentStandard": "${indicator?.contentStandard ?: ""}",
-            "indicator": "${indicator?.indicatorCode ?: ""} - ${indicator?.indicatorDescription ?: ""}",
+            "subStrand": "$subStrand",
+            "contentStandard": "$contentStandard",
+            "indicator": "$indicatorCode - $indicatorDescription",
             "lesson": "${metadata.lessonNumber}",
-            "performanceIndicator": "Learners can demonstrate understanding of ${indicator?.indicatorDescription ?: ""}",
-            "coreCompetencies": "${indicator?.coreCompetencies ?: ""}",
+            "performanceIndicator": "[AI-generated end-of-lesson objective(s) based on the exemplars]",
+            "coreCompetencies": "$coreCompetencies",
             "keywords": "[REQUIRED: At least 5 specific keywords]"
         }
     """.trimIndent()
@@ -373,7 +430,7 @@ internal fun LessonPlanViewModel.buildPrompt(
             
             Subject: $subjectName
             Grade: ${state.selectedGrade}
-            Indicator: ${indicator?.indicatorCode} - ${indicator?.indicatorDescription}
+            Indicator: $indicatorCode - $indicatorDescription
             Exemplars: $exemplars
             
             The note must be a complete teaching resource, thoroughly explaining each concept mentioned in the exemplars.
@@ -392,6 +449,7 @@ internal fun LessonPlanViewModel.buildPrompt(
 
             Formatting & Quality Rules:
             - **STRICT BASIS**: All teaching content MUST be derived from the provided Exemplars.
+            - **PERFORMANCE INDICATOR**: In header.performanceIndicator, write 2-3 measurable end-of-lesson objectives beginning with "By the end of the lesson, learners will be able to..." and derive them only from the exemplars.
             - **CLEAR HIERARCHY**: Use <b> for headings and <ul><li> for lists.
             - **SPACING**: Use <br><br> to separate the 6 main sections.
             - **COMPLETENESS**: The note should be "ready-to-teach," meaning it needs depth and clarity.
@@ -407,15 +465,17 @@ internal fun LessonPlanViewModel.buildPrompt(
         """.trimIndent()
 
         "Questions" -> """
-            TASK: Generate ${state.questionCount} ${state.questionType} assessment questions based EXCLUSIVELY on the EXEMPLARS of the specified indicator.
+            TASK: Generate $questionCountForPrompt ${state.questionType} assessment questions based EXCLUSIVELY on the EXEMPLARS of the specified indicator.
             
             Subject: $subjectName
             Grade: ${state.selectedGrade}
-            Indicator: ${indicator?.indicatorCode} - ${indicator?.indicatorDescription}
+            Indicator: $indicatorCode - $indicatorDescription
             Exemplars: $exemplars
             
             Requirements:
             - Questions MUST assess the provided Exemplars: $exemplars.
+            $dokInstruction
+            - In header.performanceIndicator, write 2-3 measurable end-of-lesson objectives beginning with "By the end of the lesson, learners will be able to..." and derive them only from the exemplars.
             - Format: 
                 * For "Multiple Choice": Each question MUST include 4 options (A, B, C, D) immediately after the question text.
                 * For "True/False": Each question MUST include "True / False" options immediately after the question text.
@@ -440,7 +500,7 @@ internal fun LessonPlanViewModel.buildPrompt(
             
             STRICT REQUIREMENT: ALL content MUST be EXCLUSIVELY based on the following Indicator and its Exemplars.
             
-            INDICATOR: ${indicator?.indicatorCode} - ${indicator?.indicatorDescription}
+            INDICATOR: $indicatorCode - $indicatorDescription
             EXEMPLARS: $exemplars
             SUBJECT: $subjectName
             GRADE: ${state.selectedGrade}
@@ -448,14 +508,16 @@ internal fun LessonPlanViewModel.buildPrompt(
             Mandatory Requirements:
             1. EXEMPLAR-DRIVEN: Activities MUST directly implement the specific teaching/learning activities described in the Exemplars: $exemplars.
             2. Child-centered: Focus on active learner participation. Avoid long lectures.
-            3. BE EXTREMELY CONCISE: Use brief, actionable bullet points. Omit needless words. Avoid long sentences, repetitive "fluff", and wordy explanations. Focus strictly on classroom actions.
-            4. Phase 2 (Main Phase): 
-               - Organize into "Activity 1", "Activity 2", etc. 
+            3. PERFORMANCE INDICATOR: The header.performanceIndicator value MUST be 2-3 measurable end-of-lesson objectives beginning with "By the end of the lesson, learners will be able to..." and based only on what learners can do after completing the activities in the exemplars.
+            4. BE EXTREMELY CONCISE: Use brief, actionable bullet points. Omit needless words. Avoid long sentences, repetitive "fluff", and wordy explanations. Focus strictly on classroom actions.
+            5. Phase 2 (Main Phase):
+               - Organize into "Activity 1", "Activity 2", etc.
                - Format each activity as "<b>Activity 1: [Title]</b><br>[Details]".
                - MUST end with a section "<b>Assessment</b>" containing exactly three assessment questions directly based on the exemplars.
-            5. Phase 3 (Conclusion):
+               $dokInstruction
+            6. Phase 3 (Conclusion):
                - MUST be very concise (max 2-3 sentences) summarizing core learning.
-            6. $keywordsInstruction
+            7. $keywordsInstruction
             
             Phases to include: 
             - Introduction (Start)
@@ -478,7 +540,7 @@ internal fun LessonPlanViewModel.buildPrompt(
 
 // ── Private helpers ───────────────────────────────────────────────────────────
 
-private fun buildPhaseRequirements(phaseIndex: Int, phaseName: String, exemplars: String): String =
+private fun buildPhaseRequirements(phaseIndex: Int, phaseName: String, exemplars: String, dokInstruction: String = ""): String =
     when {
         phaseIndex == 1 || phaseName.contains("Main", ignoreCase = true) -> """
             - THIS PHASE MUST BE STRICTLY BASED ON THESE EXEMPLARS: $exemplars.
@@ -486,12 +548,36 @@ private fun buildPhaseRequirements(phaseIndex: Int, phaseName: String, exemplars
             - Organize into "Activity 1", "Activity 2", etc.
             - Format each activity as "<b>Activity 1: [Title]</b><br>[Details]".
             - MUST end with a section "<b>Assessment</b>" containing exactly three assessment questions directly based on the exemplars.
+            $dokInstruction
         """.trimIndent()
         phaseIndex == 2 || phaseName.contains("Conclusion", ignoreCase = true) ->
             "- MUST be very concise, summarizing how the lesson met the exemplars."
         else -> "- Prepare the learners for the activities in the exemplars: $exemplars."
     }
 
+private fun buildDokInstruction(dokLevels: List<String>): String {
+    val selected = dokLevels
+        .mapNotNull { dokLevelDescriptions[it] }
+        .ifEmpty { dokLevelDescriptions.values.toList() }
+        .joinToString("; ")
+
+    return """
+        - SHS DoK ASSESSMENT: The assessment MUST contain exactly three questions distributed across only these selected Webb's Depth of Knowledge level(s): $selected.
+        - Put the DoK level in square brackets at the END of every assessment question, e.g. "What is a digital device? [DoK L2]".
+        - Do not use a DoK level that was not selected.
+    """.trimIndent()
+}
+
+private val dokLevelDescriptions = linkedMapOf(
+    "DoK L1" to "DoK L1 - Recall",
+    "DoK L2" to "DoK L2 - Skills of conceptual understanding",
+    "DoK L3" to "DoK L3 - Strategic reasoning",
+    "DoK L4" to "DoK L4 - Extended critical thinking and reasoning"
+)
+
+
+internal fun String.isShsGrade(): Boolean =
+    trim().startsWith("SHS", ignoreCase = true)
 
 internal const val SYSTEM_PROMPT =
     "You are an expert teacher assistant in Ghana. Create child-centered, activity-based, and EXTREMELY CONCISE lesson plans. No fluff, no wordy introductions, and no repetitive descriptions. Respond ONLY with valid JSON."

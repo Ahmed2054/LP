@@ -6,8 +6,8 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 
 @Database(
-    entities = [SubjectEntity::class, CurriculumEntity::class, SavedPlanEntity::class, SettingEntity::class, CreditRedemptionEntity::class],
-    version = 6,
+    entities = [SubjectEntity::class, CurriculumEntity::class, SavedPlanEntity::class, SettingEntity::class, CreditRedemptionEntity::class, UserEntity::class],
+    version = 7,
     exportSchema = false
 )
 abstract class AppDatabase : RoomDatabase() {
@@ -16,6 +16,7 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun savedPlanDao(): SavedPlanDao
     abstract fun settingsDao(): SettingsDao
     abstract fun creditRedemptionDao(): CreditRedemptionDao
+    abstract fun userDao(): UserDao
 
     companion object {
         @Volatile

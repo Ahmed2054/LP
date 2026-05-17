@@ -3,6 +3,7 @@ package com.lp.lessonplanner.data.repository
 import com.google.gson.Gson
 import com.lp.lessonplanner.data.local.*
 import com.lp.lessonplanner.data.remote.*
+import com.lp.lessonplanner.utils.cleanCurriculumText
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
@@ -14,6 +15,7 @@ class LessonPlanRepository(
     private val savedPlanDao: SavedPlanDao,
     private val settingsDao: SettingsDao,
     private val creditRedemptionDao: CreditRedemptionDao,
+    private val userDao: UserDao,
     private val api: DeepSeekApi,
     private val cloudflareVaultApi: CloudflareVaultApi
 ) {
@@ -31,6 +33,9 @@ class LessonPlanRepository(
 
     suspend fun getCurriculumBySubjectAndGrade(subjectId: Int, grade: String) =
         curriculumDao.getCurriculumBySubjectAndGrade(subjectId, grade)
+
+    suspend fun getCurriculumBySubject(subjectId: Int) =
+        curriculumDao.getCurriculumBySubject(subjectId)
 
     suspend fun getIndicatorById(id: Int) = curriculumDao.getIndicatorById(id)
     
@@ -112,6 +117,16 @@ class LessonPlanRepository(
     suspend fun setSetting(key: String, value: String) = 
         settingsDao.setSetting(SettingEntity(key, value))
 
+    // User management
+    suspend fun insertLocalUser(user: UserEntity) = userDao.insertUser(user)
+
+    suspend fun getLocalUser(phone: String) = userDao.getUserByPhone(phone)
+
+    suspend fun clearCurriculumData() {
+        subjectDao.deleteAllSubjects()
+        curriculumDao.deleteAllCurriculum()
+    }
+
     suspend fun clearAllData() {
         subjectDao.deleteAllSubjects()
         curriculumDao.deleteAllCurriculum()
@@ -140,13 +155,13 @@ class LessonPlanRepository(
                         CurriculumEntity(
                             subjectId = subjectId,
                             grade = grade,
-                            strand = data.strand,
-                            subStrand = data.subStrand,
-                            contentStandard = data.contentStandard,
-                            indicatorCode = data.indicatorCode,
-                            indicatorDescription = data.indicatorDescription,
-                            exemplars = data.examplars,
-                            coreCompetencies = data.coreCompetencies
+                            strand = data.strand.cleanCurriculumText(),
+                            subStrand = data.subStrand.cleanCurriculumText(),
+                            contentStandard = data.contentStandard.cleanCurriculumText(),
+                            indicatorCode = data.indicatorCode.cleanCurriculumText(),
+                            indicatorDescription = data.indicatorDescription.cleanCurriculumText(),
+                            exemplars = data.examplars.cleanCurriculumText(),
+                            coreCompetencies = data.coreCompetencies.cleanCurriculumText()
                         )
                     )
                 }
